@@ -1,0 +1,11 @@
+{
+  "schema": "pump.collection-batch/1",
+  "batch_id": "batch-001",
+  "label": "Collection Batch 001 — four Pump.fun runs — 30 recorded minutes",
+  "run_ids": [
+    "run-0001-20260901T090521.931Z",
+    "run-0002-20260902T213813.900Z",
+    "run-0003-20260904T012430.686Z",
+    "run-0004-20260904T025702.891Z"
+  ]
+}

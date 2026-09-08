@@ -1,0 +1,4 @@
+interface:
+  display_name: "10-Second Buy Activity"
+  short_description: "Rank Pump.fun launches by first-10-second buys"
+  default_prompt: "Run 10-second buy activity on Collection Batch 001 and summarize the ranked result."

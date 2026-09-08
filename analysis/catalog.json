@@ -1,0 +1,29 @@
+{
+  "schema": "pump.analysis-skill-catalog/1",
+  "skills": [
+    {
+      "id": "ten-second-buy-activity",
+      "version": "1.0.0",
+      "type": "metric",
+      "name": "10-Second Buy Activity",
+      "question": "How many buys did each Pump.fun coin receive during its first ten seconds?",
+      "input": "pump.collection-batch/1",
+      "output": "pump.analysis-result/1",
+      "parameters": {
+        "preview": { "default": 20, "minimum": 1, "maximum": 20 }
+      },
+      "model_policy": {
+        "raw_records_in_context": 0,
+        "preferred_model": "gpt-5.6-luna",
+        "preferred_reasoning": "low",
+        "maximum_input_tokens": 8000,
+        "maximum_output_tokens": 2000
+      },
+      "examples": [
+        "Run 10-second buy activity on Batch 001.",
+        "Rank Batch 001 coins by buys in their first ten seconds.",
+        "Show the top 20 early-buy coins from Batch 001."
+      ]
+    }
+  ]
+}

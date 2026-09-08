@@ -5,7 +5,7 @@ The recorder already stores versioned Pump.fun tokens, trades, reliability facts
 ## Goals / Non-Goals
 
 **Goals:**
-- Stream normalized token and trade files with bounded memory.
+- Stream raw Pump.fun envelopes with bounded memory and lossless provider-number parsing.
 - Save deterministic, versioned full results and a small Luna-facing receipt.
 - Establish reusable batch, catalog, result, and observability contracts.
 
@@ -16,10 +16,10 @@ The recorder already stores versioned Pump.fun tokens, trades, reliability facts
 ## Decisions
 
 1. **Compute locally, summarize with Luna.** A local TypeScript analyzer performs all counting and exact decimal aggregation. The agent receives the command, receipt, and selected pages only. Directly prompting over raw records was rejected because it spends model context and makes arithmetic nondeterministic.
-2. **Consume normalized facts with raw provenance.** The analyzer reads `tokens.ndjson`, `trades.ndjson`, `reliability.ndjson`, and each run manifest. Normalized records retain raw sequence links and are the dataset contract's intended future-skill interface.
+2. **Use raw Pump.fun events as the historical authority.** The analyzer treats `raw/pumpapi-live.ndjson` as authoritative because older normalized files omit some creation frames. It uses normalized reliability facts only for recorded disconnect stalls.
 3. **Use half-open time windows.** Ten-second activity is `[creation, creation + 10,000 ms)` and bars are `[n seconds, n+1 seconds)`. This removes boundary ambiguity.
 4. **Save immutable versioned outputs.** Results live below the configured data root under `analysis/<batch>/<skill>/<result-id>/`; every result records formula version, parameters, input run IDs, and creation time.
-5. **Bound the model receipt.** The default preview is 20 rows and is capped at 100. The receipt points to the complete NDJSON result. This is the enforceable context-control boundary; subscription billing remains external.
+5. **Bound the model receipt.** The default and maximum preview is 20 rows. The receipt points to the complete NDJSON result for pagination. This is the enforceable context-control boundary; subscription billing remains external.
 6. **Represent uncertainty explicitly.** A missing creation timestamp, a run ending before the window, or a known stream gap produces an unobservable row with reasons. It never becomes a zero.
 
 ## Risks / Trade-offs

@@ -10,6 +10,7 @@ import { PumpObserverRuntime, type RuntimeRequest } from './runtime.js'
 import type { ObserverRun, PumpObserverAction, PumpObserverResult } from './types.js'
 
 export * from './derived/index.js'
+export * from './analysis/index.js'
 export * from './enrichment/index.js'
 export * from './pumpapi/index.js'
 export * from './recorder.js'

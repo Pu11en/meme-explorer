@@ -25,6 +25,7 @@
     }
   },
   "scripts": {
+    "analyze:10s-buys": "node lib/analysis/cli.js",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && node --test test/*.test.mjs",
