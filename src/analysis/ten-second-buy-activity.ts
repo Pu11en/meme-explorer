@@ -13,7 +13,6 @@ import type {
   TenSecondBuyActivityResult,
   TenSecondBuyActivityRow,
 } from './types.js'
-import { buildTenSecondVisualReport, renderVisualReport } from './visual-report.js'
 
 const WINDOW_MS = 10_000 as const
 const SKILL_VERSION = '1.0.0' as const
@@ -57,7 +56,6 @@ export interface AnalyzeTenSecondBuyActivityOptions {
   readonly outputRoot?: string
   readonly previewLimit?: number
   readonly now?: () => number
-  readonly renderVisualArtifacts?: boolean
 }
 
 async function* readNdjson<T>(path: string): AsyncGenerator<T> {
@@ -127,16 +125,6 @@ function compareRows(left: TenSecondBuyActivityRow, right: TenSecondBuyActivityR
   const quote = compareExact(right.buy_quote_known_raw, left.buy_quote_known_raw)
   if (quote !== 0) return quote
   return left.mint.localeCompare(right.mint)
-}
-
-async function writeText(path: string, content: string): Promise<void> {
-  const handle = await open(path, 'wx', 0o600)
-  try {
-    await handle.writeFile(content, 'utf8')
-    await handle.sync()
-  } finally {
-    await handle.close()
-  }
 }
 
 export async function analyzeTenSecondBuyActivity(
@@ -379,9 +367,6 @@ export async function analyzeTenSecondBuyActivity(
   await ensureDirectory(resultRoot)
   const fullResultPath = join(resultRoot, 'result.json')
   const rowsPath = join(resultRoot, 'rows.ndjson')
-  const visualSourcePath = join(resultRoot, 'visual-report.html')
-  const visualReportPdfPath = join(resultRoot, 'visual-report.pdf')
-  const previewImagePath = join(resultRoot, 'visual-preview.png')
   await atomicWriteJson(fullResultPath, result)
   const rowsHandle = await open(rowsPath, 'w', 0o600)
   try {
@@ -389,10 +374,6 @@ export async function analyzeTenSecondBuyActivity(
     await rowsHandle.sync()
   } finally {
     await rowsHandle.close()
-  }
-  await writeText(visualSourcePath, buildTenSecondVisualReport(result))
-  if (options.renderVisualArtifacts === true) {
-    await renderVisualReport(visualSourcePath, visualReportPdfPath, previewImagePath)
   }
   const receipt: TenSecondBuyActivityReceipt = {
     schema: 'pump.analysis-receipt/1',
@@ -406,8 +387,6 @@ export async function analyzeTenSecondBuyActivity(
     preview: observable.slice(0, previewLimit),
     full_result_path: fullResultPath,
     rows_path: rowsPath,
-    visual_report_pdf_path: options.renderVisualArtifacts === true ? visualReportPdfPath : null,
-    preview_image_path: options.renderVisualArtifacts === true ? previewImagePath : null,
   }
   await atomicWriteJson(join(resultRoot, 'receipt.json'), receipt)
   return receipt

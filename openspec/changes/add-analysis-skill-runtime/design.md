@@ -21,7 +21,7 @@ The recorder already stores versioned Pump.fun tokens, trades, reliability facts
 4. **Save immutable versioned outputs.** Results live below the configured data root under `analysis/<batch>/<skill>/<result-id>/`; every result records formula version, parameters, input run IDs, and creation time.
 5. **Bound the model receipt.** The default and maximum preview is 20 rows. The receipt points to the complete NDJSON result for pagination. This is the enforceable context-control boundary; subscription billing remains external.
 6. **Represent uncertainty explicitly.** A missing creation timestamp, a run ending before the window, or a known stream gap produces an unobservable row with reasons. It never becomes a zero.
-7. **Make Discord results directly viewable.** Every run renders a designed PDF report and a PNG preview. Structured JSON and NDJSON remain internal inputs for downstream skills. Discord sessions attach the visual artifacts instead of handing the user a local path.
+7. **Provide results to a browser presentation.** Structured JSON and NDJSON remain internal inputs for downstream skills. The current browser surface is defined by the comparison-page change; PDF, Markdown, and CSV are not human-facing deliverables.
 
 ## Risks / Trade-offs
 

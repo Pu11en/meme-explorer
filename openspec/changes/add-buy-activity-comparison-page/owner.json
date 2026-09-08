@@ -1,0 +1,10 @@
+{
+  "change": "add-buy-activity-comparison-page",
+  "thread_id": "1546664272094953562",
+  "plan_owner": "1546664272094953562",
+  "decisions": [
+    { "decision": "Build one simple comparison page before the full dashboard", "reason": "The user expects frequent changes while chart usefulness is being established." },
+    { "decision": "Use a shared line chart and table-driven selection", "reason": "The user needs to compare launch shapes immediately." },
+    { "decision": "Link rows to Pump.fun Advanced", "reason": "The user needs direct access to the live terminal chart for each mint." }
+  ]
+}

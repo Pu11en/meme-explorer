@@ -46,9 +46,9 @@ The system SHALL maintain a catalog entry describing each skill's question, inpu
 - **WHEN** an agent searches the catalog for early buying activity
 - **THEN** it can identify and invoke the ten-second buy activity skill without reading raw data into model context
 
-### Requirement: Discord runs produce viewable artifacts
-The system SHALL render a designed PDF report and PNG preview for the bounded ranking. Structured row data SHALL remain an internal input for downstream skills. A Discord session SHALL attach the visual artifacts and SHALL NOT use Markdown, CSV, or a local filesystem path as the user-facing deliverable.
+### Requirement: Analysis results support a browser presentation
+The system SHALL retain structured result data for downstream skills and SHALL provide it to a browser-based presentation capability. PDF, Markdown, and CSV SHALL NOT be the human-facing analysis deliverable.
 
 #### Scenario: Complete an analysis from Discord
 - **WHEN** an analysis skill finishes in a Discord session
-- **THEN** the user receives a visual preview and PDF attachment and can inspect the ranking without filesystem access
+- **THEN** the user can inspect its result in the project browser surface without opening a machine-data file

@@ -70,8 +70,6 @@ test('ranks first-ten-second buys and preserves boundaries and observability', a
   assert.equal(first.one_second_bars[0].buy_count, 1)
   assert.equal(first.one_second_bars[9].buy_count, 1)
   const saved = JSON.parse(await readFile(receipt.full_result_path, 'utf8'))
-  assert.equal(receipt.visual_report_pdf_path, null)
-  assert.equal(receipt.preview_image_path, null)
   const second = saved.rows.find(row => row.mint === 'MintB')
   assert.equal(second.observation_status, 'unobservable')
   assert.deepEqual(second.unobservable_reasons, ['recording_window_ended'])

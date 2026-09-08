@@ -9,6 +9,7 @@
       "question": "How many buys did each Pump.fun coin receive during its first ten seconds?",
       "input": "pump.collection-batch/1",
       "output": "pump.analysis-result/1",
+      "human_output": "interactive-comparison-page",
       "parameters": {
         "preview": { "default": 20, "minimum": 1, "maximum": 20 }
       },
