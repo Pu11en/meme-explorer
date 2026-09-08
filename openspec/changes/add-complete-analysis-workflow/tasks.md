@@ -16,10 +16,10 @@
 ## 3. Parallel wave 1B — outcome checks worker
 
 - [ ] 3.1 Implement outcome-fact extraction and coverage calculation in `src/analysis/outcomes/**` from retained trade/curve market-cap facts, time-aligned SOL/USD references, migrations, derived price paths, market snapshots, and reliability facts; verify quote-derived USD market cap, provider-reported market cap, and migration evidence remain distinguishable.
-- [ ] 3.2 Implement `market-cap-at-least-usd-30k-within-3h/v1` using lossless `market_cap_quote × sol_usd`, the latest nonfuture SOL/USD reference no more than 60 seconds old, and passed/failed/censored/unavailable states; verify $29,999.99 fails, $30,000 passes, the three-hour boundary is included, stale conversion is unavailable, and short/gapped coverage is censored.
+- [ ] 3.2 Implement `market-cap-at-least-usd-30k-within-3h/v1` using lossless `market_cap_quote × sol_usd`, the latest nonfuture SOL/USD reference no more than 60 seconds old, and passed/failed/censored/unavailable states; verify $29,999.99 fails, one $30,000 point passes even if the next point is lower, the three-hour boundary is included, stale conversion is unavailable, and short/gapped coverage is censored.
 - [ ] 3.3 Implement separate migration, configurable executable-return, and durability outcome evaluators with their own evidence terms; verify migration alone never sets success and missing executable evidence is unavailable instead of inferred from market cap.
 - [ ] 3.4 Enforce feature and outcome clocks; verify the deliberately leaked fixture fails with the offending field and observation time while valid ten-second features pass.
-- [ ] 3.5 Save immutable outcome results and bounded receipts with profile, evidence references, timestamps, coverage, provider/commitment/parser provenance, and reasons; verify repeat execution is deterministic.
+- [ ] 3.5 Save immutable outcome results and bounded receipts with profile, evidence references, timestamps, coverage, provider/commitment/parser provenance, reasons, first hit, peak, qualifying-point count, and duration-above-threshold value/quality; verify persistence metrics never alter pass state and repeat execution is deterministic.
 
 ## 4. Parallel wave 1C — catalog and cheat-sheet worker
 

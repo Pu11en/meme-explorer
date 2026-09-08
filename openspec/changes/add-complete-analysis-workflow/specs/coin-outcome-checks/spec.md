@@ -12,11 +12,15 @@ The system SHALL evaluate coins against a named, versioned outcome profile that 
 - **THEN** the system identifies the exact profile, USD threshold, three-hour horizon, and evidence version that produced it
 
 ### Requirement: Market-cap success is time bounded and unit explicit
-The system SHALL provide a default `market-cap-at-least-usd-30k-within-3h/v1` profile that passes when an accepted, timestamped USD market-cap observation is at least 30,000 at or before three hours after creation. All observations in one result SHALL use the profile's declared formula and price-reference rules. A coin whose verified coverage ends before three hours without a qualifying observation SHALL be right-censored rather than failed.
+The system SHALL provide a default `market-cap-at-least-usd-30k-within-3h/v1` profile that passes when one accepted, timestamped USD market-cap observation is at least 30,000 at or before three hours after creation; no minimum time above the threshold is required. All observations in one result SHALL use the profile's declared formula and price-reference rules. A coin whose verified coverage ends before three hours without a qualifying observation SHALL be right-censored rather than failed. The result SHALL report first-hit time, peak observed market cap, qualifying-observation count, and duration-above-threshold value and quality when derivable, but these descriptive values SHALL NOT alter the pass state.
 
 #### Scenario: Recording ends before the horizon
 - **WHEN** a coin has not reached $30,000 and verified market-cap coverage ends two hours after creation
 - **THEN** its success outcome is censored and it is excluded from the evaluated pass-rate denominator
+
+#### Scenario: Brief threshold touch counts
+- **WHEN** one accepted observation reaches $30,000 within three hours and the next accepted observation is below $30,000
+- **THEN** the success check passes and reports the brief threshold history separately without requiring persistence
 
 ### Requirement: Migration remains a separate informational outcome
 The system SHALL retain reconciled completion and migration facts but SHALL NOT use migration by itself to set the default success status.

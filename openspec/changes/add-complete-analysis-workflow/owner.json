@@ -17,6 +17,10 @@
       "reason": "Drew explicitly selected the three-hour $30,000 market-cap threshold and rejected migration as the success label."
     },
     {
+      "decision": "Count one verified $30,000 market-cap observation as success and track duration above the threshold separately.",
+      "reason": "Drew confirmed that a brief verified threshold touch counts; persistence must not change the binary label."
+    },
+    {
       "decision": "Separate implementation into a committed contract foundation, parallel capability builds, and a final integration wave after user approval.",
       "reason": "Shared schemas must be stable before workers can own disjoint modules without file conflicts."
     }
