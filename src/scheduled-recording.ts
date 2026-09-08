@@ -42,12 +42,18 @@ export function storageStop(job: RecordingJob, free: number, used: number): stri
   return null
 }
 
-async function directoryBytes(root: string): Promise<number> {
+export async function directoryBytes(root: string, inspect: typeof stat = stat): Promise<number> {
   let bytes = 0
   for (const item of await readdir(root, { withFileTypes: true })) {
     const path = join(root, item.name)
-    if (item.isDirectory()) bytes += await directoryBytes(path)
-    else if (item.isFile()) bytes += (await stat(path)).size
+    try {
+      if (item.isDirectory()) bytes += await directoryBytes(path, inspect)
+      else if (item.isFile()) bytes += Number((await inspect(path)).size)
+    } catch (error) {
+      // Atomic JSON writes can rename a listed temporary file before stat runs.
+      // This is a sampled size guard; a vanished entry is counted next poll at its new path.
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    }
   }
   return bytes
 }
@@ -113,7 +119,7 @@ export async function runScheduledRecording(job: RecordingJob, options: Recordin
       ...(options.adapter ? { adapter: options.adapter } : {}),
       ...(options.enrichment === false ? {} : { enrichment: new InWindowEnrichment(dataset) }),
       now,
-      // The job owns the absolute wall-clock stop and serializes all stop paths.
+      // The job owns the full run duration and serializes all stop paths.
       schedule: () => ({ cancel() {} }),
     })
     let connectionTimer: NodeJS.Timeout | undefined
@@ -127,8 +133,9 @@ export async function runScheduledRecording(job: RecordingJob, options: Recordin
     } finally {
       clearTimeout(connectionTimer)
     }
+    const captureEnd = Date.parse(dataset.manifest.stops_at)
     let reason = 'scheduled_end'
-    while (now() < Date.parse(job.ends_at)) {
+    while (now() < captureEnd) {
       if (options.signal?.aborted) { reason = 'interrupted'; break }
       const free = await freeBytes(job.data_root)
       const used = await usedBytes(job.data_root)
@@ -138,12 +145,12 @@ export async function runScheduledRecording(job: RecordingJob, options: Recordin
         run_id: dataset.manifest.run_id, actual_start: dataset.manifest.started_at,
         counts: dataset.manifest.counts, free_bytes: free, batch_bytes: used,
       })
-      const wait = Math.max(0, Math.min(options.pollMs ?? 5_000, Date.parse(job.ends_at) - now()))
+      const wait = Math.max(0, Math.min(options.pollMs ?? 5_000, captureEnd - now()))
       await delay(wait, undefined, options.signal ? { signal: options.signal } : {}).catch(error => {
         if (!options.signal?.aborted) throw error
       })
     }
-    // A delayed launch stops at the original end, so its manifest retains the early-stop evidence.
+    // Startup within the grace period still receives sixty minutes from the actual run start.
     const stopReason = reason === 'scheduled_end' && now() >= Date.parse(dataset.manifest.stops_at)
       ? 'timer_expired' : reason === 'interrupted' ? 'interrupted' : 'manual_early'
     finalized = await recorder.stop(stopReason)

@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
-import { mkdtemp, readFile, rm, access } from 'node:fs/promises'
+import { mkdtemp, readFile, rm, access, writeFile, stat } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
-import { runScheduledRecording, validateJob, startDecision, storageStop } from '../lib/scheduled-recording.js'
+import { directoryBytes, runScheduledRecording, validateJob, startDecision, storageStop } from '../lib/scheduled-recording.js'
 import { RunStore } from '../lib/storage/run-store.js'
 import { validateManifest, validateDatasetTree } from '../lib/storage/validation.js'
 
@@ -110,4 +110,34 @@ test('connection failure leaves an error manifest and cannot silently retry', as
   const status = await readStatus(job)
   assert.equal(status.state, 'error')
   assert.equal(status.manifest.status, 'error')
+})
+
+
+test('disk scan tolerates a file renamed after directory listing but propagates real errors', async t => {
+  const job = await fixture(t)
+  await writeFile(join(job.data_root, '.123-456-abcd.tmp'), 'temporary')
+  await writeFile(join(job.data_root, 'retained.json'), '12345')
+  assert.equal(await directoryBytes(job.data_root, async path => {
+    if (path.endsWith('.tmp')) throw Object.assign(new Error('renamed'), { code: 'ENOENT' })
+    return stat(path)
+  }), 5)
+  await assert.rejects(directoryBytes(job.data_root, async () => {
+    throw Object.assign(new Error('permission'), { code: 'EACCES' })
+  }), { code: 'EACCES' })
+})
+
+test('a delayed start records sixty minutes rather than ending at the original clock deadline', async t => {
+  const job = await fixture(t)
+  let now = start + 10_000
+  let checks = 0
+  await runScheduledRecording(job, {
+    now: () => now, enrichment: false, pollMs: 0,
+    adapter: { async start() { now = start + 3_600_000 }, async stop() {} },
+    freeBytes: async () => 1000,
+    usedBytes: async () => { if (++checks === 2) now = start + 3_610_000; return 0 },
+  })
+  const result = await readStatus(job)
+  assert.equal(result.state, 'completed')
+  assert.equal(result.manifest.stop_reason, 'timer_expired')
+  assert.equal(Date.parse(result.manifest.stopped_at) - Date.parse(result.manifest.started_at), 3_600_000)
 })
