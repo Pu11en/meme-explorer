@@ -1,13 +1,18 @@
 # Next
 
-Plan: `/home/drewp/main-projects/wt-1546664272094953562/planning/`
-State: `planning`
-Work: **P-014 — Existing-record launch screening**
-Read: `PLAN.md`, `decisions/P-014-existing-record-launch-screening.md`, and `evidence/P-014-screening-evidence.md`.
-Context: Six-hour capture is set aside. The first skill screens all four existing recordings; source data remains read-only at `/home/drewp/main-projects/meme explorer/data`.
-Outcome: Resolve shortlist breadth: retain plausible/uncertain launches, or prioritize strong early launches and accept missing slow starters.
-Done when: The preference, operational rules, output boundaries and proof support a reviewable execution route, and canonical files agree.
+State: discussion and deliverable critique. Resume this worktree: `/home/drewp/main-projects/wt-1546664272094953562`.
 
-An optional A/B preference question was sent; no answer was received at write time. A means retain plausible/uncertain launches; B means retain only strong early launches. Neither means build approval.
+Drew explicitly set Portable Planner aside. Do not invoke it or look for replacement planning skills. Prior P-014 documents describe earlier proposals and are not approved filter specifications.
 
-Continue this worktree's plan, not the source folder's superseded snapshot. Continue safe planning; this handoff does not start collection, delete records, install a skill or invoke a paid model.
+The current question is what the post-run deliverable should look like outside Discord. A throwaway unfiltered visual prototype is ready at `prototypes/raw-report/raw-recordings-preview.html`; see `prototypes/raw-report/NOTES.md` for scope, data meaning and validation. It contains three selectable layouts and all 6,376 observed mint addresses, with the 96 captured launches distinguished. A two-page PDF offers a static sample. Drew's design verdict is pending.
+
+Latest constraints:
+
+- Existing four recordings are the working batch. Six-hour capture work remains set aside.
+- Future collection/analysis scope should be Pump.fun-origin only, but Drew expressly requested the current preview with no filtering.
+- Filter skills should create reusable selections plus visual reports; criteria need explicit discussion. No automatic rug, bundle, organic, or winner labels are approved.
+- Missing slow starters is acceptable; retain short observations, including sub-minute launches, and do not equate missing history with inactivity.
+- Small agents are preferred for bounded reporting work. They should use computed evidence and a precise future skill contract.
+- Keep raw source data unchanged. Sorting and search are display controls, not saved filter rules. Storage retention and deletion policies remain to be designed.
+
+Next: get feedback on table versus visual atlas versus report, the main columns, coin details and delivery surface. Then continue the post-run workflow/ASCII diagram and define each filter precisely. No new recording, filter execution, outcome lookup or production reporting skill is implied by the preview.

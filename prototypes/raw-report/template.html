@@ -1,0 +1,45 @@
+<!doctype html>
+<!-- Design prototype: three ways to inspect the same unfiltered recordings.
+     All calculations come from the read-only extractor; no classifications.
+     Open directly in a browser. Variant A/B/C is shareable with ?variant=. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Meme Explorer — Raw recordings preview</title>
+  <style>/*__STYLE__*/</style>
+</head>
+<body>
+  <div class="report-viewport">
+  <a class="skip" href="#main">Skip to records</a>
+  <header class="topbar">
+    <div class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18V6l6 7 6-7v12M19 6v12"/></svg><span>Meme Explorer</span><span class="brand-separator">/</span><span class="topbar-context">Recordings</span></div>
+    <div class="top-actions"><span class="preview-mark">Design preview</span><button id="download-csv" class="button quiet">Export table</button><button id="print" class="button">Print / PDF</button></div>
+  </header>
+  <div class="intro">
+    <div><h1>What did we record?</h1><p>Four recordings. Every observed coin. A first look at the data, before any screening.</p></div>
+    <span class="scope-label"><span></span>Unfiltered source</span>
+  </div>
+  <div id="batch-summary" class="batch-summary"></div>
+  <nav class="view-tabs" aria-label="Report sections">
+    <button class="active" data-tab="coins">Coin table <span id="coin-total"></span></button>
+    <button data-tab="runs">Recording details <span>4</span></button>
+    <button data-tab="about">What this shows</button>
+  </nav>
+  <main id="main" tabindex="-1"></main>
+  </div>
+  <aside id="inspector" class="inspector" aria-label="Coin details" hidden></aside>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <nav class="prototype-switcher" aria-label="Compare report designs">
+    <span class="switcher-label">Compare layouts</span>
+    <button id="previous-variant" class="arrow" aria-label="Previous layout">&#8592;</button>
+    <button data-variant="A" class="selected">A <span>Table</span></button>
+    <button data-variant="B">B <span>Visual atlas</span></button>
+    <button data-variant="C">C <span>Report</span></button>
+    <button id="next-variant" class="arrow" aria-label="Next layout">&#8594;</button>
+  </nav>
+  <script id="report-data" type="application/octet-stream">/*__DATA__*/</script>
+  <script type="module">/*__SCRIPT__*/</script>
+</body>
+</html>
