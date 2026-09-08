@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "filter_id": "new-buyer-arrival-rate",
+  "definition_hash": "17a94bd91883ef3aec6d628f882fe5c930b638b14b1abcc86af831f5f02e6086",
+  "minimum_new_buyers_per_bucket": 5,
+  "observations_verified": 592,
+  "members": 13
+}

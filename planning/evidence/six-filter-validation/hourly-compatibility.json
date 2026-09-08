@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-09-08T13:48:48.954960+00:00",
+  "batches": [
+    {
+      "batch_id": "batch-20260908-0800-central",
+      "data_root": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/batches/batch-20260908-0800-central",
+      "batch_path": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/batches/batch-20260908-0800-central/batch.json",
+      "scheduled_start": "2026-09-08T08:00:00-05:00",
+      "recording_status": "error",
+      "analysis_status": "blocked_recorder_error",
+      "reason": "ENOENT: no such file or directory, stat '/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/batches/batch-20260908-0800-central/runs/run-0001-20260908T130010.416Z/.46493-1788873850733-8d1e49e916402.tmp'",
+      "counts": {
+        "raw_records": 52405,
+        "normalized_records": 270720,
+        "tokens": 335,
+        "reliability_records": 350
+      }
+    },
+    {
+      "batch_id": "batch-20260908-1300-central",
+      "data_root": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/batches/batch-20260908-1300-central",
+      "batch_path": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/batches/batch-20260908-1300-central/batch.json",
+      "scheduled_start": "2026-09-08T13:00:00-05:00",
+      "recording_status": "not_started",
+      "analysis_status": "waiting_for_finalized_recording",
+      "reason": "recording has not started",
+      "counts": null
+    }
+  ]
+}

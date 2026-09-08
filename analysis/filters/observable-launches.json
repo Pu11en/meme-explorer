@@ -1,0 +1,17 @@
+{
+  "schema": "pump.filter-definition/1",
+  "id": "observable-launches",
+  "version": "1.0.0",
+  "name": "Complete First-Minute Coverage",
+  "description": "Select launches with a fully observed first minute.",
+  "source_schema": "pump.first-minute-features/1",
+  "formula_version": "first-minute/1",
+  "window_ms": 60000,
+  "missing_policy": "unknown",
+  "parameters": {},
+  "expression": {
+    "op": "eq",
+    "field": "observation_status",
+    "value": "complete"
+  }
+}

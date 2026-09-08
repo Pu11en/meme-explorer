@@ -35,10 +35,11 @@ function iso(epoch: number): string {
   return new Date(epoch).toISOString()
 }
 
-function durationMs(minutes: number): 300_000 | 600_000 {
+function durationMs(minutes: number): 300_000 | 600_000 | 3_600_000 {
   if (minutes === 5) return 300_000
   if (minutes === 10) return 600_000
-  throw new Error('duration must be exactly 5 or 10 minutes')
+  if (minutes === 60) return 3_600_000
+  throw new Error('duration must be exactly 5, 10 or 60 minutes')
 }
 
 function runId(sequence: number, startedAt: number): string {
@@ -364,6 +365,7 @@ export class RunStore {
   }
 
   async createRun(minutes: number): Promise<RunDataset> {
+    const ms = durationMs(minutes)
     await this.init()
     let created: RunDataset | undefined
     this.createChain = this.createChain.then(async () => {
@@ -372,7 +374,6 @@ export class RunStore {
       const startedAt = this.now()
       const id = runId(sequence.next_run_seq, startedAt)
       await atomicWriteJson(sequencePath, { next_run_seq: sequence.next_run_seq + 1, last_run_id: id } satisfies SequenceState)
-      const ms = durationMs(minutes)
       const manifest: RunManifest = {
         schema: 'pump.run/1',
         dataset_version: DATASET_VERSION,

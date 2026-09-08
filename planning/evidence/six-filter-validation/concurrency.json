@@ -1,0 +1,18 @@
+{
+  "synthetic": true,
+  "simultaneously_active_launches": 1000,
+  "unique_wallets": 60000,
+  "raw_records": 61000,
+  "wall_seconds": 1.2794788289999999,
+  "peak_rss_bytes": 119402496,
+  "oracle": "60 buys and 60 distinct first buyers per coin; one per second; ten per bucket",
+  "cohort_counts": {
+    "observable-launches": 1000,
+    "minimum-buy-activity": 1000,
+    "buyer-diversity": 1000,
+    "repeat-buyer-concentration": 0,
+    "launch-activity-shape": 1000,
+    "new-buyer-arrival-rate": 1000
+  },
+  "budgets_pass": true
+}

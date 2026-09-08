@@ -1,0 +1,95 @@
+{
+  "schema": "pump.six-filter-readiness/1",
+  "checked_at": "2026-09-08T14:04:03.065867+00:00",
+  "status": "validated-on-batch-001-and-synthetic-volume",
+  "tests": {
+    "passed": 48,
+    "failed": 0
+  },
+  "installed_runtime": {
+    "runtime_id": "81f88a9ba4d8e285",
+    "runtime_root": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-runtimes/81f88a9ba4d8e285",
+    "entry": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-runtimes/81f88a9ba4d8e285/lib/analysis/filters/run-cli.js",
+    "files_verified": 46
+  },
+  "real_repeat": {
+    "passed": true,
+    "feature_content_hash": "af7e8e94755db9b0bb0823f66c367e335ff677c0a12fc01808e6ee2d10d176f1",
+    "all_six_cohort_hashes_identical": true
+  },
+  "filters": [
+    {
+      "id": "observable-launches",
+      "definition_hash": "721639de206a7c7d622be1ad4e32461759ca50ad830c36ee53bab5f5ef3c041d",
+      "default_matches": 531,
+      "fixtures": "passed",
+      "independent_cohort_oracle": "passed",
+      "real_source_recount": "passed",
+      "load_2x_4x": "passed",
+      "browser": "passed"
+    },
+    {
+      "id": "minimum-buy-activity",
+      "definition_hash": "bd147694fa670404a689e42ad290a98a04b3807716accaed0daf57614a2e756b",
+      "default_matches": 201,
+      "fixtures": "passed",
+      "independent_cohort_oracle": "passed",
+      "real_source_recount": "passed",
+      "load_2x_4x": "passed",
+      "browser": "passed"
+    },
+    {
+      "id": "buyer-diversity",
+      "definition_hash": "06e840c54fd87dd058cf86a3d49995b1d90b15a31b809f33c6ae37e700c810ec",
+      "default_matches": 227,
+      "fixtures": "passed",
+      "independent_cohort_oracle": "passed",
+      "real_source_recount": "passed",
+      "load_2x_4x": "passed",
+      "browser": "passed"
+    },
+    {
+      "id": "repeat-buyer-concentration",
+      "definition_hash": "c0011c0f9170e6a25d41a5329a3ee85045dfee1487efb86aaacf94e1b3dc091c",
+      "default_matches": 132,
+      "fixtures": "passed",
+      "independent_cohort_oracle": "passed",
+      "real_source_recount": "passed",
+      "load_2x_4x": "passed",
+      "browser": "passed"
+    },
+    {
+      "id": "launch-activity-shape",
+      "definition_hash": "e796f96ec4aac4dce04fad60848c9b9545e6dedcab6b9b18981b039d56ed595f",
+      "default_matches": 76,
+      "fixtures": "passed",
+      "independent_cohort_oracle": "passed",
+      "real_source_recount": "passed",
+      "load_2x_4x": "passed",
+      "browser": "passed"
+    },
+    {
+      "id": "new-buyer-arrival-rate",
+      "definition_hash": "1b30ed8b8550478219d26151920ecaa7e138c6437acaf7017278c07c4d340f8f",
+      "default_matches": 32,
+      "fixtures": "passed",
+      "independent_cohort_oracle": "passed",
+      "real_source_recount": "passed",
+      "load_2x_4x": "passed",
+      "browser": "passed"
+    }
+  ],
+  "evidence": [
+    "checks.txt",
+    "recount.json",
+    "cohort-oracle.json",
+    "actual-benchmark.json",
+    "load2-benchmark.json",
+    "load4-benchmark.json",
+    "concurrency.json",
+    "browser.json",
+    "installed-run-receipt.json"
+  ],
+  "hourly_compatibility": "pending; morning recorder error; afternoon not yet finalized",
+  "predictive_validation": "not performed"
+}

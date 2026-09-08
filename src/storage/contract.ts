@@ -18,7 +18,7 @@ export const RECORD_SCHEMAS = Object.freeze([
 export const DATASET_CONTRACT = Object.freeze({
   dataset_version: DATASET_VERSION,
   record_schemas: RECORD_SCHEMAS,
-  durations_ms: [300_000, 600_000],
+  durations_ms: [300_000, 600_000, 3_600_000],
   run_statuses: ['starting', 'running', 'stopping', 'stopped', 'interrupted', 'error'],
   stop_reasons: ['timer_expired', 'manual_early', 'interrupted', 'error'],
   transports: ['live', 'replay', 'fetch', 'poll', 'derived'],
@@ -34,7 +34,7 @@ export const DATASET_CONTRACT = Object.freeze({
     'absence is null plus reliability state, never a false zero',
     'normalized records require source and received_at provenance',
     'at most one run is active per Host process',
-    'duration is exactly 300000 or 600000 milliseconds',
+    'duration is exactly 300000, 600000 or 3600000 milliseconds',
     'derived records carry reproducible formula versions',
   ],
 })

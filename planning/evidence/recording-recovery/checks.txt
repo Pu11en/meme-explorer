@@ -1,0 +1,359 @@
+$ pnpm run typecheck && pnpm run test
+$ tsc -p tsconfig.json --noEmit
+$ pnpm run build && node --test test/*.test.mjs
+$ tsc -p tsconfig.json
+TAP version 13
+# Subtest: catalog defaults and definitions agree with executable skills
+ok 1 - catalog defaults and definitions agree with executable skills
+  ---
+  duration_ms: 97.209767
+  type: 'test'
+  ...
+# Subtest: cached filtering CLI runs all six after raw data is absent and rejects modified content
+ok 2 - cached filtering CLI runs all six after raw data is absent and rejects modified content
+  ---
+  duration_ms: 286.258459
+  type: 'test'
+  ...
+# Subtest: one batch command writes six auditable cohorts and an offline page
+ok 3 - one batch command writes six auditable cohorts and an offline page
+  ---
+  duration_ms: 986.136593
+  type: 'test'
+  ...
+# Subtest: source-time windows, independent explicit bars and first-wallet arrivals survive shuffled order and replay duplicates
+ok 4 - source-time windows, independent explicit bars and first-wallet arrivals survive shuffled order and replay duplicates
+  ---
+  duration_ms: 15.451976
+  type: 'test'
+  ...
+# Subtest: creation buys and multiple same-transaction instructions remain distinct
+ok 5 - creation buys and multiple same-transaction instructions remain distinct
+  ---
+  duration_ms: 0.72635
+  type: 'test'
+  ...
+# Subtest: complete zero, partial coverage and missing wallets have different behavior
+ok 6 - complete zero, partial coverage and missing wallets have different behavior
+  ---
+  duration_ms: 4.249657
+  type: 'test'
+  ...
+# Subtest: gaps, unreadable envelopes, missing timestamps and conflicting identities fail visibly
+ok 7 - gaps, unreadable envelopes, missing timestamps and conflicting identities fail visibly
+  ---
+  duration_ms: 1.730153
+  type: 'test'
+  ...
+# Subtest: all six definitions and every shape mode have exact positive and negative oracle cases
+ok 8 - all six definitions and every shape mode have exact positive and negative oracle cases
+  ---
+  duration_ms: 12.886493
+  type: 'test'
+  ...
+# Subtest: typed composition and versions reject invalid operators, parameters and legacy inputs
+ok 9 - typed composition and versions reject invalid operators, parameters and legacy inputs
+  ---
+  duration_ms: 1.905927
+  type: 'test'
+  ...
+# Subtest: finalized input requirement rejects running and mutated source files
+ok 10 - finalized input requirement rejects running and mutated source files
+  ---
+  duration_ms: 0.629809
+  type: 'test'
+  ...
+# Subtest: nested buys are attributed to their own mint and source mutation fails closed
+ok 11 - nested buys are attributed to their own mint and source mutation fails closed
+  ---
+  duration_ms: 0.984715
+  type: 'test'
+  ...
+# Subtest: artifact writes are immutable and semantically identical writes can resume
+ok 12 - artifact writes are immutable and semantically identical writes can resume
+  ---
+  duration_ms: 95.213122
+  type: 'test'
+  ...
+# Subtest: ratio threshold comparisons avoid display rounding and corrupt series cannot pass contracts
+ok 13 - ratio threshold comparisons avoid display rounding and corrupt series cannot pass contracts
+  ---
+  duration_ms: 1.115488
+  type: 'test'
+  ...
+# Subtest: an unreadable event without source time cannot be placed outside a minute using its late receipt
+ok 14 - an unreadable event without source time cannot be placed outside a minute using its late receipt
+  ---
+  duration_ms: 0.350783
+  type: 'test'
+  ...
+# Subtest: ranks first-ten-second buys and preserves boundaries and observability
+ok 15 - ranks first-ten-second buys and preserves boundaries and observability
+  ---
+  duration_ms: 90.861381
+  type: 'test'
+  ...
+# Subtest: recovers a Pump.fun launch missing from historical normalized token rows
+ok 16 - recovers a Pump.fun launch missing from historical normalized token rows
+  ---
+  duration_ms: 48.323525
+  type: 'test'
+  ...
+# Subtest: marks a launch unobservable when a recorded disconnect gap overlaps its ten-second window
+ok 17 - marks a launch unobservable when a recorded disconnect gap overlaps its ten-second window
+  ---
+  duration_ms: 76.453216
+  type: 'test'
+  ...
+# Subtest: comparison page embeds derived rows, comparison modes, and Pump.fun terminal links
+ok 18 - comparison page embeds derived rows, comparison modes, and Pump.fun terminal links
+  ---
+  duration_ms: 1.452173
+  type: 'test'
+  ...
+# Subtest: safe fetch pins public DNS and blocks private, credentialed, and redirected private targets
+ok 19 - safe fetch pins public DNS and blocks private, credentialed, and redirected private targets
+  ---
+  duration_ms: 8.960929
+  type: 'test'
+  ...
+# Subtest: safe fetch enforces media, size, timeout, redirects, and image byte hashes
+ok 20 - safe fetch enforces media, size, timeout, redirects, and image byte hashes
+  ---
+  duration_ms: 7.156662
+  type: 'test'
+  ...
+# Subtest: metadata and recorded DEX contract responses persist raw and normalized in-window facts
+ok 21 - metadata and recorded DEX contract responses persist raw and normalized in-window facts
+  ---
+  duration_ms: 167.232514
+  type: 'test'
+  ...
+# Subtest: late enrichment is rejected and abortable work cannot block core appends or Stop
+ok 22 - late enrichment is rejected and abortable work cannot block core appends or Stop
+  ---
+  duration_ms: 255.744131
+  type: 'test'
+  ...
+# Subtest: package is a Node-only DSH bundle with no client contribution
+ok 23 - package is a Node-only DSH bundle with no client contribution
+  ---
+  duration_ms: 1.020073
+  type: 'test'
+  ...
+# Subtest: runtime dependency surface is limited to official peers
+ok 24 - runtime dependency surface is limited to official peers
+  ---
+  duration_ms: 0.754596
+  type: 'test'
+  ...
+# Subtest: composition registers one cohesive tool and optional command
+ok 25 - composition registers one cohesive tool and optional command
+  ---
+  duration_ms: 11.000863
+  type: 'test'
+  ...
+# Subtest: tool and command operate on the same singleton service
+ok 26 - tool and command operate on the same singleton service
+  ---
+  duration_ms: 4.415295
+  type: 'test'
+  ...
+# Subtest: start requires a calling session and exact duration
+ok 27 - start requires a calling session and exact duration
+  ---
+  duration_ms: 2.679849
+  type: 'test'
+  ...
+# Subtest: timer completion follows up an idle initiating session
+ok 28 - timer completion follows up an idle initiating session
+  ---
+  duration_ms: 4.099594
+  type: 'test'
+  ...
+# Subtest: timer completion injects for a busy session and tolerates a missing session
+ok 29 - timer completion injects for a busy session and tolerates a missing session
+  ---
+  duration_ms: 5.445126
+  type: 'test'
+  ...
+# Subtest: lossless parser preserves provider numeric tokens as exact strings
+ok 30 - lossless parser preserves provider numeric tokens as exact strings
+  ---
+  duration_ms: 1.786027
+  type: 'test'
+  ...
+# Subtest: fixture stream captures all action classes, preserves duplicates raw, and deduplicates normalized events
+ok 31 - fixture stream captures all action classes, preserves duplicates raw, and deduplicates normalized events
+  ---
+  duration_ms: 1130.016401
+  type: 'test'
+  ...
+# Subtest: one overall ten-minute window gives a minute-eight launch only two minutes and rejects the stop boundary
+ok 32 - one overall ten-minute window gives a minute-eight launch only two minutes and rejects the stop boundary
+  ---
+  duration_ms: 322.071761
+  type: 'test'
+  ...
+# Subtest: recorder retains only Pump.fun creations and events for their tracked mints
+ok 33 - recorder retains only Pump.fun creations and events for their tracked mints
+  ---
+  duration_ms: 363.36478
+  type: 'test'
+  ...
+# Subtest: decode failures omit unverifiable raw bytes and record explicit reliability state
+ok 34 - decode failures omit unverifiable raw bytes and record explicit reliability state
+  ---
+  duration_ms: 476.20182
+  type: 'test'
+  ...
+# Subtest: live adapter owns one socket and reconnects only after close
+ok 35 - live adapter owns one socket and reconnects only after close
+  ---
+  duration_ms: 1.517106
+  type: 'test'
+  ...
+# Subtest: exact decimal helpers never use floating-point coercion
+ok 36 - exact decimal helpers never use floating-point coercion
+  ---
+  duration_ms: 1.375152
+  type: 'test'
+  ...
+# Subtest: production replay fetcher streams Zstandard JSONL archives
+ok 37 - production replay fetcher streams Zstandard JSONL archives
+  ---
+  duration_ms: 37.486663
+  type: 'test'
+  ...
+# Subtest: replay repairs only in-window events, preserves schema eras and distinct breakdown positions
+ok 38 - replay repairs only in-window events, preserves schema eras and distinct breakdown positions
+  ---
+  duration_ms: 991.688663
+  type: 'test'
+  ...
+# Subtest: missing replay archives stay explicit and cross-run signer indexes remain factual
+ok 39 - missing replay archives stay explicit and cross-run signer indexes remain factual
+  ---
+  duration_ms: 1107.209627
+  type: 'test'
+  ...
+# Subtest: durable runtime paginates runs, coins, and bounded raw retrieval across restart
+ok 40 - durable runtime paginates runs, coins, and bounded raw retrieval across restart
+  ---
+  duration_ms: 3371.039699
+  type: 'test'
+  ...
+# Subtest: exact hour, absolute root, startup grace, and disk boundaries
+ok 41 - exact hour, absolute root, startup grace, and disk boundaries
+  ---
+  duration_ms: 9.672738
+  type: 'test'
+  ...
+# Subtest: one-hour manifests validate and invalid duration does not consume sequence
+ok 42 - one-hour manifests validate and invalid duration does not consume sequence
+  ---
+  duration_ms: 543.811544
+  type: 'test'
+  ...
+# Subtest: missed and repeated jobs never open a socket
+ok 43 - missed and repeated jobs never open a socket
+  ---
+  duration_ms: 103.642487
+  type: 'test'
+  ...
+# Subtest: low disk before start skips recording without opening a socket
+ok 44 - low disk before start skips recording without opening a socket
+  ---
+  duration_ms: 82.779509
+  type: 'test'
+  ...
+# Subtest: recorded events survive automatic end and batch resolves to valid dataset
+ok 45 - recorded events survive automatic end and batch resolves to valid dataset
+  ---
+  duration_ms: 463.140443
+  type: 'test'
+  ...
+# Subtest: disk exhaustion during capture finalizes once with early-stop evidence
+ok 46 - disk exhaustion during capture finalizes once with early-stop evidence
+  ---
+  duration_ms: 380.680248
+  type: 'test'
+  ...
+# Subtest: connection failure leaves an error manifest and cannot silently retry
+ok 47 - connection failure leaves an error manifest and cannot silently retry
+  ---
+  duration_ms: 564.144844
+  type: 'test'
+  ...
+# Subtest: disk scan tolerates a file renamed after directory listing but propagates real errors
+ok 48 - disk scan tolerates a file renamed after directory listing but propagates real errors
+  ---
+  duration_ms: 6.276801
+  type: 'test'
+  ...
+# Subtest: a delayed start records sixty minutes rather than ending at the original clock deadline
+ok 49 - a delayed start records sixty minutes rather than ending at the original clock deadline
+  ---
+  duration_ms: 372.501361
+  type: 'test'
+  ...
+# Subtest: one overall timer finalizes a five-minute run
+ok 50 - one overall timer finalizes a five-minute run
+  ---
+  duration_ms: 3.100958
+  type: 'test'
+  ...
+# Subtest: manual stop preserves a partial run
+ok 51 - manual stop preserves a partial run
+  ---
+  duration_ms: 0.30068
+  type: 'test'
+  ...
+# Subtest: invalid durations and absent coin data fail explicitly
+ok 52 - invalid durations and absent coin data fail explicitly
+  ---
+  duration_ms: 0.229507
+  type: 'test'
+  ...
+# Subtest: dispose marks an active run interrupted
+ok 53 - dispose marks an active run interrupted
+  ---
+  duration_ms: 0.964675
+  type: 'test'
+  ...
+# Subtest: writes byte-faithful raw data, normalized facts, dedup facts, and atomic final state
+ok 54 - writes byte-faithful raw data, normalized facts, dedup facts, and atomic final state
+  ---
+  duration_ms: 605.137231
+  type: 'test'
+  ...
+# Subtest: allocates durable unique run IDs and supports a two-run consumer after reopen
+ok 55 - allocates durable unique run IDs and supports a two-run consumer after reopen
+  ---
+  duration_ms: 585.148922
+  type: 'test'
+  ...
+# Subtest: startup recovery marks a nonterminal manifest interrupted and never resumes it
+ok 56 - startup recovery marks a nonterminal manifest interrupted and never resumes it
+  ---
+  duration_ms: 356.613566
+  type: 'test'
+  ...
+# (node:56190) Warning: Closing file descriptor 13 on garbage collection
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:56190) [DEP0137] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated. Please close FileHandle objects explicitly using FileHandle.prototype.close(). In the future, an error will be thrown if a file descriptor is closed during garbage collection.
+# Subtest: validator detects blob byte corruption
+ok 57 - validator detects blob byte corruption
+  ---
+  duration_ms: 262.712787
+  type: 'test'
+  ...
+1..57
+# tests 57
+# suites 0
+# pass 57
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4114.341186
