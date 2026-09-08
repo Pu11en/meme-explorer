@@ -1,6 +1,6 @@
 # P-013 — Six-hour pilot retention
 
-- Status: current
+- Status: superseded by user direction on 2026-09-07
 - Depends on: P-009, P-013 uses the completed E-006 collector proof
 
 ## Decision
@@ -18,6 +18,8 @@ Choose how one continuous six-hour data-capture pilot retains enough whole-marke
 A — Adaptive evidence tiers, with immutable full-detail tracked-coin timelines, progressive-resolution context, and a random ordinary-period control sample. This cuts repetitive whole-market volume while preserving evidence needed to detect selection bias.
 
 ## Confirmed decision
+
+On 2026-09-07 Drew explicitly set aside six-hour capture and requested a screening skill over existing recordings. Continue at [P-014](P-014-existing-record-launch-screening.md). The remaining text is historical and does not authorize collection.
 
 The user selected one continuous six-hour pilot only, followed by a stop in collection work while that block is explored for candidate analysis skills. Analysis, psychology labels, model selection and further collection are separate future work. The retention tier remains unconfirmed.
 

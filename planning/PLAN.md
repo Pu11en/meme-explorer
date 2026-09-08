@@ -1,51 +1,55 @@
-# Plan: Six-Hour Pump.fun Data Capture Pilot
+# Plan: Existing-Record Launch Screening Skill
 
 **Status:** planning
 
 ## Continuation
 
 - Mode: manual
-- Latest boundary: E-001 through E-006 collector completed and live-verified; user authorized planning one six-hour capture-only successor
+- Latest boundary: On 2026-09-07 Drew set aside six-hour capture and requested planning a screening skill over the four saved recordings.
 - Successor task: none
+- Workspace: `/home/drewp/main-projects/wt-1546664272094953562`. This isolated branch is the current planning state. The original folder's planning files remain the old snapshot.
+- Source data: `/home/drewp/main-projects/meme explorer/data`, read-only. The original folder has no Git metadata; source and old planning were snapshotted locally without adding the corpus to Git.
 
 ## Destination
 
-One explicit six-hour Pump.fun capture produces a compact, auditable, training-ready corpus with visible progress, then collection stops while later work explores that frozen block.
+A reusable skill accepts a declared batch of recordings and produces evidence-backed launch summaries and a reversible shortlist for later outcome checks.
 
 ## Success
 
-- The session starts one six-hour pilot, can query trustworthy progress, and receives one durable completion notice.
-- The corpus retains complete tracked-launch timelines and enough whole-market/control context for later pattern exploration at a measured storage budget.
-- Validation proves the six-hour boundary, retained evidence, gaps, hashes, pagination and restart behavior without invoking an analysis model.
+- All four existing recordings form the first batch; their original timestamps and gaps remain explicit.
+- Every observed mint is accounted for; launch-relative assessment requires an observed creation and adequate coverage.
+- Each selection cites mint, source run, cutoff, rule version, evidence and missing evidence.
+- Low activity, suspicious patterns and inadequate observation are distinct. Rules can change without changing source records.
+- A reproducible report lets Drew review real examples before claiming a filter finds future runners.
 
 ## Boundaries
 
-- In: one six-hour pilot mode, retention profiling, compression/partitioning, progress telemetry, durable raw/normalized/derived capture, manual partial stop and final contract validation.
-- Out: recurring schedules, automatic 24/7 capture, psychology labels, trend/outlier skills, model selection, predictions, trading and additional data campaigns.
+- In: batch identity, coverage inventory, raw-field recovery, early features, reversible screening, compact summaries, skill packaging and offline proof.
+- Out: six-hour capture, new recordings, source deletion, automatic historical queries, trading and trained predictions.
+- This first skill prepares later-query candidates; later outcomes stay separate from early features.
+- Luna is a possible reviewer of compact summaries. Core computations and selections need no LLM call.
 
 ## Map
 
-`12/13`
-
-- ✓ [P-001 through P-012 — Completed collector decisions](decisions/P-001-mvp-alert-surface.md) — depends on: none
-- ▶ [P-013 — Six-hour pilot retention](decisions/P-013-six-hour-pilot-retention.md) — depends on: P-009 and completed E-006 proof
+- Completed foundation: P-001–P-012 and E-001–E-006, retained as historical collector work.
+- Set aside: [P-013](decisions/P-013-six-hour-pilot-retention.md).
+- Current: [P-014 — Existing-record launch screening](decisions/P-014-existing-record-launch-screening.md).
 
 ## Confirmed decisions
 
-- [P-001–P-012](decisions/P-001-mvp-alert-surface.md): The existing collector remains session-native, strict-free, one-socket, durable, neutral and separate from analysis.
-- [P-013](decisions/P-013-six-hour-pilot-retention.md): One six-hour pilot only is confirmed; retention tier is awaiting the user's choice.
+- [P-014](decisions/P-014-existing-record-launch-screening.md): use all four existing recordings and design early-record screening before selectively investigating later outcomes.
+- [P-013](decisions/P-013-six-hour-pilot-retention.md): six-hour capture is no longer the current destination.
 
 ## Execution
 
-- ✓ [E-001 through E-006 — Five/ten-minute collector and live proof](execution/E-006-session-inspection-live-proof.md)
-- Execution tickets for the six-hour pilot will be created after P-013 is settled.
+Provisional route: recover fields/coverage → compute early features → apply reviewable selection → package/test skill → review shortlist. Create new E-* tickets after the screening preference and output boundaries are settled. E-001–E-006 remain complete.
 
 ## Approval
 
-- Approval gate: not ready
-- Build handoff: not authorized
+- Visual review: not ready; shortlist breadth remains a human choice.
+- Build handoff: not authorized for a finished implementation. Current artifacts are planning evidence.
 
 ## Now
 
-- Current: P-013 — choose what full detail the six-hour corpus retains.
-- Next: create and audit the execution route, then request one final build approval.
+- Current: P-014 — choose broad retention of plausible/uncertain launches or a strict early-activity shortlist.
+- Next: settle observable rules against the measured examples, then finish the execution route for review.
