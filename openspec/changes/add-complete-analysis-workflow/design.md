@@ -47,13 +47,15 @@ The initial catalog will expose five approachable filters: observable launches, 
 
 ### 3. Separate outcome facts, checks, and the selected success profile
 
-Outcome facts are observations: reconciled migration events, time-stamped price or quote points, route checks, depth, liquidity, and coverage intervals. Outcome checks interpret those facts under a versioned profile. The per-check state is `passed`, `failed`, `censored`, or `unavailable`; only `passed` and `failed` enter an evaluated rate.
+Outcome facts are observations: time-stamped quote-denominated market cap, contemporaneous quote/USD references, reconciled migration events, price or executable-quote points, route checks, depth, liquidity, and coverage intervals. Outcome checks interpret those facts under a versioned profile. The per-check state is `passed`, `failed`, `censored`, or `unavailable`; only `passed` and `failed` enter an evaluated rate.
 
-The initial default profile will be `migration-within-3h/v1`: finalized or otherwise canonically reconciled migration by `creation + 3h`. This is a transparent proxy, not a claim of trading profitability. Drew selected the three-hour horizon; migration was chosen over a default price multiplier because the project can identify it canonically while current market-cap snapshots do not establish executable returns.
+The initial default profile will be `market-cap-at-least-usd-30k-within-3h/v1`: pass when an accepted market-cap point reaches or exceeds $30,000 from creation through `creation + 3h`. Drew selected this absolute threshold and explicitly rejected migration as the success label. The label means only that the recorded market-cap path crossed that threshold; it is not a claim that a position could be entered or exited at that valuation.
 
-Breakout profiles will require a declared decision-time baseline, quote notional, fee treatment, return threshold, and horizon. Durability profiles will require a later horizon, route/depth requirements, and retention terms. The engine supports these checks, but no breakout or durability result is emitted when its evidence contract is unmet.
+For SOL-quoted Pump observations, v1 will calculate `market_cap_usd = market_cap_quote × sol_usd` with lossless decimal arithmetic. The SOL/USD reference must be the latest retained observation at or before the market-cap point and no more than 60 seconds old. Direct provider-reported USD market cap is retained as supplementary evidence and is not mixed into this derived series. A missing or stale conversion marks that point unavailable. Each outcome result pins the market-cap formula, quote source, USD-reference source, and freshness rule.
 
-Outcome evidence adapters will read retained normalized migrations, derived trade/price paths, market snapshots, and reliability records. Optional follow-up collection will reuse the existing safe-fetch/raw-first pattern: save the provider response, normalize it, and record provider time, chain time/slot when present, parser version, and coverage. Indexed provider facts can supplement but cannot silently replace canonical migration evidence or executable quotes.
+Migration remains an independently reported factual outcome. Executable-return profiles require a declared decision-time baseline, quote notional, fee treatment, return threshold, and horizon. Durability profiles require a later horizon, route/depth requirements, and retention terms. Neither result replaces the $30,000 market-cap success definition.
+
+Outcome evidence adapters will read retained trade/curve market-cap facts, time-aligned SOL/USD references, normalized migrations, derived price paths, market snapshots, and reliability records. Optional three-hour follow-up collection will reuse the existing safe-fetch/raw-first pattern: save the provider response, normalize it, and record provider time, chain time/slot when present, parser version, and coverage. A failed threshold result requires verified stream/snapshot coverage through the entire three-hour horizon; an early stop or overlapping gap produces censored, while an absent usable market-cap plane produces unavailable.
 
 ### 4. Enforce leakage with observation-time metadata
 
@@ -111,7 +113,8 @@ The integration owner alone updates shared exports/scripts, merges in prerequisi
 ## Risks / Trade-offs
 
 - **[Batch 001 lacks a full 3-hour evidence window]** → Show censored/unavailable outcomes and validate mechanics with recorded fixtures; never present a fabricated success rate.
-- **[Migration is an imperfect proxy for economic success]** → Label the profile everywhere, keep alternative profiles separate, and avoid a universal success column.
+- **[$30,000 market cap is not an executable-value guarantee]** → Label the profile everywhere, keep executable-return outcomes separate, and never describe the threshold crossing as realized profit or available exit liquidity.
+- **[Sparse observations could miss a brief threshold crossing]** → Require declared three-hour coverage and sampling/stream quality; gaps or insufficient cadence produce censored rather than failed.
 - **[Threshold exploration can overfit one batch]** → Persist every definition, show denominators/intervals, flag small samples, and reserve holdout/out-of-sample validation for a separately approved research phase.
 - **[Overlapping cohorts make lift easy to misread]** → Report overlap and population definitions beside every comparison.
 - **[Provider data changes or disappears]** → Preserve raw responses, parser versions, timestamps, and failure reasons; keep canonical and indexed evidence distinct.

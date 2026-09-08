@@ -9,12 +9,12 @@
       "reason": "Both foundations are implemented, tested, and already preserve observability and provenance."
     },
     {
-      "decision": "Keep migration, breakout, and durability as separate outcomes and make successful a named profile selection.",
+      "decision": "Keep the $30,000 market-cap success check, migration, executable return, and durability as separate outcomes.",
       "reason": "The project has no validated universal success threshold, and collapsing outcomes would hide material differences."
     },
     {
-      "decision": "Use migration within 3 hours as the default v1 comparison profile while retaining configurable profiles.",
-      "reason": "Drew selected a three-hour horizon; migration is the first objective, canonically reconcilable outcome already supported by the project's provider research."
+      "decision": "Define success as reaching at least $30,000 USD market cap at any point within three hours of creation.",
+      "reason": "Drew explicitly selected the three-hour $30,000 market-cap threshold and rejected migration as the success label."
     },
     {
       "decision": "Separate implementation into a committed contract foundation, parallel capability builds, and a final integration wave after user approval.",

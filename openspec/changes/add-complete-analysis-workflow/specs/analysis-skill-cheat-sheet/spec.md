@@ -14,9 +14,9 @@ The system SHALL generate the Skills-tab cheat sheet and agent-facing skill inde
 ### Requirement: Guidance distinguishes runnable and unavailable skills
 The cheat sheet SHALL indicate whether each skill is runnable for the active batch and SHALL list missing prerequisites when it is unavailable.
 
-#### Scenario: Breakout data is absent
+#### Scenario: Executable-return data is absent
 - **WHEN** the active batch lacks executable price observations
-- **THEN** the breakout outcome entry is marked unavailable and identifies the missing data instead of offering a misleading run action
+- **THEN** the executable-return outcome entry is marked unavailable and identifies the missing data instead of offering a misleading run action
 
 ### Requirement: Examples support natural conversation
 Every skill SHALL provide concise copyable examples for common user questions, including filtering launches, checking a selected outcome, comparing a cohort with baseline, and opening the dashboard.

@@ -3,7 +3,7 @@
 - [ ] 1.1 After explicit user approval, record the approval reference, reviewed-plan digest, base commit, worker ownership, dependencies, and acceptance commands in the coordinator manifest; verify every worker is pinned to the same committed foundation before dispatch.
 - [ ] 1.2 Define versioned filter, cohort, outcome-fact, outcome-profile, outcome-result, trend-result, receipt, and dashboard-manifest contracts under `src/analysis/contracts/**`; verify contract tests accept canonical fixtures and reject invalid status, lineage, and version combinations.
 - [ ] 1.3 Define the typed field registry with units, operators, observation-time metadata, and compatibility rules; verify tests reject unsupported operators, invalid value types, and post-cutoff fields.
-- [ ] 1.4 Create shared workflow fixtures for complete, zero, unobservable, migrated, failed, censored, unavailable, overlapping, and deliberately leaked cases; verify all fixtures load without touching raw event files.
+- [ ] 1.4 Create shared workflow fixtures for complete, zero, unobservable, $30,000 threshold-crossing, below-threshold, migrated, censored, unavailable, overlapping, and deliberately leaked cases; verify all fixtures load without touching raw event files.
 - [ ] 1.5 Commit the foundation and mark shared contracts, fixtures, root exports, scripts, and OpenSpec task state read-only to capability workers; verify `git status` is clean and the pinned commit is available to every worker branch.
 
 ## 2. Parallel wave 1A — reusable filters worker
@@ -15,9 +15,9 @@
 
 ## 3. Parallel wave 1B — outcome checks worker
 
-- [ ] 3.1 Implement outcome-fact extraction and coverage calculation in `src/analysis/outcomes/**` from retained migrations, derived price/trade paths, market snapshots, and reliability facts; verify canonical and indexed evidence remain distinguishable.
-- [ ] 3.2 Implement `migration-within-3h/v1` with passed, failed, censored, and unavailable states; verify events on the horizon boundary pass, full-coverage non-events fail, and short coverage is censored outside the denominator.
-- [ ] 3.3 Implement configurable breakout and durability profile evaluators with declared decision baselines, notionals, fees, thresholds, horizons, routes/depth, and retention requirements; verify missing executable evidence returns unavailable instead of using market-cap proxies.
+- [ ] 3.1 Implement outcome-fact extraction and coverage calculation in `src/analysis/outcomes/**` from retained trade/curve market-cap facts, time-aligned SOL/USD references, migrations, derived price paths, market snapshots, and reliability facts; verify quote-derived USD market cap, provider-reported market cap, and migration evidence remain distinguishable.
+- [ ] 3.2 Implement `market-cap-at-least-usd-30k-within-3h/v1` using lossless `market_cap_quote × sol_usd`, the latest nonfuture SOL/USD reference no more than 60 seconds old, and passed/failed/censored/unavailable states; verify $29,999.99 fails, $30,000 passes, the three-hour boundary is included, stale conversion is unavailable, and short/gapped coverage is censored.
+- [ ] 3.3 Implement separate migration, configurable executable-return, and durability outcome evaluators with their own evidence terms; verify migration alone never sets success and missing executable evidence is unavailable instead of inferred from market cap.
 - [ ] 3.4 Enforce feature and outcome clocks; verify the deliberately leaked fixture fails with the offending field and observation time while valid ten-second features pass.
 - [ ] 3.5 Save immutable outcome results and bounded receipts with profile, evidence references, timestamps, coverage, provider/commitment/parser provenance, and reasons; verify repeat execution is deterministic.
 
@@ -25,7 +25,7 @@
 
 - [ ] 4.1 Expand `analysis/catalog.json` and its validator through `src/analysis/catalog/**` to cover metric, filter, outcome, trend, and dashboard skills with questions, inputs, parameters/defaults, outputs, data requirements, cost policy, versions, caveats, and prompt examples; verify incomplete or duplicate entries fail validation.
 - [ ] 4.2 Generate the human cheat-sheet model and project-local agent skill entries from the validated catalog; verify filter, outcome, trend, and dashboard examples are copyable and no raw-record workflow is suggested.
-- [ ] 4.3 Compute per-batch runnable/unavailable states from declared prerequisites; verify a batch without executable quotes marks breakout unavailable with specific missing-data reasons.
+- [ ] 4.3 Compute per-batch runnable/unavailable states from declared prerequisites; verify a batch without a valid three-hour market-cap plane marks the success check unavailable and a batch without executable quotes marks executable-return analysis unavailable with specific reasons.
 - [ ] 4.4 Add catalog/runtime/guidance drift checks in `test/analysis-catalog.test.mjs`; verify a changed parameter default fails until all generated contracts agree.
 
 ## 5. Wave 1 integration — integration owner
@@ -53,5 +53,5 @@
 
 - [ ] 8.1 Review and merge trend and dashboard commits, then update only integration-owned exports, root scripts, and shared workflow wiring; verify the complete metric-to-cohort-to-outcome-to-trend-to-dashboard path runs from one command sequence.
 - [ ] 8.2 Run type checking, the full repository test suite, focused contract/drift tests, strict OpenSpec validation, and browser verification; record exact commands and results in the integration evidence.
-- [ ] 8.3 Generate the Batch 001 dashboard and verify real insufficient follow-up appears as censored/unavailable, complete zero-buy rows remain distinct, every mint retains a terminal link, and no unsupported success rate is shown.
+- [ ] 8.3 Generate the Batch 001 dashboard and verify real insufficient three-hour market-cap follow-up appears as censored/unavailable, complete zero-buy rows remain distinct, migration remains informational, every mint retains a terminal link, and no unsupported success rate is shown.
 - [ ] 8.4 Commit all integrated artifacts, update task checkboxes only from verified evidence, preserve prior plans/results, and hand back worker links plus one concrete local URL or command for user testing.

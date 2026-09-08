@@ -5,7 +5,7 @@ Meme Explorer can compute one reliable early-buy metric and render one compariso
 ## What Changes
 
 - Add versioned, composable filter skills that create reproducible coin cohorts from saved analysis results without loading raw events into model context.
-- Add censor-aware outcome checks for migration, price breakout, and durable-market behavior, with a named outcome profile determining what “successful” means for each comparison.
+- Add a censor-aware default success check for reaching at least $30,000 USD market cap within three hours, plus separate migration, executable-return, and durable-market outcomes.
 - Add trend comparison across cohorts, batches, and outcome classes, including sample size, coverage, outcome rate, lift, uncertainty, and early time-series shapes.
 - Replace the single-purpose comparison surface with a self-contained tabbed dashboard for overview, coins, filters, outcomes, trends, and skill guidance.
 - Generate a concise skill cheat sheet from the same versioned catalog used by the runtime, with natural-language examples, parameters, outputs, data requirements, and caveats.
@@ -16,7 +16,7 @@ Meme Explorer can compute one reliable early-buy metric and render one compariso
 ### New Capabilities
 
 - `reusable-analysis-filters`: Define, save, compose, execute, and audit deterministic filters over versioned analysis rows.
-- `coin-outcome-checks`: Attach time-bounded migration, breakout, and durability outcomes to coins and evaluate a selected success profile without temporal leakage.
+- `coin-outcome-checks`: Evaluate the $30,000-within-three-hours success profile without temporal leakage and attach separate migration, executable-return, and durability outcomes.
 - `analysis-trend-comparison`: Compare cohorts and outcome classes using transparent descriptive statistics, coverage, uncertainty, and time-series shapes.
 - `analysis-workflow-dashboard`: Navigate the end-to-end analysis through linked overview, coin, filter, outcome, trend, and skills tabs.
 - `analysis-skill-cheat-sheet`: Discover available analysis skills and their safe usage from catalog-backed human and agent guidance.
