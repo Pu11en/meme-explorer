@@ -1,7 +1,7 @@
 {
   "change": "add-complete-analysis-workflow",
-  "thread_id": "1546795050514653215",
-  "plan_owner": "1546795050514653215",
+  "thread_id": "1546847282698129538",
+  "plan_owner": "1546847282698129538",
   "role": "planning-and-integration-owner",
   "decisions": [
     {
@@ -27,6 +27,19 @@
     {
       "decision": "Separate implementation into a committed contract foundation, parallel capability builds, and a final integration wave after user approval.",
       "reason": "Shared schemas must be stable before workers can own disjoint modules without file conflicts."
+    },
+    {
+      "decision": "Prioritize six first-minute filters and Batch 001 correctness/scale evidence before outcome/trend/full-dashboard delivery.",
+      "reason": "Drew requested a test and validation plan for all six ahead of September 8 hourly batches in this fork; preserve the existing broader plan as later work."
+    },
+    {
+      "decision": "Add New Buyer Arrival Rate as the sixth definition with earliest source-time wallet arrivals and six ten-second display buckets.",
+      "reason": "Drew selected this first-minute idea; the overall feature window remains fixed at 60 seconds."
+    },
+    {
+      "decision": "Track original data access as a prerequisite; do not label planned tests as passed.",
+      "reason": "The committed profile points to an absent Linux data root; only the legacy ten-second metric is currently implemented."
     }
-  ]
+  ],
+  "previous_plan_owner": "1546795050514653215"
 }

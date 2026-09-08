@@ -11,6 +11,14 @@ Meme Explorer can compute one reliable early-buy metric and render one compariso
 - Generate a concise skill cheat sheet from the same versioned catalog used by the runtime, with natural-language examples, parameters, outputs, data requirements, and caveats.
 - Keep complete, incomplete, unavailable, and right-censored observations separate throughout the workflow; never coerce missing outcomes to failure or unobservable metrics to zero.
 
+## First delivery: six filters ready for hourly batches
+
+Use Batch 001 to implement and verify six named first-minute filters: complete coverage, minimum buy activity, buyer diversity, repeat-buyer concentration, buy activity shape, and new buyer arrival rate. Deliver this milestone independently of the later outcome, trend, and six-tab dashboard work. Reuse a minimal first-minute comparison view to inspect one filter at a time.
+
+Readiness requires independent exact-count checks, real Batch 001 replay, repeatability, a one-hour-equivalent replay and a larger stress case, plus catalog/command consistency. Targets are recorded in the design; none have passed yet. Today's September 8 recordings (08:00–09:00 and 13:00–14:00 America/Chicago) are later compatibility checks using frozen definitions, not a reason to claim readiness before evidence exists.
+
+Batch 001's committed profile describes four runs, 30 minutes, and 1,074,873 raw records across mixed venues. Its original Linux data root is absent on this Mac; locate and verify the source recordings before claiming real-data validation. Synthetic tests can proceed independently. The existing 10-second analyzer remains the only implemented catalog skill at planning time.
+
 ## Capabilities
 
 ### New Capabilities
