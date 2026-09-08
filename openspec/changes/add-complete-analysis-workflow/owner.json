@@ -21,6 +21,10 @@
       "reason": "Drew confirmed that a brief verified threshold touch counts; persistence must not change the binary label."
     },
     {
+      "decision": "Use one fixed 60-second early-feature window and do not add 10-second or 30-second workflow variants.",
+      "reason": "Drew explicitly selected 60 seconds only; the existing 10-second result remains legacy reference material."
+    },
+    {
       "decision": "Separate implementation into a committed contract foundation, parallel capability builds, and a final integration wave after user approval.",
       "reason": "Shared schemas must be stable before workers can own disjoint modules without file conflicts."
     }

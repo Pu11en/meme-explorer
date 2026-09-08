@@ -1,24 +1,25 @@
 ## 1. Approved foundation — integration owner
 
 - [ ] 1.1 After explicit user approval, record the approval reference, reviewed-plan digest, base commit, worker ownership, dependencies, and acceptance commands in the coordinator manifest; verify every worker is pinned to the same committed foundation before dispatch.
-- [ ] 1.2 Define versioned filter, cohort, outcome-fact, outcome-profile, outcome-result, trend-result, receipt, and dashboard-manifest contracts under `src/analysis/contracts/**`; verify contract tests accept canonical fixtures and reject invalid status, lineage, and version combinations.
+- [ ] 1.2 Define the fixed sixty-second feature schema plus versioned filter, cohort, outcome-fact, outcome-profile, outcome-result, trend-result, receipt, and dashboard-manifest contracts under `src/analysis/contracts/**`; verify contract tests accept canonical fixtures and reject invalid window, status, lineage, and version combinations.
 - [ ] 1.3 Define the typed field registry with units, operators, observation-time metadata, and compatibility rules; verify tests reject unsupported operators, invalid value types, and post-cutoff fields.
-- [ ] 1.4 Create shared workflow fixtures for complete, zero, unobservable, $30,000 threshold-crossing, below-threshold, migrated, censored, unavailable, overlapping, and deliberately leaked cases; verify all fixtures load without touching raw event files.
+- [ ] 1.4 Create shared sixty-second workflow fixtures for complete, zero, unobservable, already-successful-at-cutoff, later $30,000 threshold-crossing, below-threshold, migrated, censored, unavailable, overlapping, and deliberately leaked cases; verify all fixtures load without touching raw event files.
 - [ ] 1.5 Commit the foundation and mark shared contracts, fixtures, root exports, scripts, and OpenSpec task state read-only to capability workers; verify `git status` is clean and the pinned commit is available to every worker branch.
 
-## 2. Parallel wave 1A — reusable filters worker
+## 2. Parallel wave 1A — sixty-second features and reusable filters worker
 
-- [ ] 2.1 Implement the typed filter expression evaluator in `src/analysis/filters/**`, including all/any/not composition, comparison/range/membership/presence/shape predicates, deterministic ordering, and explicit missing-value behavior; verify `test/analysis-filters.test.mjs` covers composition, zero versus unobservable, and repeat execution.
-- [ ] 2.2 Implement the five initial parameterized cohort definitions—observable launches, minimum activity, buyer diversity, repeat-buyer concentration, and launch activity shape—and verify their parameters compile through the shared field registry.
-- [ ] 2.3 Save immutable cohort results and bounded receipts with member IDs, source lineage, normalized rules, failed-predicate reasons, and exclusion/missing counts; verify a large fixture keeps full membership on disk while receipt previews remain bounded.
-- [ ] 2.4 Add a capability-local filter command without editing root scripts or exports; verify it reruns the same definition on two compatible fixture batches and rejects an incompatible source schema.
+- [ ] 2.1 Implement the deterministic first-sixty-second feature analyzer in `src/analysis/filters/**` with `[0, 60,000ms)` boundaries, 60 one-second bars, exact totals, and observability; verify `test/analysis-filters.test.mjs` includes 59,999ms, excludes 60,000ms, and distinguishes complete zero from an incomplete minute.
+- [ ] 2.2 Implement the typed filter expression evaluator, including all/any/not composition, comparison/range/membership/presence/shape predicates, deterministic ordering, and explicit missing-value behavior; verify composition, zero versus unobservable, repeat execution, and rejection of legacy ten-second inputs.
+- [ ] 2.3 Implement the five initial parameterized first-minute cohort definitions—observable launches, minimum activity, buyer diversity, repeat-buyer concentration, and launch activity shape—and verify their parameters compile through the shared field registry.
+- [ ] 2.4 Save immutable cohort results and bounded receipts with member IDs, source lineage, normalized rules, failed-predicate reasons, and exclusion/missing counts; verify a large fixture keeps full membership on disk while receipt previews remain bounded.
+- [ ] 2.5 Add capability-local sixty-second analysis and filter commands without editing root scripts or exports; verify the same definition reruns on two compatible fixture batches and rejects any non-sixty-second source schema.
 
 ## 3. Parallel wave 1B — outcome checks worker
 
 - [ ] 3.1 Implement outcome-fact extraction and coverage calculation in `src/analysis/outcomes/**` from retained trade/curve market-cap facts, time-aligned SOL/USD references, migrations, derived price paths, market snapshots, and reliability facts; verify quote-derived USD market cap, provider-reported market cap, and migration evidence remain distinguishable.
 - [ ] 3.2 Implement `market-cap-at-least-usd-30k-within-3h/v1` using lossless `market_cap_quote × sol_usd`, the latest nonfuture SOL/USD reference no more than 60 seconds old, and passed/failed/censored/unavailable states; verify $29,999.99 fails, one $30,000 point passes even if the next point is lower, the three-hour boundary is included, stale conversion is unavailable, and short/gapped coverage is censored.
 - [ ] 3.3 Implement separate migration, configurable executable-return, and durability outcome evaluators with their own evidence terms; verify migration alone never sets success and missing executable evidence is unavailable instead of inferred from market cap.
-- [ ] 3.4 Enforce feature and outcome clocks; verify the deliberately leaked fixture fails with the offending field and observation time while valid ten-second features pass.
+- [ ] 3.4 Enforce the sixty-second feature cutoff and three-hour outcome horizon; verify a 61-second feature fails with its observation time, valid first-minute features pass, and a coin reaching $30,000 during the first minute is marked already successful at cutoff for forward comparisons.
 - [ ] 3.5 Save immutable outcome results and bounded receipts with profile, evidence references, timestamps, coverage, provider/commitment/parser provenance, reasons, first hit, peak, qualifying-point count, and duration-above-threshold value/quality; verify persistence metrics never alter pass state and repeat execution is deterministic.
 
 ## 4. Parallel wave 1C — catalog and cheat-sheet worker
@@ -36,15 +37,15 @@
 
 ## 6. Parallel wave 2A — trend comparison worker
 
-- [ ] 6.1 Implement explicit baseline/cohort population accounting in `src/analysis/trends/**`, including total, evaluable, passed, censored, unavailable, and overlap counts; verify overlapping cohorts and excluded outcomes preserve correct denominators.
+- [ ] 6.1 Implement explicit baseline/cohort population accounting in `src/analysis/trends/**`, including total, evaluable, passed, already-successful-at-cutoff, censored, unavailable, and overlap counts; verify first-minute successes are excluded only from prospective denominators and overlapping cohorts preserve correct counts.
 - [ ] 6.2 Implement pass rate, absolute difference, relative lift, deterministic 95% Wilson interval, and the under-30 warning; verify zero-denominator cases remain undefined with reasons and no causal/predictive labels are emitted.
-- [ ] 6.3 Implement compatible time-series aggregation for per-interval, cumulative, and normalized shapes with contributing counts; verify missing series are excluded rather than zero-filled and incompatible windows fail closed.
+- [ ] 6.3 Implement time-series aggregation across exactly 60 one-second bars for per-interval, cumulative, and normalized shapes with contributing counts; verify missing series are excluded rather than zero-filled and legacy ten-second or other windows fail closed.
 - [ ] 6.4 Save deterministic trend artifacts and bounded receipts with population definitions, formulas, source IDs, warnings, and series values; verify repeated fixture analysis is byte-stable apart from declared generation metadata.
 
 ## 7. Parallel wave 2B — dashboard worker
 
 - [ ] 7.1 Evolve the existing comparison generator into a self-contained dashboard shell under `src/analysis/dashboard/**` with Overview, Coins, Filters, Outcomes, Trends, and Skills tabs; verify keyboard tab navigation and URL-hash state preserve batch, cohort, profile, and coin selection.
-- [ ] 7.2 Build Overview and Coins views with lineage, coverage/age warnings, search/sort/multi-select, line modes, metric and outcome state, exclusion reasons, and Pump.fun terminal links; verify existing comparison behaviors remain covered.
+- [ ] 7.2 Build Overview and Coins views with the fixed sixty-second window, lineage, coverage/age warnings, search/sort/multi-select, 60-point line modes, metric and outcome state, exclusion reasons, and Pump.fun terminal links; verify existing comparison behaviors remain covered.
 - [ ] 7.3 Build Filters and Outcomes views with typed parameter controls, composition preview, immutable save/run handoff, status groups, and per-coin evidence; verify UI previews never mutate embedded source results.
 - [ ] 7.4 Build Trends and Skills views with denominators, lift/intervals, time-series shapes, overlap, small-sample warnings, availability, caveats, and copyable prompts; verify every displayed value resolves to an embedded derived artifact or catalog entry.
 - [ ] 7.5 Keep the page offline and raw-data-free, enforce the declared size budget, and verify desktop/mobile layouts, keyboard access, visible focus, readable warnings, and no network request on page load.
@@ -53,5 +54,5 @@
 
 - [ ] 8.1 Review and merge trend and dashboard commits, then update only integration-owned exports, root scripts, and shared workflow wiring; verify the complete metric-to-cohort-to-outcome-to-trend-to-dashboard path runs from one command sequence.
 - [ ] 8.2 Run type checking, the full repository test suite, focused contract/drift tests, strict OpenSpec validation, and browser verification; record exact commands and results in the integration evidence.
-- [ ] 8.3 Generate the Batch 001 dashboard and verify real insufficient three-hour market-cap follow-up appears as censored/unavailable, complete zero-buy rows remain distinct, migration remains informational, every mint retains a terminal link, and no unsupported success rate is shown.
+- [ ] 8.3 Generate the Batch 001 dashboard and verify incomplete first-minute features are unobservable, insufficient three-hour market-cap follow-up is censored/unavailable, complete zero-buy rows remain distinct, early threshold hits are separated for prospective trends, migration remains informational, and every mint retains a terminal link.
 - [ ] 8.4 Commit all integrated artifacts, update task checkboxes only from verified evidence, preserve prior plans/results, and hand back worker links plus one concrete local URL or command for user testing.

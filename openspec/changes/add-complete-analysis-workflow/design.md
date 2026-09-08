@@ -1,6 +1,6 @@
 ## Context
 
-The repository is a dependency-light TypeScript package with immutable run datasets, normalized migrations and market snapshots, locally derived candles, a versioned analysis result contract, a cataloged ten-second buy-activity skill, and a self-contained comparison page. The current analyzer correctly separates complete zero-buy observations from unobservable windows and bounds model-facing receipts. See `proposal.md` for motivation and the five capability specs for required behavior.
+The repository is a dependency-light TypeScript package with immutable run datasets, normalized migrations and market snapshots, locally derived candles, a versioned analysis result contract, a cataloged ten-second buy-activity skill, and a self-contained comparison page. That ten-second result remains valid legacy reference material. The new workflow uses one fixed sixty-second window while preserving the current analyzer's separation of complete zero-buy observations from unobservable windows and its bounded model-facing receipts. See `proposal.md` for motivation and the five capability specs for required behavior.
 
 Earlier project research deliberately declined to call any early variable predictive before a later outcome, decision cutoff, leakage policy, and out-of-sample comparison existed. The design must preserve that evidence boundary. Current Batch 001 may not contain 3 hours of follow-up evidence, so a useful system must represent censored and unavailable outcomes honestly instead of manufacturing labels.
 
@@ -29,7 +29,7 @@ Earlier project research deliberately declined to call any early variable predic
 The workflow will operate as:
 
 ```text
-recorded runs -> metric result -> cohort/filter result
+recorded runs -> 60-second feature result -> cohort/filter result
                             \-> outcome facts + profile result
 cohort + outcome result -> trend result -> generated dashboard
 catalog ---------------------------------> Skills tab + agent skills
@@ -41,9 +41,11 @@ A file-backed pipeline was chosen over a database because the current datasets a
 
 ### 2. Use a typed filter expression instead of one command per threshold
 
+A new deterministic feature pass will summarize `[creation, creation + 60 seconds)` as totals and exactly 60 one-second bars. The window is fixed rather than configurable: Drew selected 60 seconds only, so the workflow will not add 10-second or 30-second variants. Existing ten-second artifacts remain readable by their legacy page but are incompatible with new workflow cohorts and trend results.
+
 A filter definition will contain a schema/version, stable ID, compatible input schemas, observation cutoff, and a normalized expression tree. The operator allowlist will include numeric/string equality, range, membership, presence, and explicit time-series shapes, composed with `all`, `any`, and `not`. A field registry will define type, unit, observation time, and compatible operators, preventing arbitrary property access or string-evaluated code.
 
-The initial catalog will expose five approachable filters: observable launches, minimum buy activity, buyer diversity, repeat-buyer concentration, and launch activity shape. Each is a parameterized definition over the same engine, which keeps the library reusable without duplicating arithmetic. Missing values fail ordinary predicates and receive a reason; only explicit missing/unobservable predicates select them.
+The initial catalog will expose five approachable filters over that first minute: observable launches, minimum buy activity, buyer diversity, repeat-buyer concentration, and launch activity shape. Each is a parameterized definition over the same engine, which keeps the library reusable without duplicating arithmetic. Missing values fail ordinary predicates and receive a reason; only explicit missing/unobservable predicates select them.
 
 ### 3. Separate outcome facts, checks, and the selected success profile
 
@@ -61,7 +63,7 @@ Outcome evidence adapters will read retained trade/curve market-cap facts, time-
 
 ### 4. Enforce leakage with observation-time metadata
 
-Every field exposed to filtering will declare when it became knowable relative to creation. A cohort has a feature cutoff; an outcome profile has a later evaluation window. The evaluator rejects a comparison if any selected feature was observed after the cutoff or if an outcome fact falls outside the declared window.
+Every field exposed to filtering will declare when it became knowable relative to creation. The workflow's feature cutoff is fixed at 60 seconds and the overall success horizon remains three hours. A threshold hit from creation through 60 seconds still passes the overall success definition, but the trend engine marks that coin `already_successful_at_cutoff` and excludes it from prospective lift/rate denominators. The evaluator rejects any selected feature observed after the cutoff or any outcome fact after the declared horizon.
 
 This explicit clock check was chosen over naming conventions such as `early_*`, which are easy to violate and impossible to audit mechanically. Tests will include a deliberately leaked field and require a hard failure.
 
@@ -69,14 +71,14 @@ This explicit clock check was chosen over naming conventions such as `early_*`, 
 
 Trend results will show population definitions, overlap, total/evaluable/censored/unavailable counts, outcome pass rates, absolute difference, relative lift where defined, and deterministic 95% Wilson intervals. Fewer than 30 evaluable coins triggers a warning without hiding results. The engine will not produce “confidence,” “edge,” or causal labels.
 
-Time-series comparison will align compatible bars and expose per-interval, cumulative, and normalized shapes. Group aggregates will carry a contributing-row count for every interval; missing series are excluded, not zero-filled. Incompatible formula/window versions fail closed unless a separately versioned transformation is declared.
+Time-series comparison will align the 60 compatible one-second bars and expose per-interval, cumulative, and normalized shapes. Group aggregates will carry a contributing-row count for every interval; missing series are excluded, not zero-filled. Legacy ten-second or other formula/window versions fail closed rather than being stretched onto the first-minute series.
 
 ### 6. Evolve the comparison page into one six-tab static workbench
 
 The existing self-contained page becomes the Coins interaction inside a generated dashboard with these tabs:
 
 1. **Overview** — selected batch/profile, artifact lineage, headline counts, coverage, age, and warnings.
-2. **Coins** — searchable table, terminal links, selected-line comparison, metrics, outcomes, and exclusion reasons.
+2. **Coins** — searchable table, terminal links, selected-line comparison across the first 60 seconds, metrics, outcomes, and exclusion reasons.
 3. **Filters** — preset selection, typed parameters, rule composition, live preview, save/run, and cohort summary.
 4. **Outcomes** — profile selector, status groups, coverage, and per-coin evidence.
 5. **Trends** — cohort-versus-baseline rates, lift/intervals, shape comparison, overlap, and warnings.
@@ -114,7 +116,7 @@ The integration owner alone updates shared exports/scripts, merges in prerequisi
 
 ## Risks / Trade-offs
 
-- **[Batch 001 lacks a full 3-hour evidence window]** → Show censored/unavailable outcomes and validate mechanics with recorded fixtures; never present a fabricated success rate.
+- **[Some launches lack a complete first 60 seconds or Batch 001 lacks a full 3-hour evidence window]** → Mark feature windows unobservable and outcomes censored/unavailable; validate mechanics with recorded fixtures and never present fabricated rates.
 - **[$30,000 market cap is not an executable-value guarantee]** → Label the profile everywhere, keep executable-return outcomes separate, and never describe the threshold crossing as realized profit or available exit liquidity.
 - **[Sparse observations could miss a brief threshold crossing]** → Require declared three-hour coverage and sampling/stream quality; gaps or insufficient cadence produce censored rather than failed.
 - **[Threshold exploration can overfit one batch]** → Persist every definition, show denominators/intervals, flag small samples, and reserve holdout/out-of-sample validation for a separately approved research phase.
@@ -125,8 +127,8 @@ The integration owner alone updates shared exports/scripts, merges in prerequisi
 
 ## Migration Plan
 
-1. Add and verify the shared contracts, field registry, fixtures, and compatibility readers without changing existing results.
-2. Add filter, outcome, and catalog outputs alongside the current analyzer; run legacy and new focused tests.
+1. Add and verify the shared contracts, fixed sixty-second feature schema, field registry, fixtures, and compatibility readers without changing existing results.
+2. Add the sixty-second analyzer plus filter, outcome, and catalog outputs alongside the current ten-second analyzer; run legacy and new focused tests.
 3. Integrate trend computation and generate the six-tab dashboard while preserving the current Pump.fun terminal behavior.
 4. Run strict OpenSpec validation, type checks, the full repository suite, contract drift checks, and browser checks at desktop/mobile widths.
 5. Generate the workflow for Batch 001 and verify that any insufficient outcome coverage is displayed as censored/unavailable.

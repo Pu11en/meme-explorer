@@ -1,8 +1,15 @@
 ## Purpose
 
-Let users turn saved analysis results into named, repeatable coin cohorts whose rules, inputs, exclusions, and data quality can be inspected and rerun.
+Let users turn a fixed first-60-second launch analysis into named, repeatable coin cohorts whose rules, inputs, exclusions, and data quality can be inspected and rerun.
 
 ## ADDED Requirements
+
+### Requirement: Workflow features use one fixed sixty-second window
+The system SHALL calculate the workflow's early features from the half-open interval `[creation, creation + 60,000 milliseconds)` and SHALL produce 60 one-second bars. An event exactly 60,000 milliseconds after creation SHALL be excluded. A launch whose complete sixty-second interval was not observed SHALL be unobservable rather than zero, and the workflow SHALL NOT substitute legacy ten-second or new thirty-second feature windows.
+
+#### Scenario: Sixty-second boundary events
+- **WHEN** activity occurs 59,999 milliseconds and 60,000 milliseconds after creation
+- **THEN** the first event is included in the sixty-second result and the second is excluded
 
 ### Requirement: Filter definitions are versioned and reusable
 The system SHALL represent each filter as a named, versioned definition containing its source schema, field predicates, composition logic, missing-value policy, and human description. Definitions SHALL be executable from both a direct command and a natural-language skill invocation.
@@ -26,7 +33,7 @@ The system SHALL NOT treat an unobservable metric as zero or allow a missing val
 - **THEN** a complete row with zero buys matches while an unobservable row does not
 
 ### Requirement: Initial filter library covers common analysis questions
-The catalog SHALL include reusable definitions for observable launches, minimum activity, buyer diversity, repeat-buyer concentration, and first-ten-second activity shape. These definitions SHALL be described as cohort selectors rather than validated signals.
+The catalog SHALL include reusable definitions for observable launches, minimum activity, buyer diversity, repeat-buyer concentration, and first-sixty-second activity shape. These definitions SHALL be described as cohort selectors rather than validated signals.
 
 #### Scenario: Discover a buyer-diversity filter
 - **WHEN** an agent searches the analysis catalog for launches with several distinct buyers

@@ -44,11 +44,15 @@ Every check SHALL return exactly one of passed, failed, censored, or unavailable
 - **THEN** the success check is failed with its highest observed value, timestamp, coverage interval, and evidence lineage retained
 
 ### Requirement: Feature and outcome clocks prevent temporal leakage
-Every comparison SHALL record a feature cutoff and outcome window. The system SHALL reject a run when a filter input contains observations after the declared decision time or when an outcome fact predates the permitted outcome window.
+Every comparison SHALL record the fixed sixty-second feature cutoff and the three-hour outcome horizon. The overall success label SHALL still cover creation through three hours. For forward-looking trend comparisons, a coin that reached $30,000 at or before the sixty-second cutoff SHALL be classified as already successful at cutoff and excluded from the prospective pass-rate denominator. The system SHALL reject a run when a filter input contains observations after 60 seconds or an outcome fact falls after the three-hour horizon.
 
 #### Scenario: Later price enters an early filter
-- **WHEN** a ten-second decision cohort includes a field observed one minute after creation
+- **WHEN** a sixty-second decision cohort includes a field observed 61 seconds after creation
 - **THEN** outcome evaluation stops with a temporal-leakage error identifying the field and observation time
+
+#### Scenario: Threshold reached during the feature window
+- **WHEN** a coin reaches $30,000 45 seconds after creation
+- **THEN** its overall success check passes and its forward-looking trend status is already successful at cutoff rather than a prospective success
 
 ### Requirement: Outcome artifacts preserve provenance
 Each outcome run SHALL save immutable per-coin checks, selected profile, source snapshots or event references, provider and commitment metadata, parser versions, coverage intervals, reconciliation state, and a bounded receipt.

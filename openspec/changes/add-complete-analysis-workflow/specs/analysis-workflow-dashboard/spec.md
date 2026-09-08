@@ -12,14 +12,14 @@ The dashboard SHALL provide Overview, Coins, Filters, Outcomes, Trends, and Skil
 - **THEN** that cohort is already selected for comparison against the current baseline
 
 ### Requirement: Overview makes scope and quality visible
-The Overview tab SHALL show source batches and runs, artifact versions, coin counts, observability, outcome coverage, current success profile, data-age information, and prominent warnings before showing headline comparisons.
+The Overview tab SHALL show source batches and runs, the fixed sixty-second feature window, artifact versions, coin counts, observability, outcome coverage, already-successful-at-cutoff counts, current success profile, data-age information, and prominent warnings before showing headline comparisons.
 
 #### Scenario: Outcomes are mostly censored
 - **WHEN** fewer than half of coins have an evaluable selected outcome
 - **THEN** the coverage warning is visible beside the summary rather than hidden in a detail panel
 
 ### Requirement: Coins support inspection and handoff
-The Coins tab SHALL provide searchable, sortable rows, multi-select comparison, metric and outcome status, exclusion reasons, compact launch-shape inspection, and a direct Pump.fun terminal link for every mint.
+The Coins tab SHALL provide searchable, sortable rows, multi-select comparison, metric and outcome status, exclusion reasons, sixty-second launch-shape inspection, and a direct Pump.fun terminal link for every mint.
 
 #### Scenario: Inspect an excluded coin
 - **WHEN** a user opens a coin that did not enter the selected cohort
