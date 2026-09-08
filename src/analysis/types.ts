@@ -73,4 +73,6 @@ export interface TenSecondBuyActivityReceipt {
   readonly preview: readonly TenSecondBuyActivityRow[]
   readonly full_result_path: string
   readonly rows_path: string
+  readonly report_path: string
+  readonly csv_path: string
 }
