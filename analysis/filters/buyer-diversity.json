@@ -1,0 +1,19 @@
+{
+  "schema": "pump.filter-definition/1",
+  "id": "buyer-diversity",
+  "version": "1.0.0",
+  "name": "Buyer Diversity",
+  "description": "Select launches with at least the requested distinct buying wallets in the first minute.",
+  "source_schema": "pump.first-minute-features/1",
+  "formula_version": "first-minute/1",
+  "window_ms": 60000,
+  "missing_policy": "unknown",
+  "parameters": {
+    "min_unique_buyers": 5
+  },
+  "expression": {
+    "op": "gte",
+    "field": "unique_buyers",
+    "value": 5
+  }
+}

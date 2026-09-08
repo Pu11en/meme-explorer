@@ -41,5 +41,11 @@
       "reason": "The committed profile points to an absent Linux data root; only the legacy ten-second metric is currently implemented."
     }
   ],
-  "previous_plan_owner": "1546795050514653215"
+  "previous_plan_owner": "1546795050514653215",
+  "implementation_authorization": {
+    "date": "2026-09-08",
+    "thread_id": "1546847282698129538",
+    "instruction": "Right we just need the data to to train or to not train but to use it for the six filters so yeah continue",
+    "scope": "six-filter milestone; later workbench waves remain separate"
+  }
 }

@@ -1,0 +1,150 @@
+{
+  "runtime_source_hashes": {
+    "lib/analysis/filters/extract.js": "f4f1ad561fa549f868d925658b395bdcf579e48f58cc91835e4302f353a7afde",
+    "lib/analysis/filters/evaluate.js": "bb5fc7709364c161d0553923c1c99e269c2f1486cf85491b14f6dbf774519e7c",
+    "lib/analysis/contracts/first-minute.js": "522423d7ce08fa816d094f30399ae8c583225338d787bb91fe04668a2af091e1",
+    "lib/analysis/catalog/filters.js": "54b0691925dc32d57c2a3d8f0367659317ad16e37c275982a357c0138d50620b",
+    "lib/analysis/filters/artifacts.js": "550ecdc53dfd5f73c48fce9d36d37beebcfd6f57c2e81cd447c1d756008f9c74"
+  },
+  "baseline_semantic_parity": {
+    "passed": true,
+    "replicas": 2,
+    "observations_checked": 1184
+  },
+  "case": "2x synthetic volume",
+  "factor": 2,
+  "synthetic": true,
+  "commit": "583ef54e39935c09c3481465f1f35b9b8b75ca63",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
+    "logical_cpus": 6,
+    "total_memory_bytes": 8589934592,
+    "node": "v22.23.1"
+  },
+  "input_raw_records": 2149746,
+  "input_raw_bytes": 4368559166,
+  "observations": 1184,
+  "known_wallets": 18176,
+  "extraction_seconds": 673.2015841570001,
+  "filter_seconds": 0.29437151399999856,
+  "total_seconds": 673.5993669850001,
+  "peak_rss_bytes": 160006144,
+  "derived_bytes": 2941066,
+  "temporary_bytes": 0,
+  "free_bytes_before": 35515056128,
+  "free_bytes_after": 35329183744,
+  "max_receipt_bytes": 5598,
+  "feature_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001-load2/features.json",
+  "feature_content_hash": "1ba8b9a8d376cda9384a0b437d7e0bd440fd88d656e9a17e1d36e5ec429152a5",
+  "summary": {
+    "observations": 1184,
+    "complete": 1062,
+    "unobservable": 122,
+    "zero_buys": 48,
+    "missing_wallets": 0
+  },
+  "filters": [
+    {
+      "filter_id": "observable-launches",
+      "summary": {
+        "input": 1184,
+        "members": 1062,
+        "rejected": 122,
+        "unobservable": 0,
+        "missing_selected": 0,
+        "reasons": {
+          "observation_status_not_equal": 122,
+          "recording_ended_early": 122
+        }
+      },
+      "content_hash": "55c47793b596afbb6fe02518c2c0953dae420a39fced4c544c573f4118521b1f",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001-load2/observable-launches.json"
+    },
+    {
+      "filter_id": "minimum-buy-activity",
+      "summary": {
+        "input": 1184,
+        "members": 402,
+        "rejected": 660,
+        "unobservable": 122,
+        "missing_selected": 0,
+        "reasons": {
+          "buy_count_below_minimum": 660,
+          "buy_count_unavailable": 122,
+          "recording_ended_early": 122
+        }
+      },
+      "content_hash": "a427c95030239ffde964136afd79eb688c5167009f5de21c78afeeda27f67d4a",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001-load2/minimum-buy-activity.json"
+    },
+    {
+      "filter_id": "buyer-diversity",
+      "summary": {
+        "input": 1184,
+        "members": 454,
+        "rejected": 608,
+        "unobservable": 122,
+        "missing_selected": 0,
+        "reasons": {
+          "unique_buyers_below_minimum": 608,
+          "recording_ended_early": 122,
+          "unique_buyers_unavailable": 122
+        }
+      },
+      "content_hash": "5c76d8015ae5fcea32a94a740e2bb5a93d31b62c8af6a05700db9f36585b0ae5",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001-load2/buyer-diversity.json"
+    },
+    {
+      "filter_id": "repeat-buyer-concentration",
+      "summary": {
+        "input": 1184,
+        "members": 264,
+        "rejected": 750,
+        "unobservable": 170,
+        "missing_selected": 0,
+        "reasons": {
+          "repeat_ratio_below_minimum": 750,
+          "repeat_ratio_unavailable": 170,
+          "recording_ended_early": 122
+        }
+      },
+      "content_hash": "d08cb762307c4e44314250ef1ea2bde8f5b6905678ab4f56833cfe13fbad3a4a",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001-load2/repeat-buyer-concentration.json"
+    },
+    {
+      "filter_id": "launch-activity-shape",
+      "summary": {
+        "input": 1184,
+        "members": 152,
+        "rejected": 910,
+        "unobservable": 122,
+        "missing_selected": 0,
+        "reasons": {
+          "buy_buckets_sustained_failed": 910,
+          "buy_buckets_unavailable": 122,
+          "recording_ended_early": 122
+        }
+      },
+      "content_hash": "53704a83a40963939df2f9f6e76b2718d4b67e5017e899cc99ec9ad8f934f037",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001-load2/launch-activity-shape.json"
+    },
+    {
+      "filter_id": "new-buyer-arrival-rate",
+      "summary": {
+        "input": 1184,
+        "members": 64,
+        "rejected": 998,
+        "unobservable": 122,
+        "missing_selected": 0,
+        "reasons": {
+          "arrival_buckets_sustained_failed": 998,
+          "arrival_buckets_unavailable": 122,
+          "recording_ended_early": 122
+        }
+      },
+      "content_hash": "e2d2be2e7667551d2636fb33ab55c9aff2f71ac7b06e1eb36869ebc1d4c20646",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001-load2/new-buyer-arrival-rate.json"
+    }
+  ],
+  "budgets_pass": true
+}

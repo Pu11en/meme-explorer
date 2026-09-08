@@ -31,7 +31,12 @@
     "test": "pnpm run build && node --test test/*.test.mjs",
     "check": "pnpm run typecheck && pnpm run test",
     "analysis:comparison": "node lib/analysis/comparison-cli.js",
-    "analysis:serve": "node lib/analysis/comparison-server.js"
+    "analysis:serve": "node lib/analysis/comparison-server.js",
+    "analyze:60s": "node lib/analysis/filters/analyze-cli.js",
+    "analysis:filters": "node lib/analysis/filters/filter-cli.js",
+    "analysis:60s-page": "node lib/analysis/filters/page-cli.js",
+    "analysis:catalog-check": "node scripts/analysis/generate-skills.mjs --check",
+    "analysis:batch": "node lib/analysis/filters/run-cli.js"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",

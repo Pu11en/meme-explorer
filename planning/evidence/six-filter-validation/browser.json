@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "filter_counts": [
+    {
+      "id": "observable-launches",
+      "members": 531,
+      "title": "Complete First-Minute Coverage",
+      "rows": 50,
+      "info": "531 coins · Page 1 of 11"
+    },
+    {
+      "id": "minimum-buy-activity",
+      "members": 201,
+      "title": "Minimum Buy Activity",
+      "rows": 50,
+      "info": "201 coins · Page 1 of 5"
+    },
+    {
+      "id": "buyer-diversity",
+      "members": 227,
+      "title": "Buyer Diversity",
+      "rows": 50,
+      "info": "227 coins · Page 1 of 5"
+    },
+    {
+      "id": "repeat-buyer-concentration",
+      "members": 132,
+      "title": "Repeat-Buyer Concentration",
+      "rows": 50,
+      "info": "132 coins · Page 1 of 3"
+    },
+    {
+      "id": "launch-activity-shape",
+      "members": 76,
+      "title": "Buy Activity Shape",
+      "rows": 50,
+      "info": "76 coins · Page 1 of 2"
+    },
+    {
+      "id": "new-buyer-arrival-rate",
+      "members": 32,
+      "title": "New Buyer Arrival Rate",
+      "rows": 32,
+      "info": "32 coins · Page 1 of 1"
+    }
+  ],
+  "errors": [],
+  "network_requests": [
+    "http://127.0.0.1:4182/"
+  ],
+  "desktop": {
+    "width": 1280,
+    "height": 900
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844
+  }
+}

@@ -1,0 +1,2748 @@
+{
+  "schema": "pump.independent-recount/1",
+  "source_feature_hash": "af7e8e94755db9b0bb0823f66c367e335ff677c0a12fc01808e6ee2d10d176f1",
+  "sample_size": 10,
+  "discrepancies": [],
+  "creation_venues": {
+    "pump": 592,
+    "meteora-launchpad": 58,
+    "raydium-launchpad": 1
+  },
+  "manifest_coverage": {
+    "run-0001-20260901T090521.931Z": {
+      "start": "2026-09-01T09:05:21.931Z",
+      "end": "2026-09-01T09:10:20.876Z"
+    },
+    "run-0002-20260902T213813.900Z": {
+      "start": "2026-09-02T21:38:13.900Z",
+      "end": "2026-09-02T21:48:13.900Z"
+    },
+    "run-0003-20260904T012430.686Z": {
+      "start": "2026-09-04T01:24:30.686Z",
+      "end": "2026-09-04T01:34:29.032Z"
+    },
+    "run-0004-20260904T025702.891Z": {
+      "start": "2026-09-04T02:57:02.891Z",
+      "end": "2026-09-04T03:02:00.999Z"
+    }
+  },
+  "checks": [
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"3ffrM2LtPg3HSHPoUK8U43M7xYccoiYqqUoC5824pump\"]",
+      "status": "unobservable",
+      "expected": {
+        "buy_count": 0,
+        "buy_bars": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "buy_buckets": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 0,
+        "unique_buyers": 0,
+        "repeat_buy_count": 0,
+        "arrival_bars": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arrival_buckets": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "source_refs": []
+    },
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"2j1Z2pPg8mbkjNoFnuy1cQAqG1gvfue4NCP6WKbjpump\"]",
+      "status": "complete",
+      "expected": {
+        "buy_count": 0,
+        "buy_bars": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "buy_buckets": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 0,
+        "unique_buyers": 0,
+        "repeat_buy_count": 0,
+        "arrival_bars": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arrival_buckets": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "source_refs": []
+    },
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"25aM2bEBEPe7vTVZ4qJaeA8eeME7pvrpmHsjpEA1pump\"]",
+      "status": "complete",
+      "expected": {
+        "buy_count": 85,
+        "buy_bars": [
+          3,
+          0,
+          0,
+          1,
+          3,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          2,
+          3,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          0,
+          1,
+          0,
+          3,
+          2,
+          1,
+          1,
+          0,
+          2,
+          2,
+          0,
+          1,
+          2,
+          2,
+          2,
+          0,
+          3,
+          1,
+          0,
+          1,
+          0,
+          2,
+          2,
+          0,
+          2,
+          4,
+          2,
+          5,
+          3,
+          6
+        ],
+        "buy_buckets": [
+          10,
+          12,
+          13,
+          12,
+          12,
+          26
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 20,
+        "unique_buyers": 20,
+        "repeat_buy_count": 65,
+        "arrival_bars": [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4,
+          0,
+          2,
+          1,
+          0
+        ],
+        "arrival_buckets": [
+          3,
+          4,
+          2,
+          3,
+          1,
+          7
+        ]
+      },
+      "source_refs": [
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 93457,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 93612,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 94035,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 96053,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 96732,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 96961,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 97163,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 98249,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 99049,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 99464,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 102852,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 104162,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 104857,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 105248,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 106043,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 106166,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 106902,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 107237,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 107542,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 107728,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 108405,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 108632,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 109400,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 109790,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 110870,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 111257,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 111441,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 111932,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 112614,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 112846,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 113629,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 114053,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 114812,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 115052,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 115399,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 116901,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 118202,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 118223,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 118719,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 119134,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 119398,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 119901,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 120207,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 121498,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 121933,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 122030,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 122305,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 123487,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 124067,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 124517,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 125225,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 125567,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 125821,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 126252,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 127449,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 127454,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 127455,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 128139,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 129910,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 130843,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 131225,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 131508,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 131908,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 132783,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 132854,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 133866,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 133870,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 133873,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 133874,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 134113,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 134521,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 134789,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 134878,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 134885,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 134888,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 134889,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 135472,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 135591,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 135849,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 136173,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 136175,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 136177,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 136263,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 136468,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 136694,
+          "item_index": 0
+        }
+      ]
+    },
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"25aM6JbktHTYZNTa1wNdGyjYvwfZeDbAZVXKEcvmpump\"]",
+      "status": "complete",
+      "expected": {
+        "buy_count": 2,
+        "buy_bars": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "buy_buckets": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 2,
+        "unique_buyers": 2,
+        "repeat_buy_count": 0,
+        "arrival_bars": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arrival_buckets": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "source_refs": [
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 102071,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 102387,
+          "item_index": 0
+        }
+      ]
+    },
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"28ztCET2rFTFMagTygYHPnwHRAPS3HF2iE2FoPnzpump\"]",
+      "status": "complete",
+      "expected": {
+        "buy_count": 3,
+        "buy_bars": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "buy_buckets": [
+          2,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 3,
+        "unique_buyers": 3,
+        "repeat_buy_count": 0,
+        "arrival_bars": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arrival_buckets": [
+          2,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "source_refs": [
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 12552,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 12678,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 28413,
+          "item_index": 0
+        }
+      ]
+    },
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"2ZDBfL4rf1HVFymRVpGssAU3i4q2WJrwG7T2F18Upump\"]",
+      "status": "complete",
+      "expected": {
+        "buy_count": 1,
+        "buy_bars": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "buy_buckets": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 1,
+        "unique_buyers": 1,
+        "repeat_buy_count": 0,
+        "arrival_bars": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arrival_buckets": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "source_refs": [
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 81211,
+          "item_index": 0
+        }
+      ]
+    },
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"2seCA5fincV1hXtRfzuFf2YSYBVd2tq3k4k8Hsappump\"]",
+      "status": "complete",
+      "expected": {
+        "buy_count": 5,
+        "buy_bars": [
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "buy_buckets": [
+          4,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 5,
+        "unique_buyers": 5,
+        "repeat_buy_count": 0,
+        "arrival_bars": [
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arrival_buckets": [
+          4,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "source_refs": [
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 112390,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 112392,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 112396,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 112553,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 128154,
+          "item_index": 0
+        }
+      ]
+    },
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"3J33U4z7VYEbPDtifVNipD9ww1hiXGW5o2rBD4kGpump\"]",
+      "status": "complete",
+      "expected": {
+        "buy_count": 140,
+        "buy_bars": [
+          7,
+          0,
+          3,
+          6,
+          4,
+          9,
+          1,
+          7,
+          6,
+          3,
+          1,
+          0,
+          3,
+          1,
+          0,
+          5,
+          2,
+          2,
+          7,
+          2,
+          0,
+          1,
+          0,
+          2,
+          1,
+          6,
+          3,
+          1,
+          3,
+          7,
+          3,
+          2,
+          1,
+          3,
+          0,
+          0,
+          5,
+          6,
+          1,
+          1,
+          3,
+          4,
+          2,
+          6,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          6,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "buy_buckets": [
+          46,
+          23,
+          24,
+          22,
+          17,
+          8
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 105,
+        "unique_buyers": 105,
+        "repeat_buy_count": 35,
+        "arrival_bars": [
+          7,
+          0,
+          3,
+          6,
+          4,
+          9,
+          1,
+          7,
+          4,
+          3,
+          1,
+          0,
+          3,
+          1,
+          0,
+          2,
+          1,
+          2,
+          7,
+          1,
+          0,
+          1,
+          0,
+          2,
+          1,
+          1,
+          0,
+          1,
+          3,
+          6,
+          3,
+          2,
+          1,
+          3,
+          0,
+          0,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          5,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arrival_buckets": [
+          44,
+          18,
+          15,
+          14,
+          13,
+          1
+        ]
+      },
+      "source_refs": [
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 140546,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 140550,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 140552,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 140554,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 140590,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 140592,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 140594,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 142046,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 142305,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 142309,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143028,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143031,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143033,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143070,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143112,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143220,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143641,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143735,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143737,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 143739,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 144133,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 144135,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 144138,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 144426,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 144670,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 144686,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 144822,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 144829,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 145037,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 145221,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 145809,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 145811,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 145813,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 145817,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 145976,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 145996,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 146084,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 146585,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 146618,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 146661,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 146670,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 147152,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 147280,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 147701,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 147944,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 147980,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 148398,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 149966,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 149968,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 149972,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 150937,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 151892,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 152155,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 152159,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 152246,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 152348,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 152704,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 153198,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 153452,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 153830,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 154199,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 154493,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 154498,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 154504,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 154526,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 154528,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 154681,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 155127,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 155278,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 156122,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 157794,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 158055,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 158761,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 159271,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 159273,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 159367,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 159471,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 159476,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 159482,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 160175,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 160179,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 160187,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 160360,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 161461,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 161466,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 161684,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162042,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162053,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162157,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162228,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162319,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162384,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162460,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162485,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162542,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 162616,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 163203,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 163216,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 163829,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 165088,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 165092,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 165097,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 167135,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 167561,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 167573,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 167632,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 167680,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 167810,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 167865,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 167964,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 168048,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 168178,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 168258,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 168875,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 169330,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 170144,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 170200,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 170369,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 171222,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 171343,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 171396,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 171401,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 171964,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 172090,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 172717,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 172880,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 173026,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 173043,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 173117,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 173138,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 173588,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 175905,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 178410,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 180421,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 180424,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 180428,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 180655,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 180659,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 180661,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 185779,
+          "item_index": 0
+        }
+      ]
+    },
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"3Wcyi8Bt5uzLtMyACwidDxV1ECLdG8UR8fR94PWepump\"]",
+      "status": "complete",
+      "expected": {
+        "buy_count": 2,
+        "buy_bars": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "buy_buckets": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 2,
+        "unique_buyers": 2,
+        "repeat_buy_count": 0,
+        "arrival_bars": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arrival_buckets": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "source_refs": [
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 165025,
+          "item_index": 0
+        },
+        {
+          "file": "runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+          "line": 165548,
+          "item_index": 0
+        }
+      ]
+    },
+    {
+      "observation_id": "[\"run-0001-20260901T090521.931Z\",\"4EWbLSUNZV5KYZHnPqaXKEa25KoWLrCqc47eJXqMpump\"]",
+      "status": "complete",
+      "expected": {
+        "buy_count": 0,
+        "buy_bars": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "buy_buckets": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "missing_wallet_buys": 0,
+        "known_unique_buyers": 0,
+        "unique_buyers": 0,
+        "repeat_buy_count": 0,
+        "arrival_bars": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "arrival_buckets": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "source_refs": []
+    }
+  ]
+}
