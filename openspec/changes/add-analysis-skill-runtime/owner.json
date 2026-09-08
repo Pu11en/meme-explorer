@@ -1,0 +1,15 @@
+{
+  "change": "add-analysis-skill-runtime",
+  "thread_id": "1546664272094953562",
+  "plan_owner": "1546664272094953562",
+  "decisions": [
+    {
+      "decision": "Use deterministic local processing and expose only a compact receipt to Luna.",
+      "reason": "Keep model usage cheap and prevent raw-record counting errors."
+    },
+    {
+      "decision": "Treat buys in the first ten seconds as a metric until outcome validation establishes it as a signal.",
+      "reason": "Preserve the distinction between measured facts and predictive evidence."
+    }
+  ]
+}
