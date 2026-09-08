@@ -13,8 +13,8 @@
       "reason": "The project has no validated universal success threshold, and collapsing outcomes would hide material differences."
     },
     {
-      "decision": "Use migration within 24 hours as the default v1 comparison profile while retaining configurable profiles.",
-      "reason": "Migration is the first objective, canonically reconcilable outcome already supported by the project's provider research."
+      "decision": "Use migration within 3 hours as the default v1 comparison profile while retaining configurable profiles.",
+      "reason": "Drew selected a three-hour horizon; migration is the first objective, canonically reconcilable outcome already supported by the project's provider research."
     },
     {
       "decision": "Separate implementation into a committed contract foundation, parallel capability builds, and a final integration wave after user approval.",

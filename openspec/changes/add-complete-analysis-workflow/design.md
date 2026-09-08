@@ -2,7 +2,7 @@
 
 The repository is a dependency-light TypeScript package with immutable run datasets, normalized migrations and market snapshots, locally derived candles, a versioned analysis result contract, a cataloged ten-second buy-activity skill, and a self-contained comparison page. The current analyzer correctly separates complete zero-buy observations from unobservable windows and bounds model-facing receipts. See `proposal.md` for motivation and the five capability specs for required behavior.
 
-Earlier project research deliberately declined to call any early variable predictive before a later outcome, decision cutoff, leakage policy, and out-of-sample comparison existed. The design must preserve that evidence boundary. Current Batch 001 may not contain 24 hours of follow-up evidence, so a useful system must represent censored and unavailable outcomes honestly instead of manufacturing labels.
+Earlier project research deliberately declined to call any early variable predictive before a later outcome, decision cutoff, leakage policy, and out-of-sample comparison existed. The design must preserve that evidence boundary. Current Batch 001 may not contain 3 hours of follow-up evidence, so a useful system must represent censored and unavailable outcomes honestly instead of manufacturing labels.
 
 ## Goals / Non-Goals
 
@@ -49,7 +49,7 @@ The initial catalog will expose five approachable filters: observable launches, 
 
 Outcome facts are observations: reconciled migration events, time-stamped price or quote points, route checks, depth, liquidity, and coverage intervals. Outcome checks interpret those facts under a versioned profile. The per-check state is `passed`, `failed`, `censored`, or `unavailable`; only `passed` and `failed` enter an evaluated rate.
 
-The initial default profile will be `migration-within-24h/v1`: finalized or otherwise canonically reconciled migration by `creation + 24h`. This is a transparent proxy, not a claim of trading profitability. It was chosen over a default price multiplier because the project can identify migration canonically while current market-cap snapshots do not establish executable returns.
+The initial default profile will be `migration-within-3h/v1`: finalized or otherwise canonically reconciled migration by `creation + 3h`. This is a transparent proxy, not a claim of trading profitability. Drew selected the three-hour horizon; migration was chosen over a default price multiplier because the project can identify it canonically while current market-cap snapshots do not establish executable returns.
 
 Breakout profiles will require a declared decision-time baseline, quote notional, fee treatment, return threshold, and horizon. Durability profiles will require a later horizon, route/depth requirements, and retention terms. The engine supports these checks, but no breakout or durability result is emitted when its evidence contract is unmet.
 
@@ -110,7 +110,7 @@ The integration owner alone updates shared exports/scripts, merges in prerequisi
 
 ## Risks / Trade-offs
 
-- **[Batch 001 lacks a full 24-hour evidence window]** → Show censored/unavailable outcomes and validate mechanics with recorded fixtures; never present a fabricated success rate.
+- **[Batch 001 lacks a full 3-hour evidence window]** → Show censored/unavailable outcomes and validate mechanics with recorded fixtures; never present a fabricated success rate.
 - **[Migration is an imperfect proxy for economic success]** → Label the profile everywhere, keep alternative profiles separate, and avoid a universal success column.
 - **[Threshold exploration can overfit one batch]** → Persist every definition, show denominators/intervals, flag small samples, and reserve holdout/out-of-sample validation for a separately approved research phase.
 - **[Overlapping cohorts make lift easy to misread]** → Report overlap and population definitions beside every comparison.

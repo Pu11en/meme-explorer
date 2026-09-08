@@ -16,7 +16,7 @@
 ## 3. Parallel wave 1B — outcome checks worker
 
 - [ ] 3.1 Implement outcome-fact extraction and coverage calculation in `src/analysis/outcomes/**` from retained migrations, derived price/trade paths, market snapshots, and reliability facts; verify canonical and indexed evidence remain distinguishable.
-- [ ] 3.2 Implement `migration-within-24h/v1` with passed, failed, censored, and unavailable states; verify events on the horizon boundary pass, full-coverage non-events fail, and short coverage is censored outside the denominator.
+- [ ] 3.2 Implement `migration-within-3h/v1` with passed, failed, censored, and unavailable states; verify events on the horizon boundary pass, full-coverage non-events fail, and short coverage is censored outside the denominator.
 - [ ] 3.3 Implement configurable breakout and durability profile evaluators with declared decision baselines, notionals, fees, thresholds, horizons, routes/depth, and retention requirements; verify missing executable evidence returns unavailable instead of using market-cap proxies.
 - [ ] 3.4 Enforce feature and outcome clocks; verify the deliberately leaked fixture fails with the offending field and observation time while valid ten-second features pass.
 - [ ] 3.5 Save immutable outcome results and bounded receipts with profile, evidence references, timestamps, coverage, provider/commitment/parser provenance, and reasons; verify repeat execution is deterministic.

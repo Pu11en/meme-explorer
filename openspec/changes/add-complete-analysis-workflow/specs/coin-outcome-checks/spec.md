@@ -12,7 +12,7 @@ The system SHALL evaluate coins against a named, versioned outcome profile that 
 - **THEN** success labels and comparison summaries are recomputed under the new profile while the underlying outcome facts remain unchanged
 
 ### Requirement: Migration outcome is canonically time bounded
-The system SHALL provide a default `migration-within-24h/v1` profile that passes only when a reconciled migration is observed at or before 24 hours after creation. A coin whose observation coverage ends before 24 hours without a migration SHALL be right-censored rather than failed.
+The system SHALL provide a default `migration-within-3h/v1` profile that passes only when a reconciled migration is observed at or before 3 hours after creation. A coin whose observation coverage ends before 3 hours without a migration SHALL be right-censored rather than failed.
 
 #### Scenario: Recording ends before the horizon
 - **WHEN** a coin has no migration event and verified coverage ends two hours after creation
