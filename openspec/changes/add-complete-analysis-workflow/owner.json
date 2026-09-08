@@ -1,0 +1,24 @@
+{
+  "change": "add-complete-analysis-workflow",
+  "thread_id": "1546795050514653215",
+  "plan_owner": "1546795050514653215",
+  "role": "planning-and-integration-owner",
+  "decisions": [
+    {
+      "decision": "Extend the existing deterministic analysis runtime and comparison page instead of replacing their stored results.",
+      "reason": "Both foundations are implemented, tested, and already preserve observability and provenance."
+    },
+    {
+      "decision": "Keep migration, breakout, and durability as separate outcomes and make successful a named profile selection.",
+      "reason": "The project has no validated universal success threshold, and collapsing outcomes would hide material differences."
+    },
+    {
+      "decision": "Use migration within 24 hours as the default v1 comparison profile while retaining configurable profiles.",
+      "reason": "Migration is the first objective, canonically reconcilable outcome already supported by the project's provider research."
+    },
+    {
+      "decision": "Separate implementation into a committed contract foundation, parallel capability builds, and a final integration wave after user approval.",
+      "reason": "Shared schemas must be stable before workers can own disjoint modules without file conflicts."
+    }
+  ]
+}
