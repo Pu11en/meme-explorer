@@ -17,7 +17,7 @@ Use Batch 001 to implement and verify six named first-minute filters: complete c
 
 Readiness requires independent exact-count checks, real Batch 001 replay, repeatability, a one-hour-equivalent replay and a larger stress case, plus catalog/command consistency. Targets are recorded in the design; none have passed yet. Today's September 8 recordings (08:00–09:00 and 13:00–14:00 America/Chicago) are later compatibility checks using frozen definitions, not a reason to claim readiness before evidence exists.
 
-Batch 001's committed profile describes four runs, 30 minutes, and 1,074,873 raw records across mixed venues. Its original Linux data root is absent on this Mac; locate and verify the source recordings before claiming real-data validation. Synthetic tests can proceed independently. The existing 10-second analyzer remains the only implemented catalog skill at planning time.
+Batch 001's committed profile describes four runs, 30 minutes, and 1,074,873 raw records across mixed venues. The original Linux path was absent when planning began; the private handoff is now installed and checksum/count verified on the iMac (see `planning/evidence/batch-001-imac-import/`). First-minute filter validation remains pending. Synthetic tests can proceed independently. The existing 10-second analyzer remains the only implemented catalog skill at planning time.
 
 ## Capabilities
 

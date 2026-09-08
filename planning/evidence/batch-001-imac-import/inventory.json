@@ -1,0 +1,516 @@
+{
+  "schema": "meme-explorer.batch-handoff/1",
+  "handoff_id": "batch-001-imac-v1",
+  "generated_at": "2026-09-08T12:32:42.052Z",
+  "repository": {
+    "owner": "Pu11en",
+    "name": "meme-explorer",
+    "url": "https://github.com/Pu11en/meme-explorer",
+    "visibility_verified": "private",
+    "branch": "handoff/batch-001-imac",
+    "release_tag": "batch-001-imac-v1"
+  },
+  "batch": {
+    "batch_id": "batch-001",
+    "config_path": "analysis/batches/batch-001.json",
+    "config_sha256": "63958d5530f906c5d8febde59514560b9849a08aa1a3f8e6ec83c269f33c46fc",
+    "run_count": 4,
+    "run_ids": [
+      "run-0001-20260901T090521.931Z",
+      "run-0002-20260902T213813.900Z",
+      "run-0003-20260904T012430.686Z",
+      "run-0004-20260904T025702.891Z"
+    ]
+  },
+  "contents": {
+    "file_count": 58,
+    "extracted_size_bytes": 3916097642,
+    "run_file_count": 36,
+    "existing_analysis_file_count": 22,
+    "existing_analysis_result_count": 7,
+    "referenced_blob_count": 0,
+    "included_blob_file_count": 0
+  },
+  "archive": {
+    "filename": "batch-001-imac-v1.tar.zst",
+    "format": "POSIX tar compressed with Zstandard",
+    "compressed_size_bytes": 455129637,
+    "extracted_file_size_bytes": 3916097642,
+    "sha256": "7e39232f64cc23b08b96a274759b8a40287fb3e54740b5f3731a2756c7a966ca",
+    "part_count": 1,
+    "maximum_part_size_bytes": 1073741824,
+    "split_required": false
+  },
+  "verification": {
+    "manifest_counts_match_files": true,
+    "latest_raw_seq_equals_durable_raw_seq_for_all_runs": true,
+    "zstd_integrity_test": "passed",
+    "archive_member_count": 58,
+    "extracted_sha256_verified_file_count": 58,
+    "obvious_credential_pattern_file_matches": 0
+  },
+  "runs": [
+    {
+      "run_id": "run-0001-20260901T090521.931Z",
+      "label": "Run 001 — 2026-09-01T09:05:21.931Z — 5 min",
+      "status": "stopped",
+      "stop_reason": "timer_expired",
+      "duration_ms": 300000,
+      "started_at": "2026-09-01T09:05:21.931Z",
+      "stopped_at": "2026-09-01T09:10:20.876Z",
+      "latest_raw_seq": 210305,
+      "durable_raw_seq": 210305,
+      "repair_status": "not_attempted",
+      "missing_archives": [],
+      "manifest_counts": {
+        "raw_records": 210305,
+        "normalized_records": 577396,
+        "tokens": 33,
+        "reliability_records": 205643
+      },
+      "verified_actual_counts": {
+        "raw_records": 210305,
+        "normalized_records": 577396,
+        "tokens": 33,
+        "reliability_records": 205643
+      },
+      "file_count": 9,
+      "extracted_size_bytes": 733823174
+    },
+    {
+      "run_id": "run-0002-20260902T213813.900Z",
+      "label": "Run 002 — 2026-09-02T21:38:13.900Z — 10 min",
+      "status": "stopped",
+      "stop_reason": "timer_expired",
+      "duration_ms": 600000,
+      "started_at": "2026-09-02T21:38:13.900Z",
+      "stopped_at": "2026-09-02T21:48:16.378Z",
+      "latest_raw_seq": 369103,
+      "durable_raw_seq": 369103,
+      "repair_status": "not_attempted",
+      "missing_archives": [],
+      "manifest_counts": {
+        "raw_records": 369103,
+        "normalized_records": 1063031,
+        "tokens": 24,
+        "reliability_records": 380445
+      },
+      "verified_actual_counts": {
+        "raw_records": 369103,
+        "normalized_records": 1063031,
+        "tokens": 24,
+        "reliability_records": 380445
+      },
+      "file_count": 9,
+      "extracted_size_bytes": 1333670931
+    },
+    {
+      "run_id": "run-0003-20260904T012430.686Z",
+      "label": "Run 003 — 2026-09-04T01:24:30.686Z — 10 min",
+      "status": "stopped",
+      "stop_reason": "timer_expired",
+      "duration_ms": 600000,
+      "started_at": "2026-09-04T01:24:30.686Z",
+      "stopped_at": "2026-09-04T01:34:29.032Z",
+      "latest_raw_seq": 342146,
+      "durable_raw_seq": 342146,
+      "repair_status": "not_attempted",
+      "missing_archives": [],
+      "manifest_counts": {
+        "raw_records": 342146,
+        "normalized_records": 1011795,
+        "tokens": 23,
+        "reliability_records": 353674
+      },
+      "verified_actual_counts": {
+        "raw_records": 342146,
+        "normalized_records": 1011795,
+        "tokens": 23,
+        "reliability_records": 353674
+      },
+      "file_count": 9,
+      "extracted_size_bytes": 1269749728
+    },
+    {
+      "run_id": "run-0004-20260904T025702.891Z",
+      "label": "Run 004 — 2026-09-04T02:57:02.891Z — 5 min",
+      "status": "stopped",
+      "stop_reason": "timer_expired",
+      "duration_ms": 300000,
+      "started_at": "2026-09-04T02:57:02.891Z",
+      "stopped_at": "2026-09-04T03:02:00.999Z",
+      "latest_raw_seq": 153319,
+      "durable_raw_seq": 153319,
+      "repair_status": "not_attempted",
+      "missing_archives": [],
+      "manifest_counts": {
+        "raw_records": 153319,
+        "normalized_records": 458824,
+        "tokens": 16,
+        "reliability_records": 171030
+      },
+      "verified_actual_counts": {
+        "raw_records": 153319,
+        "normalized_records": 458824,
+        "tokens": 16,
+        "reliability_records": 171030
+      },
+      "file_count": 9,
+      "extracted_size_bytes": 568285093
+    }
+  ],
+  "existing_analysis_results": [
+    {
+      "result_id": "batch-001-ten-second-buy-activity-1-0307e39ac545bd0a",
+      "file_count": 3,
+      "extracted_size_bytes": 1487815
+    },
+    {
+      "result_id": "batch-001-ten-second-buy-activity-1-0b09689ce0595f78",
+      "file_count": 3,
+      "extracted_size_bytes": 1488153
+    },
+    {
+      "result_id": "batch-001-ten-second-buy-activity-1-0d39b5043ded7d78",
+      "file_count": 3,
+      "extracted_size_bytes": 1487815
+    },
+    {
+      "result_id": "batch-001-ten-second-buy-activity-1-4a4148671bbe67fd",
+      "file_count": 3,
+      "extracted_size_bytes": 1488192
+    },
+    {
+      "result_id": "batch-001-ten-second-buy-activity-1-90dcb890988320a8",
+      "file_count": 3,
+      "extracted_size_bytes": 1488192
+    },
+    {
+      "result_id": "batch-001-ten-second-buy-activity-1-e3270473b7bad450",
+      "file_count": 4,
+      "extracted_size_bytes": 1640357
+    },
+    {
+      "result_id": "batch-001-ten-second-buy-activity-1-eabdab6f6d7f3f1b",
+      "file_count": 3,
+      "extracted_size_bytes": 1488192
+    }
+  ],
+  "missing_files": [],
+  "dependencies": [
+    {
+      "name": "git",
+      "purpose": "clone the private repository and handoff branch"
+    },
+    {
+      "name": "GitHub CLI (gh)",
+      "purpose": "authenticate and download private release assets"
+    },
+    {
+      "name": "zstd",
+      "purpose": "decompress the .tar.zst archive on macOS"
+    },
+    {
+      "name": "sha256sum or shasum",
+      "purpose": "verify archive and extracted file checksums"
+    }
+  ],
+  "excluded": [
+    "credentials and environment files",
+    "recordings outside Batch 001",
+    "unrelated analysis datasets",
+    "empty blob directories (the four runs contain no blob_ref references)"
+  ],
+  "files": [
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-0307e39ac545bd0a/receipt.json",
+      "size_bytes": 31964,
+      "sha256": "9bcc78f123b643de560c1a1fdf91e80773166ba91bc8a6dfb0e568662682282a"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-0307e39ac545bd0a/result.json",
+      "size_bytes": 908640,
+      "sha256": "04e286df3beb5472a2b933633ce3a6183feb5cd3a2808a2154305eeb51af3d2b"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-0307e39ac545bd0a/rows.ndjson",
+      "size_bytes": 547211,
+      "sha256": "687098fc0a68a264cc67c1f20e0d0a9b392a9153ce7f2afaf44c016678d8a46d"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-0b09689ce0595f78/receipt.json",
+      "size_bytes": 32302,
+      "sha256": "91e208dd6ccd516c47032f8c2caaf78f631d47374eea4ee9c2ae0589e701a550"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-0b09689ce0595f78/result.json",
+      "size_bytes": 908640,
+      "sha256": "175311ea8d8759f89bf67a8099eab8eba569dc084f3e94d255bd7d805bb53c9d"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-0b09689ce0595f78/rows.ndjson",
+      "size_bytes": 547211,
+      "sha256": "687098fc0a68a264cc67c1f20e0d0a9b392a9153ce7f2afaf44c016678d8a46d"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-0d39b5043ded7d78/receipt.json",
+      "size_bytes": 31964,
+      "sha256": "9653fead6ef6e246c98ea85bd94d2adbf6791c23937d739d31e3960e0b3bf37f"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-0d39b5043ded7d78/result.json",
+      "size_bytes": 908640,
+      "sha256": "95656bde8cfe15035d03db78a5be99716ddff434bad4d3d8840e2a5a2a7ce24d"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-0d39b5043ded7d78/rows.ndjson",
+      "size_bytes": 547211,
+      "sha256": "687098fc0a68a264cc67c1f20e0d0a9b392a9153ce7f2afaf44c016678d8a46d"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-4a4148671bbe67fd/receipt.json",
+      "size_bytes": 32341,
+      "sha256": "dbbc95fd403ed27e92f21991e2b10d05b9ac3e4a09e2e9d3d53c39f888099941"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-4a4148671bbe67fd/result.json",
+      "size_bytes": 908640,
+      "sha256": "aa6d370bfeabd6794522e236e4aaa940c6eb2a1b9a519103592c7ddae23b6c1d"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-4a4148671bbe67fd/rows.ndjson",
+      "size_bytes": 547211,
+      "sha256": "687098fc0a68a264cc67c1f20e0d0a9b392a9153ce7f2afaf44c016678d8a46d"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-90dcb890988320a8/receipt.json",
+      "size_bytes": 32341,
+      "sha256": "cf6c9676b12b24df02f62cb900f9fea7ff8b0861a1f949df6d3684531cfab558"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-90dcb890988320a8/result.json",
+      "size_bytes": 908640,
+      "sha256": "bde26c60e586334b974aac25ce411a4f06b94a2d646b511a1fffff4f9c1aced2"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-90dcb890988320a8/rows.ndjson",
+      "size_bytes": 547211,
+      "sha256": "687098fc0a68a264cc67c1f20e0d0a9b392a9153ce7f2afaf44c016678d8a46d"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-e3270473b7bad450/receipt.json",
+      "size_bytes": 32341,
+      "sha256": "b3a398377e441ee854f987b427ceb7f9f7d8bea392800ca19f7cdb9f8ba6788f"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-e3270473b7bad450/result.json",
+      "size_bytes": 908640,
+      "sha256": "179f301701b752f95689284bdb83e29bca87d31f17792e1b752449d0bd92dca6"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-e3270473b7bad450/rows.ndjson",
+      "size_bytes": 547211,
+      "sha256": "687098fc0a68a264cc67c1f20e0d0a9b392a9153ce7f2afaf44c016678d8a46d"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-e3270473b7bad450/visual-report-page2.png",
+      "size_bytes": 152165,
+      "sha256": "b3b4a3b10d6932fd47fe399d13eba8acc5fec86cfeb139cf61cc0bd68b9be61b"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-eabdab6f6d7f3f1b/receipt.json",
+      "size_bytes": 32341,
+      "sha256": "00ce4dde81753de6c8430d37d9cef33c2b94e56c35734379daf1d5e88fdc6193"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-eabdab6f6d7f3f1b/result.json",
+      "size_bytes": 908640,
+      "sha256": "722c2ecddcca0658dcbe8dededc642a1d5cc6c096ad96b1ebced9ae9b2424838"
+    },
+    {
+      "path": "data/analysis/batch-001/ten-second-buy-activity/batch-001-ten-second-buy-activity-1-eabdab6f6d7f3f1b/rows.ndjson",
+      "size_bytes": 547211,
+      "sha256": "687098fc0a68a264cc67c1f20e0d0a9b392a9153ce7f2afaf44c016678d8a46d"
+    },
+    {
+      "path": "data/runs/run-0001-20260901T090521.931Z/manifest.json",
+      "size_bytes": 963,
+      "sha256": "7ab30d31d9ab16eebcd1026459554fdeb75ff3ce53b28e35abb7977ab79383f0"
+    },
+    {
+      "path": "data/runs/run-0001-20260901T090521.931Z/normalized/curves.ndjson",
+      "size_bytes": 1961310,
+      "sha256": "5e11cfa5ba23d9bc7d49a743e7c5b8a3a5dfd559134d6332567298811d10d37c"
+    },
+    {
+      "path": "data/runs/run-0001-20260901T090521.931Z/normalized/events.ndjson",
+      "size_bytes": 142787346,
+      "sha256": "dcba9f90f16e912ab69142ed44e125369b2f3226c681ac04a30df7e1090133d1"
+    },
+    {
+      "path": "data/runs/run-0001-20260901T090521.931Z/normalized/migrations.ndjson",
+      "size_bytes": 3501,
+      "sha256": "5793c3f5a508fe614e6323f8f8ab8d0ef608a37ba2330e2d2cf28355701fe664"
+    },
+    {
+      "path": "data/runs/run-0001-20260901T090521.931Z/normalized/reliability.ndjson",
+      "size_bytes": 83848784,
+      "sha256": "f895be66cd8233f19a6d51bdfde81d63752fdba6795db2a64488d501d06ec7cd"
+    },
+    {
+      "path": "data/runs/run-0001-20260901T090521.931Z/normalized/tokens.ndjson",
+      "size_bytes": 27513,
+      "sha256": "e79718f216ae9a092c39b9e678f6376253076a0d9cb740bacd67bcec6f78eae5"
+    },
+    {
+      "path": "data/runs/run-0001-20260901T090521.931Z/normalized/trades.ndjson",
+      "size_bytes": 2501672,
+      "sha256": "00f8b673fc46306c6fbb5ef74281fd5f1335036410a4d529ce9137b23642f6fa"
+    },
+    {
+      "path": "data/runs/run-0001-20260901T090521.931Z/normalized/wallets.ndjson",
+      "size_bytes": 92965671,
+      "sha256": "0b2eb9f709f40f9f5dd7cf65e5287eca672eee2bda4fb57d0fc72f4830b41633"
+    },
+    {
+      "path": "data/runs/run-0001-20260901T090521.931Z/raw/pumpapi-live.ndjson",
+      "size_bytes": 409726414,
+      "sha256": "4bbb087abc39ec1f1bb0845303bc1b084ba7bb2b5811886927e968824e704e19"
+    },
+    {
+      "path": "data/runs/run-0002-20260902T213813.900Z/manifest.json",
+      "size_bytes": 965,
+      "sha256": "66a219ba3bef0dd9ff8fb6710a0125d0403393b2150775875e1976dca23def8b"
+    },
+    {
+      "path": "data/runs/run-0002-20260902T213813.900Z/normalized/curves.ndjson",
+      "size_bytes": 7961775,
+      "sha256": "8a1d1e35f2c03a2d51dcaa18928c5bbebff08bbd9a0e7c319b8156d962d116a6"
+    },
+    {
+      "path": "data/runs/run-0002-20260902T213813.900Z/normalized/events.ndjson",
+      "size_bytes": 254011147,
+      "sha256": "3c0f2766defc9d57ab20257f681b1a3a04eb006b0152b46a9c4563fa92e07a37"
+    },
+    {
+      "path": "data/runs/run-0002-20260902T213813.900Z/normalized/migrations.ndjson",
+      "size_bytes": 12621,
+      "sha256": "f51ca3ab81e7542e0759477118a7ac665dfb6bc84dd365fbfa0bc5618de8dbe7"
+    },
+    {
+      "path": "data/runs/run-0002-20260902T213813.900Z/normalized/reliability.ndjson",
+      "size_bytes": 155275826,
+      "sha256": "bb72fe6009881f39271fd7ba4b7ea08d4def013d46022b3bfd0589af7855d602"
+    },
+    {
+      "path": "data/runs/run-0002-20260902T213813.900Z/normalized/tokens.ndjson",
+      "size_bytes": 20035,
+      "sha256": "7a07f92c89dc3b9cacb49155ebae52564b8fc4c400a63cd861414528916ded4f"
+    },
+    {
+      "path": "data/runs/run-0002-20260902T213813.900Z/normalized/trades.ndjson",
+      "size_bytes": 10231093,
+      "sha256": "170307af895f4a507bbd7e610565a34b3f368028135a9384491d7ea79c0ffa08"
+    },
+    {
+      "path": "data/runs/run-0002-20260902T213813.900Z/normalized/wallets.ndjson",
+      "size_bytes": 173230653,
+      "sha256": "d7d351ffce51b901cb3a7f65d434ad3ce2af09cba24cb4d8ef728b73e9815530"
+    },
+    {
+      "path": "data/runs/run-0002-20260902T213813.900Z/raw/pumpapi-live.ndjson",
+      "size_bytes": 732926816,
+      "sha256": "e066c72a41c41333761bfbce5ef2455dc6f01243d6d850a3f934b8f2af55a7ab"
+    },
+    {
+      "path": "data/runs/run-0003-20260904T012430.686Z/manifest.json",
+      "size_bytes": 965,
+      "sha256": "dba81707de005e19d63fd98434b4669f602ce5f91e08e1e78752d6efe459f7c7"
+    },
+    {
+      "path": "data/runs/run-0003-20260904T012430.686Z/normalized/curves.ndjson",
+      "size_bytes": 12948010,
+      "sha256": "ea770b3ebbb4a45256d710fc55f52a8e637e90efb99e58932ed36dbb7da7d343"
+    },
+    {
+      "path": "data/runs/run-0003-20260904T012430.686Z/normalized/events.ndjson",
+      "size_bytes": 236429342,
+      "sha256": "670f55aa7de6468bb262c0e195a240142b53541622a19714cf73508b94a625c7"
+    },
+    {
+      "path": "data/runs/run-0003-20260904T012430.686Z/normalized/migrations.ndjson",
+      "size_bytes": 19637,
+      "sha256": "b71f442eb1f2633433287f0d41ad8a6fa88f36a3e3e7a756fb2e909ca6852003"
+    },
+    {
+      "path": "data/runs/run-0003-20260904T012430.686Z/normalized/reliability.ndjson",
+      "size_bytes": 144263368,
+      "sha256": "2a556c5354a4e1604b6be475aa4e22d082e6d4cbf0f1affed77ee4754516d6ca"
+    },
+    {
+      "path": "data/runs/run-0003-20260904T012430.686Z/normalized/tokens.ndjson",
+      "size_bytes": 19310,
+      "sha256": "199f76b4e2ebfdc5d6370ccbc46b8edb0507cccc4764fc83580c7de3fd640509"
+    },
+    {
+      "path": "data/runs/run-0003-20260904T012430.686Z/normalized/trades.ndjson",
+      "size_bytes": 16699747,
+      "sha256": "1277486558a0f4ce528f30d512b1dd3e4dc79fa1c3a37f25ee28e2c4b96db50d"
+    },
+    {
+      "path": "data/runs/run-0003-20260904T012430.686Z/normalized/wallets.ndjson",
+      "size_bytes": 167353280,
+      "sha256": "15fc96b2073ad377827538b1d6997115c66732174bc5217998f1c0e5cfe14bac"
+    },
+    {
+      "path": "data/runs/run-0003-20260904T012430.686Z/raw/pumpapi-live.ndjson",
+      "size_bytes": 692016069,
+      "sha256": "20a77e344199df6a1eea27ba408d770feb15fd3c62d837d9a8f7f944d7ca9f52"
+    },
+    {
+      "path": "data/runs/run-0004-20260904T025702.891Z/manifest.json",
+      "size_bytes": 963,
+      "sha256": "36c6b4d97a7c96d806c4f81ba9eb8968eb20a9637be4d37a1bf041b53619af77"
+    },
+    {
+      "path": "data/runs/run-0004-20260904T025702.891Z/normalized/curves.ndjson",
+      "size_bytes": 1178219,
+      "sha256": "0ffc116371cdf726b63b58a5f3180607622d245e926e1c96d0ada1577ef6ddac"
+    },
+    {
+      "path": "data/runs/run-0004-20260904T025702.891Z/normalized/events.ndjson",
+      "size_bytes": 105673837,
+      "sha256": "6c088d26fca315963b33533043ff667fdcbe18dfa8e78ed04b764713aa57ec7c"
+    },
+    {
+      "path": "data/runs/run-0004-20260904T025702.891Z/normalized/migrations.ndjson",
+      "size_bytes": 4910,
+      "sha256": "c0953db579539197facf7de4d3fcc151484f8e4680706e90d1a951deab44f3c9"
+    },
+    {
+      "path": "data/runs/run-0004-20260904T025702.891Z/normalized/reliability.ndjson",
+      "size_bytes": 69710853,
+      "sha256": "355f4e5e2f4a3873c3dd319a1d351b9c5306399b291bba27b5c8b16aecb37169"
+    },
+    {
+      "path": "data/runs/run-0004-20260904T025702.891Z/normalized/tokens.ndjson",
+      "size_bytes": 13279,
+      "sha256": "3c345119920c06ca2cbd99e155030e291f4d3ce85cacf658fbb845af96627a40"
+    },
+    {
+      "path": "data/runs/run-0004-20260904T025702.891Z/normalized/trades.ndjson",
+      "size_bytes": 1498192,
+      "sha256": "14ea99dbe26dfa12f6ad6d41391f58521b62885a06f5499f3a123ae22ecb89a4"
+    },
+    {
+      "path": "data/runs/run-0004-20260904T025702.891Z/normalized/wallets.ndjson",
+      "size_bytes": 78275303,
+      "sha256": "1540555d69d33d05a2859ba6cad993fae4d7d005f03890e38c3675e8d2da20b3"
+    },
+    {
+      "path": "data/runs/run-0004-20260904T025702.891Z/raw/pumpapi-live.ndjson",
+      "size_bytes": 311929537,
+      "sha256": "5d624e4423ebc916698da4499e5ecf5c3e436d74bfc37d08a4b62f6f5d8eabf5"
+    }
+  ]
+}
