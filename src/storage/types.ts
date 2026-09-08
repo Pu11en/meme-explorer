@@ -32,7 +32,7 @@ export interface RunManifest {
   readonly run_id: string
   readonly label: string
   readonly sequence: number
-  readonly duration_ms: 300_000 | 600_000
+  readonly duration_ms: 300_000 | 600_000 | 3_600_000
   readonly status: RunDatasetStatus
   readonly stop_reason: DatasetStopReason | null
   readonly created_at: string

@@ -40,7 +40,7 @@ export function validateManifest(value: unknown): asserts value is RunManifest {
   string(record.run_id, 'manifest.run_id')
   string(record.label, 'manifest.label')
   integer(record.sequence, 'manifest.sequence')
-  if (record.duration_ms !== 300_000 && record.duration_ms !== 600_000) throw new Error('manifest duration must be 300000 or 600000')
+  if (record.duration_ms !== 300_000 && record.duration_ms !== 600_000 && record.duration_ms !== 3_600_000) throw new Error('manifest duration must be 300000, 600000 or 3600000')
   iso(record.started_at, 'manifest.started_at')
   iso(record.stops_at, 'manifest.stops_at')
   const latest = integer(record.latest_raw_seq, 'manifest.latest_raw_seq')
