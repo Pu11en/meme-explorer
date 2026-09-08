@@ -1,0 +1,22 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "durationSec": 199.38,
+  "migrationSampleSize": 3,
+  "probeDelaysSec": [0, 5, 15, 30, 60, 120],
+  "exactMigratedPairFirstVisibleSec": [60, 60, 60],
+  "tokenLookupAtMigration": {
+    "mint1": {"delay0PairCount": 1, "delay30PairCount": 2, "delay120PairCount": 2},
+    "mint2": {"delay0PairCount": 0, "delay60PairCount": 1, "delay120PairCount": 3},
+    "mint3": {"delay0PairCount": 1, "delay60PairCount": 2, "delay120PairCount": 2}
+  },
+  "responseLatencyMsObservedRange": [53.1, 281.5],
+  "cacheControl": "public, max-age=30",
+  "findings": [
+    "All 36 HTTP requests returned 200 without authentication or rate errors.",
+    "The exact PumpAPI-reported migrated pool was absent at 0, 5, 15 and 30 seconds for all three samples.",
+    "The exact migrated pool appeared by the 60-second probe for all three samples and remained visible at 120 seconds.",
+    "Token lookup may already return a pre-migration/bonding-curve pair, so token-lookup presence does not prove the migrated pool has indexed.",
+    "Token pair counts can increase over time as additional pools index.",
+    "The sample supports optional delayed market enrichment, not a universal 60-second guarantee or canonical migration truth."
+  ]
+}

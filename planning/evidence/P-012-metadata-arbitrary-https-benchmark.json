@@ -1,0 +1,35 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "sampleSize": 9,
+  "recheckDelaySec": 60,
+  "securityBoundary": {
+    "scheme": "HTTPS only",
+    "dnsRule": "Every resolved IPv4/IPv6 address had to be globally routable",
+    "redirects": "Disabled",
+    "responseByteCap": 1048576
+  },
+  "results": {
+    "safeGlobalDns": "9/9",
+    "initialHttp200": "9/9",
+    "recheckHttp200": "9/9",
+    "byteIdenticalAfter60Seconds": "9/9",
+    "jsonObjects": "8/9",
+    "directPngImage": "1/9",
+    "tooLarge": 0,
+    "jsonLatencyMsRangeAcrossBothPasses": [63.1, 434.6],
+    "pngLatencyMsRangeAcrossBothPasses": [1273.2, 1570.2]
+  },
+  "hosts": [
+    "metadata.j7tracker.io",
+    "s3.ap-southeast-1.amazonaws.com",
+    "fast-ipfs.com",
+    "metadata.pumper.ink",
+    "ipfs.launchblitz.ai"
+  ],
+  "findings": [
+    "All nine non-allowlisted fresh-token URIs were safely reachable in this bounded sample and were byte-stable after 60 seconds.",
+    "Eight returned metadata JSON; one URI returned image/png directly, proving the creation URI is not universally a JSON document across all launchpads.",
+    "Arbitrary HTTPS bytes are mutable and provider-dependent even when short-term hashes match.",
+    "A production fetcher must revalidate DNS and every redirect, block non-global addresses, cap bytes/time/decompression, treat Content-Type as untrusted, and store response hashes/failure states."
+  ]
+}

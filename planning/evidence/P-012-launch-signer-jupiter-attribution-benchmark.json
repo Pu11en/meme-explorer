@@ -1,0 +1,45 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "captureDurationSec": 73.59,
+  "pumpApiCreateSampleSize": 50,
+  "pumpApiCoverage": {
+    "txSigner": "50/50",
+    "signature": "50/50",
+    "timestamp": "50/50",
+    "block": "50/50",
+    "mint": "50/50",
+    "creatorFeeAddress": "49/50",
+    "uri": "50/50",
+    "priceAndAmounts": "50/50"
+  },
+  "duplicateSignerGroupsWithin73Seconds": {
+    "groupCount": 5,
+    "launchCounts": [2, 2, 2, 4, 2]
+  },
+  "jupiterBatchImmediatelyAfterCapture": {
+    "status": 200,
+    "latencyMs": 305.6,
+    "requestedMints": 50,
+    "indexed": 50,
+    "devPresent": 50,
+    "devMatchesPumpApiTxSigner": "50/50",
+    "devMatchesCreatorFeeAddressWherePresent": "49/49"
+  },
+  "jupiterBatchAfter120Seconds": {
+    "status": 200,
+    "latencyMs": 236.5,
+    "indexed": 50,
+    "devPresent": 50,
+    "devMatchesPumpApiTxSigner": "50/50",
+    "devMatchesCreatorFeeAddressWherePresent": "49/49",
+    "fullResponseChanged": true
+  },
+  "findings": [
+    "PumpAPI txSigner is complete enough in this bounded sample to build a deterministic signer-to-local-create-signatures index from installation onward.",
+    "Repeated signers appeared during only 73 seconds, proving the forward index has immediate observational value.",
+    "For fresh Pump creates, Jupiter dev exactly duplicated PumpAPI txSigner in all 50 samples; it was not an independent creator attribution source.",
+    "creatorFeeAddress is not universal and must not replace txSigner.",
+    "Jupiter devMints/devMigrations remain provider-derived and ambiguous; values can be very large and are not accompanied by signatures or methodology.",
+    "No source proves that txSigner is a human owner, sole controller, malicious actor, or the person responsible for future behavior."
+  ]
+}

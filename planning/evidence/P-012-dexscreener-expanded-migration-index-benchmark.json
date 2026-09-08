@@ -1,0 +1,22 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "durationSec": 452.04,
+  "migrationSampleSize": 10,
+  "probeDelaysSec": [0, 30, 60, 120],
+  "pumpApiDisconnects": 0,
+  "httpResults": {"http200": 40, "httpErrors": 0},
+  "exactMigratedPairVisible": {
+    "at0Sec": "0/10",
+    "by30Sec": "1/10",
+    "by60Sec": "9/10",
+    "by120Sec": "10/10"
+  },
+  "firstVisibleSec": [60, 120, 60, 60, 60, 60, 60, 30, 60, 60],
+  "medianFirstVisibleSec": 60,
+  "findings": [
+    "DEX Screener exact-pair lookup was consistently reachable throughout the bounded test.",
+    "No migrated pair was available immediately; most first appeared around the provider's 30-second cache boundaries by the 60-second probe.",
+    "One of ten required the 120-second probe, so the earlier three-token result of universal visibility by 60 seconds did not generalize.",
+    "This verifies useful delayed enrichment, not a maximum indexing bound, completeness promise, or migration authority."
+  ]
+}

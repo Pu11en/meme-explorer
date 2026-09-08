@@ -1,0 +1,25 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "endpoint": "GeckoTerminal v2-beta pool minute OHLCV",
+  "requestHeaders": {"Accept": "application/json;version=20230203"},
+  "recentMigratedPool": {
+    "pool": "fkyFigMX1i9rgHEhx98eDK11jyzByuxSdyfkbLmRi8t",
+    "status": 200,
+    "latencyMs": 492.6,
+    "minuteRows": 6,
+    "cacheControl": "max-age=30, public, must-revalidate, s-maxage=60",
+    "fieldsPerRow": ["unixTimestamp", "openUsd", "highUsd", "lowUsd", "closeUsd", "volumeUsd"]
+  },
+  "olderChainVerifiedPool": {
+    "pool": "8xLk5EMzJePzfmbAN3sSakwp9xdLT4vNw8U5UHFujwH",
+    "status": 404,
+    "latencyMs": 403.1,
+    "knownState": "Previously verified onchain as the exact canonical PumpSwap pool; earlier DEX Screener observations also later became null."
+  },
+  "conclusion": [
+    "GeckoTerminal supplies useful distinct minute OHLCV for some indexed migrated pools.",
+    "A 404 does not mean the pool never existed or is invalid.",
+    "Coverage and persistence are not dependable enough for canonical or durable history.",
+    "Use only as occasional nullable chart enrichment; retain local PumpAPI-derived candles for durable history."
+  ]
+}

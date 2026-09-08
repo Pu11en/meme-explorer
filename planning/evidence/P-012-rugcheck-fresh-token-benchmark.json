@@ -1,0 +1,53 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "durationSec": 163.66,
+  "sampleSize": 5,
+  "recheckDelaySec": 120,
+  "initialResults": {
+    "http200": 2,
+    "http400UnableToGenerate": 3,
+    "latencyMsRange": [404.6, 442.7]
+  },
+  "recheckResults": {
+    "http200": 5,
+    "latencyMsRange": [390.6, 426.6],
+    "allFiveReturnedSameBodyHash": "837d17a3bf883a4a98aa97d55b267ce5f4617e090128b0ef1ef4703084493348",
+    "commonBody": {
+      "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "tokenType": "",
+      "risks": [],
+      "score": 1,
+      "score_normalised": 1,
+      "lpLockedPct": 100
+    }
+  },
+  "materialInstability": {
+    "mint": "2xZ7w51EMJfbZCfZN8iJ7mQehZBJfTh51ncg9A5Npump",
+    "initial": {
+      "risks": [{
+        "name": "Creator history of rugged tokens",
+        "description": "Creator has a history of rugging tokens.",
+        "score": 105600,
+        "level": "danger"
+      }],
+      "score": 105601,
+      "score_normalised": 79,
+      "lpLockedPct": 0,
+      "bodyHash": "5767cdec6b3da635623c82515dba76796dffa7a5dd39c57efc4cc81b898fc15a"
+    },
+    "after120Seconds": {
+      "risks": [],
+      "score": 1,
+      "score_normalised": 1,
+      "lpLockedPct": 100,
+      "bodyHash": "837d17a3bf883a4a98aa97d55b267ce5f4617e090128b0ef1ef4703084493348"
+    }
+  },
+  "conclusion": [
+    "Anonymous access is fast and technically available.",
+    "Fresh-token availability is inconsistent at first observation.",
+    "Material risk and LP-lock values can reverse within two minutes without an evidence timestamp or explanation.",
+    "RugCheck must not be accepted as a reliable early-token fact source for the recorder.",
+    "If retained at all, store each response as a timestamped provider opinion and never overwrite earlier snapshots."
+  ]
+}

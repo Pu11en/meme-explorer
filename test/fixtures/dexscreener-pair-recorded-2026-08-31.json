@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "pairs": [
+    {
+      "chainId": "solana",
+      "dexId": "raydium",
+      "pairAddress": "58oQChx4yWmvKdwLLZzBi4ChoCc2fqCUWBkwMihLYQo2",
+      "baseToken": {
+        "address": "So11111111111111111111111111111111111111112",
+        "name": "Wrapped SOL",
+        "symbol": "SOL"
+      },
+      "quoteToken": {
+        "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "name": "USD Coin",
+        "symbol": "USDC"
+      },
+      "priceNative": "102.9432",
+      "priceUsd": "102.94",
+      "txns": {
+        "m5": { "buys": 226, "sells": 149 },
+        "h1": { "buys": 3888, "sells": 2918 }
+      },
+      "volume": { "h24": 14218031.8, "h1": 465846.36 },
+      "priceChange": { "m5": 0.6, "h1": -0.55 },
+      "liquidity": { "usd": 14334382.94, "base": 69709, "quote": 7158221 },
+      "pairCreatedAt": 1669602450000
+    }
+  ]
+}

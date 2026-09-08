@@ -1,0 +1,36 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "captureDurationSec": 40.37,
+  "freshCreationSampleSize": 20,
+  "byteCap": 1048576,
+  "uriClasses": {
+    "ipfsViaIpfsIo": 11,
+    "arbitraryHttpsSkippedBySafeAllowlist": 9,
+    "arweave": 0
+  },
+  "contentAddressedResults": {
+    "attempted": 11,
+    "http200Json": 11,
+    "successRateInBoundedSample": 1.0,
+    "fallbackGatewayNeeded": 0,
+    "latencyMsRange": [78.5, 274.5],
+    "responseBytesRange": [178, 787],
+    "tooLarge": 0,
+    "jsonParseFailures": 0
+  },
+  "commonObservedFields": ["name", "symbol", "description", "image", "createdOn"],
+  "optionalObservedFields": ["twitter", "telegram", "website", "coin_community", "attributes", "properties"],
+  "unverifiedArbitraryHostsObserved": [
+    "metadata.j7tracker.io",
+    "s3.ap-southeast-1.amazonaws.com",
+    "fast-ipfs.com",
+    "metadata.pumper.ink",
+    "ipfs.launchblitz.ai"
+  ],
+  "conclusion": [
+    "Direct content-addressed IPFS JSON retrieval is checked as a useful strict-free capability for this bounded sample.",
+    "The result does not establish an uptime, retention, or future availability guarantee.",
+    "Only 11 of 20 fresh creation URIs used the verified content-addressed path; arbitrary HTTPS metadata requires separate SSRF-safe fetching and is mutable/provider-dependent.",
+    "Store the URI, CID when present, response hash, receipt time, gateway, byte count, parse state, and every failure without treating metadata text or social links as verified facts."
+  ]
+}

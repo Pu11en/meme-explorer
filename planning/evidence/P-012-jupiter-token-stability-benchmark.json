@@ -1,0 +1,33 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "sampleSize": 5,
+  "recheckDelaySec": 60,
+  "results": {
+    "initialHttp200ExactMatches": 5,
+    "recheckHttp200ExactMatches": 5,
+    "identicalFullResponseHashesAfter60Seconds": 5,
+    "latencyMsRange": [144.4, 190.3],
+    "cacheControl": "public, max-age=10",
+    "observedRateBucket": "5 requests before reset according to x-ratelimit headers"
+  },
+  "coverage": {
+    "dev": "5/5",
+    "holderCount": "5/5",
+    "circSupplyAndTotalSupply": "5/5",
+    "firstPoolAndCreatedAt": "5/5",
+    "mintAndFreezeAuthorityFlags": "5/5",
+    "devMints": "5/5",
+    "topHoldersPercentage": "3/5",
+    "devBalancePercentage": "1/5",
+    "usdPriceAndLiquidity": "4/5",
+    "organicScoreAndLabel": "5/5"
+  },
+  "materialObservations": [
+    "All five formerly fresh Pump tokens were indexed and returned one exact-address match.",
+    "All five bodies were byte-identical after 60 seconds; this demonstrates short-term stability, not freshness.",
+    "updatedAt values were older than the probes and varied by token, so every field must carry Jupiter's updatedAt and request-receipt time.",
+    "Audit fields are conditional; absence is not false or zero.",
+    "Provider-derived organic scores and labels must not be treated as facts or used as automatic decisions.",
+    "Holder, top-holder, developer-history and USD/liquidity fields need methodology/provenance validation before they are checked as reliable observations."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "pair": "Raydium WSOL/USDC 58oQChx4yWmvKdwLLZzBi4ChoCc2fqCUWBkwMihLYQo2",
+  "probeCount": 12,
+  "probeIntervalSec": 5,
+  "durationApproxSec": 56,
+  "results": {
+    "http200": 12,
+    "httpErrors": 0,
+    "latencyMsRange": [54.8, 243.2],
+    "cacheControl": "public, max-age=30",
+    "distinctSnapshots": 3,
+    "priceUsdSequence": ["96.56", "96.99", "96.90"],
+    "observedCacheRefreshApproxSec": [25, 30]
+  },
+  "conclusion": [
+    "DEX Screener can provide a free delayed SOL/USD reference from a specifically pinned high-liquidity WSOL/USDC pair.",
+    "A 5-second poll mostly rereads the same cached body and is wasteful; poll no faster than the advertised 30-second cache horizon.",
+    "This is an indexed venue price, not a canonical USD oracle or executable quote.",
+    "Store pair address, provider receipt time, CDN age, raw price string and explicit stale/missing/error state; never silently carry forward during outages."
+  ]
+}

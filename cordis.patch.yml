@@ -1,0 +1,8 @@
+# Node-only Host-plane bundle.
+- insert:
+    - id: pump-observer
+      name: dsh-pump-observer
+      config:
+        dataRoot: '/home/drewp/main-projects/meme explorer/data'
+        enrichment: true
+        connectTimeoutMs: 15000

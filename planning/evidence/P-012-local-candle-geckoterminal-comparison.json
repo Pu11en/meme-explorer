@@ -1,0 +1,59 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "captureDurationSec": 160.71,
+  "pumpApiConnectionDisconnects": 0,
+  "pumpAmmTradeEvents": 40927,
+  "pumpAmmPools": 771,
+  "requiredTradeFieldCoverage": {
+    "signature": "40927/40927",
+    "timestamp": "40927/40927",
+    "action": "40927/40927",
+    "poolId": "40927/40927",
+    "mint": "40927/40927",
+    "quoteMint": "40927/40927",
+    "price": "40927/40927",
+    "tokenAmount": "40927/40927",
+    "quoteAmount": "40927/40927",
+    "block": "40927/40927"
+  },
+  "selectedPool": "6sa5dAWKbWEBcbHMNHeg3M9vtSyuCBSdEmyzkVTSk41s",
+  "selectedMint": "HNzCjvD3NRZEEDmfiTvPRPjzUNHAsUVcgHs8LLWJgTnb",
+  "quoteMint": "So11111111111111111111111111111111111111112",
+  "selectedTradeEvents": 1454,
+  "uniqueSignatures": 1454,
+  "completeMinuteComparisons": [
+    {
+      "timestamp": 1787750520,
+      "localTrades": 640,
+      "localQuoteVolumeSol": 177.560513602,
+      "localOhlcConvertedWithSingle96_90SolUsd": [0.000027491954651792366, 0.000031532352655399866, 0.00002707445364513854, 0.000031532352655399866],
+      "geckoOhlcUsd": [0.000027242008843616534, 0.00003128824459293969, 0.00002691331790179046, 0.00003118703302567869],
+      "ohlcPercentDifference": [0.918, 0.780, 0.599, 1.107],
+      "localApproxVolumeUsd": 17205.61,
+      "geckoVolumeUsd": 39939.53
+    },
+    {
+      "timestamp": 1787750580,
+      "localTrades": 527,
+      "localQuoteVolumeSol": 216.168501542,
+      "localOhlcConvertedWithSingle96_90SolUsd": [0.00003128844166050275, 0.0000316795874228593, 0.000027605684854695582, 0.000027668691227344843],
+      "geckoOhlcUsd": [0.00003118703302567869, 0.000032025225940213295, 0.000027267007776678795, 0.000027452204789567402],
+      "ohlcPercentDifference": [0.325, -1.079, 1.242, 0.789],
+      "localApproxVolumeUsd": 20946.73,
+      "geckoVolumeUsd": 50606.55
+    }
+  ],
+  "externalAccess": {
+    "geckoStatus": 200,
+    "geckoLatencyMs": 507.1,
+    "geckoCache": "max-age=30, public, must-revalidate, s-maxage=60",
+    "dexScreenerStatus": 200,
+    "dexScreenerPairCount": 1
+  },
+  "conclusion": [
+    "The recorder can deterministically create local minute OHLC and quote-volume bars from PumpAPI trade events without an external candle provider.",
+    "For two complete minutes, local SOL-denominated OHLC converted using one delayed SOL/USD snapshot differed from GeckoTerminal OHLC by roughly 0.3% to 1.2%, which is compatible with different USD clocks/indexing but does not prove either source complete.",
+    "Provider volume differed by roughly 2.3x to 2.4x from the locally summed quote amount after conversion; never substitute Gecko volume for local volume or claim agreement.",
+    "Every candle must carry stream-gap state, source-event count, first/last event time, quote mint and conversion-snapshot time. A gap-free label is unsupported without canonical reconciliation."
+  ]
+}

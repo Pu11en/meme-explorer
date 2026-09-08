@@ -1,0 +1,49 @@
+{
+  "observedAtUtc": "2026-08-26",
+  "durationSec": 70.46,
+  "errors": [],
+  "pumpApiActions": {
+    "transfer": 20371,
+    "buy": 11777,
+    "sell": 7152,
+    "create": 45,
+    "claimCreatorFees": 12,
+    "migrate": 5,
+    "createPool": 9,
+    "add": 43,
+    "remove": 50
+  },
+  "pumpApiCreates": 45,
+  "pumpPortalCreates": 41,
+  "sharedCreates": 40,
+  "pumpApiOnly": 5,
+  "pumpPortalOnly": 1,
+  "sharedReceiptDeltaMsPumpApiMinusPumpPortal": [
+    -140.4, 9.8, 76.3, -59.4, -138.7, -386.6, -59.4, -465.8,
+    -66.8, -74.6, -63.1, -59.9, -66.8, -137.6, -71.2, -63.7,
+    11.2, -63.1, 11.1, -43.7, -52.4, -61.6, -310.1, -68.1,
+    -69.3, -48.1, -144.1, -17.5, -64.1, -112.5, -73.6, -140.3,
+    -63.5, -220.6, -68.3, -61.9, -141.4, -62.8, -56.1, -69.0
+  ],
+  "pumpApiCreateFields": [
+    "action", "addressLookupTables", "block", "breakdown", "cashbackEnabled",
+    "creatorFeeAddress", "decimals", "freezeAuthority", "initialBuy",
+    "marketCapQuote", "mayhemMode", "mint", "mintAuthority", "name", "pool",
+    "poolFeeRate", "poolId", "postBalances", "price", "priorityFee",
+    "programsUsed", "quoteAmount", "quoteInPool", "quoteMint", "quoteSupply",
+    "signature", "supply", "symbol", "timestamp", "tokenExtensions",
+    "tokenProgram", "tokensInPool", "tradersInvolved", "txSigner", "uri",
+    "vQuoteInBondingCurve", "vTokensInBondingCurve"
+  ],
+  "pumpPortalCreateFields": [
+    "bondingCurveKey", "initialBuy", "is_mayhem_mode", "marketCapSol", "mint",
+    "name", "pool", "signature", "solAmount", "symbol", "traderPublicKey",
+    "txType", "uri", "vSolInBondingCurve", "vTokensInBondingCurve"
+  ],
+  "limitations": [
+    "Short observation window; not a completeness or latency guarantee.",
+    "Window boundaries can create apparent source-only events.",
+    "PumpAPI covers more event and venue classes than PumpPortal's subscribed creation lane.",
+    "Receipt deltas are relative source arrival times, not absolute chain latency."
+  ]
+}

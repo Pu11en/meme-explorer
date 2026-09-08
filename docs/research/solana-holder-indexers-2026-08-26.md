@@ -1,0 +1,46 @@
+# Strict-free Solana holder-indexer research (2026-08-26)
+
+## Bottom line
+
+No maintained, permissively licensed, turnkey self-hosted database was verified that both computes economically correct current holder concentration (including all Token-2022 cases) and is realistically reliable on strict-free infrastructure. The best building block is SevenLabs Carbon (MIT): for ordinary visible-balance SPL Token and Token-2022 mints, a small custom Carbon program can take a finalized, mint-filtered `getProgramAccounts` snapshot from Solana's unauthenticated public RPC and group token-account balances by token-account authority. This is realistic for occasional queries on ordinary mints, but not a guaranteed production service: the public endpoint is rate/data limited, Carbon does not ship a holder-concentration application, and confidential Token-2022 balances cannot be derived from public account data.
+
+## Candidate: SevenLabs Carbon — conditional candidate, not turnkey
+
+- Owner repository: [sevenlabs-hq/carbon](https://github.com/sevenlabs-hq/carbon). The README calls it a Rust framework for Solana indexers, documents RPC, Geyser, historical/snapshot sources and Postgres sinks, and is explicit that processors are application-specific ([README](https://github.com/sevenlabs-hq/carbon/blob/main/README.md)).
+- License: repository [MIT license](https://github.com/sevenlabs-hq/carbon/blob/main/LICENSE).
+- Activity as checked from the repository on 2026-08-26: HEAD `af70b199b39e60a1a33306e5411f8040374f8d9a`, committed 2026-07-21. crates.io owner metadata showed `carbon-core` 1.0.0 and `carbon-token-2022-decoder` 1.0.0 updated 2026-06-04. GitHub release history includes a Token-2022 account-decoder fix and validator-snapshot datasource ([releases](https://github.com/sevenlabs-hq/carbon/releases)).
+- Tests: CI runs format, clippy, and `cargo test --all-targets --all-features` ([workflow](https://github.com/sevenlabs-hq/carbon/blob/main/.github/workflows/check.yml)). The Token-2022 account decoder has five unit tests for base mint/token/multisig, wrong owner, and invalid data ([source](https://github.com/sevenlabs-hq/carbon/blob/main/decoders/token-2022-decoder/src/accounts/mod.rs)); no extension-specific unit tests were found. A local rerun was not possible because this runtime lacks `cargo`.
+- RPC snapshot path: `carbon-rpc-gpa-datasource` calls `getProgramAccounts`, forces base64 and context, and defaults to confirmed commitment unless overridden ([source](https://github.com/sevenlabs-hq/carbon/blob/main/datasources/rpc-gpa-datasource/src/lib.rs)). Use finalized commitment and a memcmp filter at offset 0 for one mint; run once for the legacy token program and once for Token-2022 as applicable.
+- Streaming path: `rpc-program-subscribe` reconnects but uses `try_send`; a full channel breaks the stream, and reconnects are not accompanied by replay ([source](https://github.com/sevenlabs-hq/carbon/blob/main/datasources/rpc-program-subscribe-datasource/src/lib.rs)). A correct service therefore needs subscribe-before-snapshot overlap, slot ordering, periodic reconciliation, and deletion handling. Carbon's generated Postgres token upsert overwrites on conflict without a `new_slot >= old_slot` guard, so out-of-order delivery can regress state ([source](https://github.com/sevenlabs-hq/carbon/blob/main/decoders/token-2022-decoder/src/accounts/postgres/token_row.rs)).
+- Token-2022: the decoder uses official `StateWithExtensions`, checks program ownership, exposes base mint/owner/amount/state and extensions including transfer-fee withheld amount and encrypted confidential balances ([account decoder](https://github.com/sevenlabs-hq/carbon/blob/main/decoders/token-2022-decoder/src/accounts/mod.rs), [token model](https://github.com/sevenlabs-hq/carbon/blob/main/decoders/token-2022-decoder/src/accounts/token.rs), [extensions](https://github.com/sevenlabs-hq/carbon/blob/main/decoders/token-2022-decoder/src/types/extension.rs)). It supports storage primitives, not a ready holder query.
+- Strict-free realism: Solana's official mainnet public RPC is unauthenticated and read-only calls need no SOL, card, wallet funding, credits or trial. It is explicitly rate/data limited: 40 requests/10 seconds per RPC method and 100 MB/30 seconds ([official cluster endpoint rules](https://solana.com/docs/references/clusters)). A mint-filtered occasional snapshot is plausible; full token-program indexing or guaranteed production freshness is not. Running one's own Agave RPC/validator avoids provider rules but requires validator-class hardware, so it is free software rather than realistically free infrastructure.
+
+## Correctness contract for concentration
+
+1. Fetch a single finalized-context snapshot of token accounts filtered by mint under the correct token program; do not infer holders only from transfer events, because account initialization, burns, closes, authority changes and missed/reorged events can invalidate event-only state.
+2. Decode and retain initialized and frozen accounts with visible raw amount; group by token-account `owner` authority, not token-account pubkey. One owner can hold multiple token accounts. Delegate is not ownership.
+3. Define the denominator. For transparent tokens, `sum(owner visible raw amounts)` is internally consistent. Comparing with mint supply requires explaining excluded/withheld amounts and closed/uninitialized state.
+4. Token-2022 transfer fees store withheld amounts in a separate token-account extension ([official transfer-fee docs](https://solana.com/docs/tokens/extensions/transfer-fees)); do not silently attribute these to the token-account authority. Report them separately or state an attribution policy.
+5. Confidential Transfer stores balances encrypted ([official confidential-balance docs](https://www.solana-program.com/docs/confidential-balances)); exact current owner concentration is not derivable from public RPC/event data without owners' decryption material. Such a mint must return unsupported/opaque, not a fabricated concentration.
+6. Scaled UI/interest-bearing presentation should not be mixed with raw-unit shares; frozen/non-transferable status changes liquidity interpretation but not the raw balance owner.
+
+## Rejected / near-miss projects
+
+### Anza Agave Geyser PostgreSQL plugin
+
+- Owner repo: [anza-xyz/agave-geyser-plugin-postgres](https://github.com/anza-xyz/agave-geyser-plugin-postgres). Cargo declares Apache-2.0, but the repository snapshot contained no root license text. Latest commit checked was `1b498b18d40b7a25c7bc89b21311a4bffba48388` on 2025-08-18 and pins Agave 2.3.6, while owner Agave releases have moved to 4.x ([Agave releases](https://github.com/anza-xyz/agave/releases)); therefore it was not accepted as maintained as of the cutoff.
+- It stores raw accounts in PostgreSQL, has integration tests/CI, orders account upserts by slot/write-version, and its secondary mint/owner index source explicitly handles both legacy SPL Token and Token-2022. It does not compute concentration or fully decode extensions.
+- Owner README calls it an illustrative plugin and reports adequate all-account throughput only with a GCP `n2-standard-64` validator plus separate `n2-highmem-32` PostgreSQL host, warning underpowered validators fall behind ([README performance section](https://github.com/anza-xyz/agave-geyser-plugin-postgres#performance-considerations)). This is not realistic strict-free infrastructure. The secondary owner index only upserts and does not remove an old authority entry, so authority changes can leave stale index rows; derive from current raw account rows or repair the index.
+
+### Triton One Yellowstone gRPC
+
+- Owner repo: [rpcpool/yellowstone-grpc](https://github.com/rpcpool/yellowstone-grpc), active through 2026-08-25 and strongly tested in CI ([workflow](https://github.com/rpcpool/yellowstone-grpc/blob/master/.github/workflows/test.yml)).
+- Rejected on the user's permissive-license rule: the default plugin/server license is AGPL-3.0-only; only examples, clients and protobuf directories are Apache-2.0 ([LICENSING.md](https://github.com/rpcpool/yellowstone-grpc/blob/master/LICENSING.md)). It is a transport, not a holder database or Token-2022 semantic indexer, and self-hosting its server still requires an Agave node.
+
+### Solana Labs PostgreSQL plugin
+
+- [solana-labs/solana-accountsdb-plugin-postgres](https://github.com/solana-labs/solana-accountsdb-plugin-postgres) declares Apache-2.0 in Cargo and has integration tests, but its latest checked commit was 2023-11-10 and it pins Solana 1.17.3. It is superseded/stale and not maintained for 2026 Agave or current Token-2022.
+
+## Recommended next verification
+
+Build a minimal Carbon snapshot executable that accepts mint/program, applies finalized + mint memcmp, decodes legacy or Token-2022 accounts, groups visible balances by owner, emits coverage and extension warnings, and rejects confidential-balance mints. Test against a local fixture for: multiple token accounts per owner, owner-authority change, frozen account, close/delete, transfer-fee withheld amount, and confidential transfer. Then measure public-RPC response size and completeness on the exact target mint; if it exceeds endpoint limits, there is no reliable strict-free deployment without already-owned validator-class infrastructure.

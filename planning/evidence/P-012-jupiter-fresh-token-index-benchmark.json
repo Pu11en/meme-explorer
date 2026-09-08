@@ -1,0 +1,33 @@
+{
+  "observedAtUtc": "2026-08-26T13:02-13:03Z",
+  "sampleSize": 10,
+  "approxTokenAgeAtFirstQuerySec": [138, 176],
+  "initialPass": {
+    "http200ExactMatches": 7,
+    "http429": 3,
+    "emptyResults": 0,
+    "latencyMsRange": [135.1, 168.2]
+  },
+  "retryAfter10Seconds": {
+    "attempted": 3,
+    "http200ExactMatches": 3,
+    "latencyMsRange": [148.0, 166.0]
+  },
+  "finalCoverage": {
+    "indexed": "10/10",
+    "holderCount": "10/10",
+    "auditDevMints": "10/10",
+    "auditTopHoldersPercentage": "10/10",
+    "usdPrice": "10/10",
+    "createdAtAndUpdatedAt": "10/10"
+  },
+  "observedHolderCountRange": [1, 277],
+  "observedDevMintsRange": [1, 16119],
+  "findings": [
+    "All ten fresh PumpAPI creations were indexed by Jupiter Tokens v2 within roughly three minutes.",
+    "A nominal 2.2-second interval still produced three HTTP 429 responses, likely because calls shared the keyless IP bucket; all succeeded after a ten-second pause and slower retries.",
+    "The keyless API is useful only through a centralized low-rate queue with caching and retry-after/backoff handling.",
+    "Coverage and stability do not validate the provider's holder/audit methodology or legal right to retain/redistribute returned data.",
+    "organicScore and labels are provider opinions and remain excluded from factual recording/decisions."
+  ]
+}
