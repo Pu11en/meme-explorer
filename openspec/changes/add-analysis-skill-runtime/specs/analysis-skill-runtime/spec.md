@@ -47,8 +47,8 @@ The system SHALL maintain a catalog entry describing each skill's question, inpu
 - **THEN** it can identify and invoke the ten-second buy activity skill without reading raw data into model context
 
 ### Requirement: Discord runs produce viewable artifacts
-The system SHALL save a readable Markdown report for the bounded ranking and a CSV containing all result rows. A Discord session SHALL attach the report and SHALL NOT use a local filesystem path as the sole user-facing deliverable.
+The system SHALL render a designed PDF report and PNG preview for the bounded ranking. Structured row data SHALL remain an internal input for downstream skills. A Discord session SHALL attach the visual artifacts and SHALL NOT use Markdown, CSV, or a local filesystem path as the user-facing deliverable.
 
 #### Scenario: Complete an analysis from Discord
 - **WHEN** an analysis skill finishes in a Discord session
-- **THEN** the user receives the report as an attachment and can inspect the ranking without filesystem access
+- **THEN** the user receives a visual preview and PDF attachment and can inspect the ranking without filesystem access

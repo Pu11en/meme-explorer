@@ -20,6 +20,7 @@ async function main(): Promise<void> {
     dataRoot,
     batch,
     ...(previewText === undefined ? {} : { previewLimit: Number(previewText) }),
+    renderVisualArtifacts: true,
   })
   process.stdout.write(`${JSON.stringify(receipt)}\n`)
 }

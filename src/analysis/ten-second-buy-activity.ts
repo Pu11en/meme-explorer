@@ -13,6 +13,7 @@ import type {
   TenSecondBuyActivityResult,
   TenSecondBuyActivityRow,
 } from './types.js'
+import { buildTenSecondVisualReport, renderVisualReport } from './visual-report.js'
 
 const WINDOW_MS = 10_000 as const
 const SKILL_VERSION = '1.0.0' as const
@@ -56,6 +57,7 @@ export interface AnalyzeTenSecondBuyActivityOptions {
   readonly outputRoot?: string
   readonly previewLimit?: number
   readonly now?: () => number
+  readonly renderVisualArtifacts?: boolean
 }
 
 async function* readNdjson<T>(path: string): AsyncGenerator<T> {
@@ -127,11 +129,6 @@ function compareRows(left: TenSecondBuyActivityRow, right: TenSecondBuyActivityR
   return left.mint.localeCompare(right.mint)
 }
 
-function csvCell(value: unknown): string {
-  const text = value === null || value === undefined ? '' : String(value)
-  return /[",\n\r]/u.test(text) ? `"${text.replaceAll('"', '""')}"` : text
-}
-
 async function writeText(path: string, content: string): Promise<void> {
   const handle = await open(path, 'wx', 0o600)
   try {
@@ -140,10 +137,6 @@ async function writeText(path: string, content: string): Promise<void> {
   } finally {
     await handle.close()
   }
-}
-
-function markdownCell(value: unknown): string {
-  return String(value ?? '').replaceAll('|', '\\|').replaceAll('\n', ' ')
 }
 
 export async function analyzeTenSecondBuyActivity(
@@ -386,8 +379,9 @@ export async function analyzeTenSecondBuyActivity(
   await ensureDirectory(resultRoot)
   const fullResultPath = join(resultRoot, 'result.json')
   const rowsPath = join(resultRoot, 'rows.ndjson')
-  const reportPath = join(resultRoot, 'report.md')
-  const csvPath = join(resultRoot, 'rows.csv')
+  const visualSourcePath = join(resultRoot, 'visual-report.html')
+  const visualReportPdfPath = join(resultRoot, 'visual-report.pdf')
+  const previewImagePath = join(resultRoot, 'visual-preview.png')
   await atomicWriteJson(fullResultPath, result)
   const rowsHandle = await open(rowsPath, 'w', 0o600)
   try {
@@ -396,43 +390,10 @@ export async function analyzeTenSecondBuyActivity(
   } finally {
     await rowsHandle.close()
   }
-  const csvColumns = ['rank', 'name', 'symbol', 'mint', 'run_id', 'created_at', 'observation_status', 'unobservable_reasons', 'buy_count', 'unique_buyers', 'repeat_buy_ratio', 'buy_quote_raw', 'buy_quote_known_raw', 'quote_amount_status', 'max_buys_per_slot', 'one_second_bars'] as const
-  const csv = [
-    csvColumns.join(','),
-    ...rankedRows.map(row => csvColumns.map(column => {
-      const value = column === 'unobservable_reasons'
-        ? row.unobservable_reasons.join(';')
-        : column === 'one_second_bars'
-          ? row.one_second_bars?.map(bar => bar.buy_count).join(';') ?? ''
-          : row[column]
-      return csvCell(value)
-    }).join(',')),
-  ].join('\n') + '\n'
-  await writeText(csvPath, csv)
-  const reportRows = observable.slice(0, previewLimit)
-  const report = [
-    `# ${options.batch.label}: 10-Second Buy Activity`,
-    '',
-    `Generated: ${generatedAt}`,
-    '',
-    `This ranks Pump.fun launches by buys recorded during the half-open window from creation through 9.999 seconds. Complete zeroes are separate from unobservable windows.`,
-    '',
-    `- Raw records scanned: **${rawRecordsScanned.toLocaleString('en-US')}**`,
-    `- Pump.fun launches: **${rankedRows.length.toLocaleString('en-US')}**`,
-    `- Complete observations: **${observable.length.toLocaleString('en-US')}**`,
-    `- Unobservable: **${(rankedRows.length - observable.length).toLocaleString('en-US')}**`,
-    `- Complete zero-buy launches: **${observable.filter(row => row.buy_count === 0).length.toLocaleString('en-US')}**`,
-    '',
-    `## Top ${reportRows.length}`,
-    '',
-    '| Rank | Coin | Symbol | Buys | Buyers | Repeat % | Buy volume | Busiest slot | Buys by second (0–9) |',
-    '| ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |',
-    ...reportRows.map(row => `| ${row.rank} | ${markdownCell(row.name ?? row.mint)} | ${markdownCell(row.symbol)} | ${row.buy_count} | ${row.unique_buyers} | ${row.repeat_buy_ratio === null ? '' : (Number(row.repeat_buy_ratio) * 100).toFixed(2)} | ${markdownCell(row.buy_quote_raw ?? row.buy_quote_known_raw)} | ${row.max_buys_per_slot} | ${row.one_second_bars?.map(bar => bar.buy_count).join(', ') ?? ''} |`),
-    '',
-    'The accompanying CSV contains every coin and is suitable for filtering or sorting.',
-    '',
-  ].join('\n')
-  await writeText(reportPath, report)
+  await writeText(visualSourcePath, buildTenSecondVisualReport(result))
+  if (options.renderVisualArtifacts === true) {
+    await renderVisualReport(visualSourcePath, visualReportPdfPath, previewImagePath)
+  }
   const receipt: TenSecondBuyActivityReceipt = {
     schema: 'pump.analysis-receipt/1',
     skill_id: 'ten-second-buy-activity',
@@ -445,8 +406,8 @@ export async function analyzeTenSecondBuyActivity(
     preview: observable.slice(0, previewLimit),
     full_result_path: fullResultPath,
     rows_path: rowsPath,
-    report_path: reportPath,
-    csv_path: csvPath,
+    visual_report_pdf_path: options.renderVisualArtifacts === true ? visualReportPdfPath : null,
+    preview_image_path: options.renderVisualArtifacts === true ? previewImagePath : null,
   }
   await atomicWriteJson(join(resultRoot, 'receipt.json'), receipt)
   return receipt
