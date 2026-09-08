@@ -111,7 +111,7 @@ test('fixture stream captures all action classes, preserves duplicates raw, and 
 
   const create = {
     signature: 'sig-create', timestamp: '2026-08-26T12:00:01.000Z', action: 'create',
-    mint: 'Mint111', signer: 'Signer1', creator: 'Creator1', name: 'One', symbol: 'ONE', uri: 'ipfs://one',
+    mint: 'Mint111', pool: 'pump', signer: 'Signer1', creator: 'Creator1', name: 'One', symbol: 'ONE', uri: 'ipfs://one',
     supply: 900719925474099312345n.toString(), virtualTokenReserves: '1000', virtualSolReserves: '20',
   }
   const buyBreakdown = {
@@ -185,7 +185,7 @@ test('one overall ten-minute window gives a minute-eight launch only two minutes
     onComplete: manifest => { completed.resolve(manifest) },
   })
   await recorder.start(run)
-  await adapter.emit({ signature: 'launch', timestamp: '2026-08-26T13:08:00.000Z', action: 'create', mint: 'MintLate' }, '2026-08-26T13:08:00.100Z')
+  await adapter.emit({ signature: 'launch', timestamp: '2026-08-26T13:08:00.000Z', action: 'create', mint: 'MintLate', pool: 'pump' }, '2026-08-26T13:08:00.100Z')
   await adapter.emit({ signature: 'last-trade', timestamp: '2026-08-26T13:09:59.999Z', action: 'buy', mint: 'MintLate', tokenAmount: '1', quoteAmount: '1' }, '2026-08-26T13:09:59.999Z')
   await adapter.emit({ signature: 'too-late', timestamp: '2026-08-26T13:10:00.000Z', action: 'buy', mint: 'MintLate', tokenAmount: '2', quoteAmount: '2' }, '2026-08-26T13:10:00.000Z')
   await timer.advance(600_000)
@@ -199,7 +199,31 @@ test('one overall ten-minute window gives a minute-eight launch only two minutes
   await store.close()
 })
 
-test('decode failures preserve raw bytes and record explicit reliability state', async t => {
+test('recorder retains only Pump.fun creations and events for their tracked mints', async t => {
+  const root = await temporaryRoot(t)
+  const start = Date.parse('2026-08-26T13:30:00.000Z')
+  const store = new RunStore(root, { now: () => start })
+  const run = await store.createRun(5)
+  const adapter = new FixtureAdapter()
+  const recorder = new PumpApiRunRecorder({ adapter, now: () => start })
+  await recorder.start(run)
+  await adapter.emit({ signature: 'meteora-create', timestamp: '2026-08-26T13:30:01.000Z', action: 'create', mint: 'MeteoraMint', pool: 'meteora-launchpad' }, '2026-08-26T13:30:01.100Z')
+  await adapter.emit({ signature: 'meteora-buy', timestamp: '2026-08-26T13:30:02.000Z', action: 'buy', mint: 'MeteoraMint', pool: 'meteora-launchpad' }, '2026-08-26T13:30:02.100Z')
+  await adapter.emit({ signature: 'pump-create', timestamp: '2026-08-26T13:30:03.000Z', action: 'create', mint: 'PumpMint', pool: 'pump', breakdown: [{ action: 'buy', trader: 'Creator', quoteAmount: '1' }] }, '2026-08-26T13:30:03.100Z')
+  await adapter.emit({ signature: 'pump-buy', timestamp: '2026-08-26T13:30:04.000Z', action: 'buy', mint: 'PumpMint', pool: 'pump' }, '2026-08-26T13:30:04.100Z')
+  await adapter.emit({ signature: 'pump-migrated-buy', timestamp: '2026-08-26T13:30:05.000Z', action: 'buy', mint: 'PumpMint', pool: 'pump-amm' }, '2026-08-26T13:30:05.100Z')
+  await recorder.stop('manual_early')
+
+  const raw = await store.readRaw(run.manifest.run_id, 'pumpapi-live')
+  assert.deepEqual(raw.map(item => item.event_id), ['pump-create', 'pump-buy', 'pump-migrated-buy'])
+  const events = await readFamily(root, run.manifest.run_id, 'events')
+  assert.deepEqual(events.map(item => item.signature), ['pump-create', 'pump-create', 'pump-buy', 'pump-migrated-buy'])
+  assert.deepEqual(events.map(item => item.action), ['create', 'buy', 'buy', 'buy'])
+  assert.ok(events.every(item => item.mint === 'PumpMint'))
+  await store.close()
+})
+
+test('decode failures omit unverifiable raw bytes and record explicit reliability state', async t => {
   const root = await temporaryRoot(t)
   const start = Date.parse('2026-08-26T14:00:00.000Z')
   const store = new RunStore(root, { now: () => start })
@@ -210,10 +234,11 @@ test('decode failures preserve raw bytes and record explicit reliability state',
   await adapter.emit('{"broken":', '2026-08-26T14:00:01.000Z')
   await recorder.stop('manual_early')
   const raw = await store.readRaw(run.manifest.run_id, 'pumpapi-live')
-  assert.equal(raw[0].payload_raw, '{"broken":')
+  assert.deepEqual(raw, [])
   const reliability = await readFamily(root, run.manifest.run_id, 'reliability')
   assert.equal(reliability[0].kind, 'decode_error')
   assert.equal(reliability[0].status, 'decode_error')
+  assert.equal(reliability[0].detail.raw_omitted, 'origin_not_verifiable')
   await store.close()
 })
 

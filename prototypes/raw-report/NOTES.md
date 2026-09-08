@@ -1,8 +1,8 @@
-# Unfiltered report design preview
+# Pump.fun-only report design preview
 
 Status: throwaway prototype for Drew to critique. No layout or filtering rule is approved by making this preview.
 
-The question is what a post-run report should look like outside Discord, and which measurements belong in the main table versus coin details. The eventual reporting skill can generate the chosen deliverable from a raw batch or a future saved selection.
+The question is what a post-run report should look like outside Discord, and which measurements belong in the main table versus coin details. The preview is now strictly scoped to Pump.fun launches.
 
 ## Open and compare
 
@@ -14,13 +14,13 @@ The bottom switcher offers three layouts on the same page; left/right arrow keys
 - B — Visual atlas: cumulative recorded buy/sell charts by coin, with one run and currency per chart.
 - C — Report: reading and printing layout, batch overview, recording counts and paged inventory.
 
-`raw-recordings-preview.pdf` is a two-page static example of C, including 16 inventory rows. All 6,376 rows remain accessible in the HTML and its CSV export. The PDF is a design sample, not a complete event export.
+`raw-recordings-preview.pdf` is a static example of C. All 592 Pump.fun launches remain accessible in the HTML and its CSV export. The PDF is a design sample, not a complete event export.
 
 ## Evidence and boundaries
 
-Four separate recordings total 30 recorded minutes: 1,074,873 raw records and 3,111,046 normalized records, approximately 3.64 GiB on disk. This is not one continuous half hour and does not imply 30 minutes of observations per coin.
+Four separate source recordings total 30 recorded minutes. The Pump.fun-only derived view contains 41,894 matching raw frames and 128,631 matching normalized records across 592 explicitly captured Pump.fun creations. This is not one continuous half hour and does not imply 30 minutes of observations per coin.
 
-Every one of the 6,376 mint addresses represented in normalized event records is included. Creation was captured for 96: 48 Pump.fun and 48 Meteora launches. The other 6,280 have no captured creation. Origin is based on creation evidence only. Pump.fun-only is a future scope decision; this requested preview excludes no origin.
+Membership requires a raw creation event whose `pool` field is exactly `pump`. Meteora and unknown-origin mints are excluded. The mint suffix and later trade venue are not used as origin proof. Events for an accepted Pump.fun mint remain associated with it after a later migration.
 
 The inventory summarizes events; it does not embed every raw frame. Across these coins there are 582,219 matched buy/sell events. Exact quote-volume totals are decimal strings, kept separate by currency. Small chart bins use approximate numbers; they are not price forecasts or future outcomes. Each cumulative point represents a chart bin ending at or before the final observed event.
 
@@ -28,7 +28,7 @@ Time to cutoff is measured from source creation or first observation to that rec
 
 Each coin has a bounded set of raw source examples with run and sequence references. Where present, examples expose price, quote-denominated market cap, token/quote reserves, fee rate, trade venue, transaction signer and trader. Missing fields remain missing. Source example values are not current prices or later outcomes; provider reserve fields are not interpreted as executable liquidity.
 
-No filtering, risk labels, rug/bundle judgments, outcome queries, collection, or source deletion was performed. Existing recording data stays read-only at `/home/drewp/main-projects/meme explorer/data`.
+No analytical filtering, risk labels, rug/bundle judgments, outcome queries, collection, or source deletion was performed. Existing recording data stays read-only at `/home/drewp/main-projects/meme explorer/data`.
 
 ## Rebuild
 
@@ -45,7 +45,7 @@ python3 /home/drewp/main-projects/wt-1546664272094953562/prototypes/raw-report/b
 
 Extractor assertions cover counts, origin breakdown, quantities, bounded evidence, run windows and source stat fingerprint. Parent independently checked unique mint coverage, trade/event quantity counts, and all-coin CSV export. Chromium checks passed for search, no-match recovery, pagination, sorting, three layouts, keyboard switching, all tabs, exact raw detail fields and CSV download. No console errors or external requests occurred. Additional-series labels and changing the inspector to another run were verified. The layout switcher occupies its own bottom space outside the scrolling data viewport.
 
-Desktop (1440 x 1000) and phone-width (390 x 844) screenshots are saved in `.impeccable/review/`. The PDF was text-checked and visually inspected. Independent Luna design review resolved its three requested fixes and returned “ship for design critique.” The mechanical design detector reported no regex findings but ran in degraded mode without parser modules, so it did not verify computed contrast.
+A current Pump.fun-only desktop screenshot is saved in `.impeccable/review/`. Earlier screenshots and the old CSV verification containing other providers were removed from the active branch; Git history retains them. The PDF was regenerated. Independent Luna design review previously resolved its three requested layout fixes. The mechanical design detector reported no regex findings but ran in degraded mode without parser modules, so it did not verify computed contrast.
 
 ## Next critique
 

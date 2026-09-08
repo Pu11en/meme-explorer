@@ -64,7 +64,14 @@ function breakdowns(root: PumpApiObject): PumpApiObject[] {
     const value = root[key]
     if (!Array.isArray(value) || value.length === 0) continue
     const nested = value.map(object).filter((item): item is PumpApiObject => item !== undefined)
-    if (nested.length > 0) return nested.map(item => ({ ...root, ...item, [key]: null }))
+    if (nested.length > 0) {
+      const expanded = nested.map(item => ({ ...root, ...item, [key]: null }))
+      // Pump.fun creation frames can include the creator's initial buy as a
+      // nested breakdown. Keep both facts: the root admits the mint and writes
+      // its token row before the nested trade is normalized.
+      if (canonicalAction(actionName(root)) === 'create') return [{ ...root, [key]: null }, ...expanded]
+      return expanded
+    }
   }
   return [root]
 }

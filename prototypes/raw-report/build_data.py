@@ -234,6 +234,10 @@ def compact_evidence(candidate: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
+def pump_fun_creation(root: dict[str, Any]) -> bool:
+    return canonical_action(first(root, ("action", "txType", "tx_type", "type"))) == "create" and text(root.get("pool")) == "pump"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
@@ -244,6 +248,24 @@ def main() -> None:
     run_dirs = sorted(runs_root.glob("*/"), key=lambda path: json_line(path / "manifest.json")["sequence"])
     manifests = [json_line(path / "manifest.json") for path in run_dirs]
     by_run = {manifest["run_id"]: manifest for manifest in manifests}
+
+    # Establish the only allowed universe from explicit Pump.fun creation
+    # evidence. A mint suffix or later trade venue is never used as proof.
+    pump_mints: set[str] = set()
+    for run_dir in run_dirs:
+        for envelope in iter_lines(run_dir / "raw" / "pumpapi-live.ndjson"):
+            payload_raw = envelope.get("payload_raw")
+            if not isinstance(payload_raw, str):
+                continue
+            try:
+                root = json.loads(payload_raw)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(root, dict) or not pump_fun_creation(root):
+                continue
+            mint = text(first(root, ("mint", "tokenAddress", "token_address")))
+            if mint is not None:
+                pump_mints.add(mint)
 
     coins: dict[str, dict[str, Any]] = {}
     event_membership: set[tuple[str, str]] = set()
@@ -256,11 +278,14 @@ def main() -> None:
         run_id = run_dir.name
         event_path = run_dir / "normalized" / "events.ndjson"
         for event in iter_lines(event_path):
-            normalized_event_count += 1
             action = text(event.get("action")) or "unknown"
             key = text(event.get("event_key"))
             if key is None:
                 continue
+            mint = text(event.get("mint"))
+            if mint is None or mint not in pump_mints:
+                continue
+            normalized_event_count += 1
             membership = (run_id, key)
             if membership in event_membership:
                 duplicate_event_count += 1
@@ -268,9 +293,6 @@ def main() -> None:
             event_membership.add(membership)
             event_quotes[membership] = text(event.get("quote_mint"))
             action_totals[action] += 1
-            mint = text(event.get("mint"))
-            if mint is None:
-                continue
             coin = coins.setdefault(mint, new_coin(mint))
             row = run_coin(coin, run_id)
             when = text(event.get("source_at")) or text(event.get("received_at"))
@@ -303,7 +325,7 @@ def main() -> None:
     for run_dir in run_dirs:
         for token in iter_lines(run_dir / "normalized" / "tokens.ndjson"):
             mint = text(token.get("mint"))
-            if mint is None:
+            if mint is None or mint not in pump_mints:
                 continue
             token_rows += 1
             coin = coins.setdefault(mint, new_coin(mint))
@@ -322,14 +344,15 @@ def main() -> None:
 
     raw_trade_seen: set[tuple[str, str]] = set()
     raw_records = 0
+    raw_bytes = 0
     raw_trade_frames = 0
     raw_trade_quantity_rows = 0
     launch_rows = 0
+    raw_records_by_run = Counter()
     for run_dir in run_dirs:
         run_id = run_dir.name
         raw_path = run_dir / "raw" / "pumpapi-live.ndjson"
         for envelope in iter_lines(raw_path):
-            raw_records += 1
             payload_raw = envelope.get("payload_raw")
             if not isinstance(payload_raw, str):
                 continue
@@ -341,14 +364,53 @@ def main() -> None:
                 continue
             if not isinstance(root, dict):
                 continue
+            root_mint = text(first(root, ("mint", "tokenAddress", "token_address")))
+            if root_mint not in pump_mints:
+                continue
+            raw_records += 1
+            raw_bytes += int(envelope.get("byte_len") or 0)
+            raw_records_by_run[run_id] += 1
             signature = text(first(root, ("signature", "txSignature", "transactionSignature"))) or text(envelope.get("event_id"))
+            if pump_fun_creation(root) and root_mint is not None:
+                launch_rows += 1
+                when = source_time(root) or text(envelope.get("source_at"))
+                coin = coins.setdefault(root_mint, new_coin(root_mint))
+                if coin["launch_at"] is None or (when and (dt(coin["launch_at"]) is None or dt(when) < dt(coin["launch_at"]))):
+                    coin["launch_at"] = when
+                    coin["launch_run_id"] = run_id
+                coin["origin"] = "pump"
+                if root.get("name") is not None:
+                    coin["name"] = root.get("name")
+                if root.get("symbol") is not None:
+                    coin["symbol"] = root.get("symbol")
+                add_raw_candidate(
+                    coin,
+                    {
+                        "run_id": run_id,
+                        "seq": envelope.get("seq"),
+                        "time": when,
+                        "action": "create",
+                        "trader": trader_value(root),
+                        "tx_signer": first(root, ("txSigner",)),
+                        "signature": signature,
+                        "quote": first(root, ("quoteMint", "quote_mint")),
+                        "price": text(root.get("price")),
+                        "price_currency": first(root, ("quoteMint", "quote_mint")),
+                        "market_cap_quote": text(first(root, ("marketCapQuote", "market_cap_quote", "marketCapSol"))),
+                        "pool_token_reserve": text(first(root, ("tokensInPool", "poolTokenAmount", "pool_token_amount", "tokenReserves"))),
+                        "pool_quote_reserve": text(first(root, ("quoteInPool", "poolQuoteAmount", "pool_quote_amount", "solReserves"))),
+                        "fee_rate": text(first(root, ("poolFeeRate", "feeRate", "fee_rate"))),
+                        "pool": "pump",
+                        "source_ref": f"runs/{run_id}/raw/pumpapi-live.ndjson#seq={envelope.get('seq')}",
+                    },
+                )
             for index, record in enumerate(breakdowns(root)):
                 action = canonical_action(first(record, ("action", "txType", "tx_type", "type")))
                 key = event_key(signature, envelope.get("seq"), index, action)
                 membership = (run_id, key)
                 mint = text(first(record, ("mint", "tokenAddress", "token_address")))
                 when = source_time(record) or text(envelope.get("source_at"))
-                if mint is not None and action not in ("create", "buy", "sell"):
+                if mint in pump_mints and action not in ("create", "buy", "sell"):
                     # Keep a raw evidence row for non-trade market events too;
                     # the detail inspector should never silently substitute a
                     # normalized placeholder when the payload was retained.
@@ -374,41 +436,7 @@ def main() -> None:
                             "source_ref": f"runs/{run_id}/raw/pumpapi-live.ndjson#seq={envelope.get('seq')}",
                         },
                     )
-                if action == "create" and mint is not None:
-                    launch_rows += 1
-                    coin = coins.setdefault(mint, new_coin(mint))
-                    if coin["launch_at"] is None or (when and (dt(coin["launch_at"]) is None or dt(when) < dt(coin["launch_at"]))):
-                        coin["launch_at"] = when
-                        coin["launch_run_id"] = run_id
-                    pool = text(record.get("pool"))
-                    if pool is not None and coin["origin"] == "unknown":
-                        coin["origin"] = pool
-                    if record.get("name") is not None:
-                        coin["name"] = record.get("name")
-                    if record.get("symbol") is not None:
-                        coin["symbol"] = record.get("symbol")
-                    add_raw_candidate(
-                        coin,
-                        {
-                            "run_id": run_id,
-                            "seq": envelope.get("seq"),
-                            "time": when,
-                            "action": action,
-                            "trader": trader_value(record),
-                            "tx_signer": first(record, ("txSigner",)),
-                            "signature": signature,
-                            "quote": first(record, ("quoteMint", "quote_mint")),
-                            "price": text(record.get("price")),
-                            "price_currency": first(record, ("quoteMint", "quote_mint")),
-                            "market_cap_quote": text(first(record, ("marketCapQuote", "market_cap_quote", "marketCapSol"))),
-                            "pool_token_reserve": text(first(record, ("tokensInPool", "poolTokenAmount", "pool_token_amount", "tokenReserves"))),
-                            "pool_quote_reserve": text(first(record, ("quoteInPool", "poolQuoteAmount", "pool_quote_amount", "solReserves"))),
-                            "fee_rate": text(first(record, ("poolFeeRate", "feeRate", "fee_rate"))),
-                            "pool": text(record.get("pool")),
-                            "source_ref": f"runs/{run_id}/raw/pumpapi-live.ndjson#seq={envelope.get('seq')}",
-                        },
-                    )
-                if action not in ("buy", "sell") or membership not in event_membership or mint is None:
+                if action not in ("buy", "sell") or membership not in event_membership or mint not in pump_mints:
                     continue
                 if membership in raw_trade_seen:
                     continue
@@ -557,9 +585,17 @@ def main() -> None:
             "evidence": evidence,
         })
 
-    total_bytes = sum(path.stat().st_size for path in data_root.rglob("*") if path.is_file())
-    total_raw = sum(manifest["counts"]["raw_records"] for manifest in manifests)
-    total_normalized = sum(manifest["counts"]["normalized_records"] for manifest in manifests)
+    normalized_records_by_run = Counter()
+    for run_dir in run_dirs:
+        for path in (run_dir / "normalized").glob("*.ndjson"):
+            if path.name == "reliability.ndjson":
+                continue
+            for record in iter_lines(path):
+                if text(record.get("mint")) in pump_mints:
+                    normalized_records_by_run[run_dir.name] += 1
+    total_bytes = raw_bytes
+    total_raw = raw_records
+    total_normalized = sum(normalized_records_by_run.values())
     launch_mints = {coin["mint"] for coin in output_coins if coin["launch_at"] is not None}
     output = {
         "schema": "meme.raw-report-preview/1",
@@ -587,8 +623,8 @@ def main() -> None:
                     "duration_ms": manifest["duration_ms"],
                     "status": manifest["status"],
                     "stop_reason": manifest["stop_reason"],
-                    "raw_records": manifest["counts"]["raw_records"],
-                    "normalized_records": manifest["counts"]["normalized_records"],
+                    "raw_records": raw_records_by_run[manifest["run_id"]],
+                    "normalized_records": normalized_records_by_run[manifest["run_id"]],
                     "reliability_records": manifest["counts"]["reliability_records"],
                     "reliability_gaps": reliability[manifest["run_id"]],
                 }
@@ -596,7 +632,7 @@ def main() -> None:
             ],
             "limitations": [
                 "Raw and normalized observation windows do not prove gap-free delivery.",
-                "Unknown origin means no raw create pool was available; mint suffixes and trade venues are not used to infer it.",
+                "Only mints with an explicit raw creation pool of pump are included; suffixes and later trade venues are not used to infer launch origin.",
                 "No outside-window outcome, bundle membership, or profitable execution is established.",
                 "Chart buy/sell values are bounded floating-point samples; exact totals remain Decimal strings in volumes.",
                 "Coins with no recorded trades retain explicit no_trades_recorded state; this is not proof of no activity outside the capture.",
@@ -606,15 +642,14 @@ def main() -> None:
     }
 
     assert len(manifests) == 4, len(manifests)
-    assert total_raw == 1_074_873, total_raw
-    assert total_normalized == 3_111_046, total_normalized
-    assert len(coins) == 6_376, len(coins)
-    assert len(launch_mints) == 96, len(launch_mints)
+    assert len(output_coins) == len(pump_mints) == 592, (len(output_coins), len(pump_mints))
+    assert launch_mints == pump_mints, (len(launch_mints), len(pump_mints))
+    assert all(coin["origin"] == "pump" for coin in output_coins)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8") as handle:
         json.dump(output, handle, ensure_ascii=False, separators=(",", ":"))
         handle.write("\n")
-    print(json.dumps({"output": str(args.output), "bytes": args.output.stat().st_size, "coins": len(coins), "launch_mints": len(launch_mints), "raw_trade_frames_matched": raw_trade_frames}, separators=(",", ":")))
+    print(json.dumps({"output": str(args.output), "bytes": args.output.stat().st_size, "coins": len(output_coins), "launch_mints": len(launch_mints), "raw_records": total_raw, "normalized_records": total_normalized, "raw_trade_frames_matched": raw_trade_frames}, separators=(",", ":")))
 
 
 if __name__ == "__main__":

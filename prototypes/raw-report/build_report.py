@@ -6,8 +6,9 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parent
 data = json.loads((root / 'data.json').read_text())
-assert len(data['coins']) == 6376
-assert sum(bool(c['launch_at']) for c in data['coins']) == 96
+assert len(data['coins']) == 592
+assert sum(bool(c['launch_at']) for c in data['coins']) == 592
+assert all(c['origin'] == 'pump' for c in data['coins'])
 embedded = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
 embedded = base64.b64encode(gzip.compress(embedded.encode('utf-8'), compresslevel=9, mtime=0)).decode('ascii')
 html = (root / 'template.html').read_text()

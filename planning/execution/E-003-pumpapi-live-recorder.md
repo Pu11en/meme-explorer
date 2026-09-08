@@ -1,7 +1,7 @@
 # E-003 — PumpAPI live recorder
 
 - Status: complete
-- Outcome: A five- or ten-minute run captures the PumpAPI live stream through exactly one socket and persists byte-faithful raw plus core normalized records until the one overall timer ends.
+- Outcome: A five- or ten-minute run captures only explicit Pump.fun launches from the PumpAPI live stream through exactly one socket and persists their byte-faithful raw plus core normalized records until the one overall timer ends.
 - Depends on: P-002, P-003, P-010, P-011, P-012, E-002
 
 ## Context
@@ -14,7 +14,8 @@
 
 - Implement the replaceable PumpAPI live adapter and one-socket ownership.
 - Preserve exact source bytes/envelopes for every emitted action during the overall run.
-- Normalize token, generic event, complete trade, wallet/signer, curve/reserve and migration records; preserve unknown actions raw.
+- Accept a mint only from a creation frame whose provider `pool` is exactly `pump`; retain later events only for accepted mints, including post-migration events.
+- Normalize token, generic event, complete trade, wallet/signer, curve/reserve and migration records for accepted Pump.fun mints. Omit malformed raw frames because their origin cannot be verified, while retaining an explicit reliability record.
 - Enforce source-time run boundaries, one-active-run, five/ten durations, manual early Stop and timer Stop through one orderly path.
 - Record disconnect, decode, ordering, duplicate and uncertainty states explicitly.
 
@@ -41,7 +42,7 @@
 - Native Node WebSocket adapter enforces one owned socket, drains accepted frames, records disconnect/error/reconnect states and uses bounded exponential reconnect.
 - Lossless JSON parser preserves provider numeric tokens as exact strings while untouched source bytes remain in raw storage.
 - Tolerant normalizer covers create, buy, sell, transfer, migrate, create-pool, add/remove-liquidity, creator-fee claims and unknown actions.
-- Deterministic fixtures prove duplicate collapse, distinct transaction breakdown positions, raw duplicate preservation, decode-error preservation and socket-close-before-manifest-finalize ordering.
+- Deterministic fixtures prove duplicate collapse, distinct transaction breakdown positions, raw duplicate preservation, Pump.fun-only admission, unverifiable decode-error omission with reliability evidence, and socket-close-before-manifest-finalize ordering.
 - Fake-clock proof accepts a minute-eight launch and its final eligible trade, rejects source time exactly at the ten-minute boundary and finalizes the whole run once.
 - Full project check passes 20 tests.
 

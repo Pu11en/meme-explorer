@@ -41,6 +41,14 @@ function firstText(record: PumpApiObject, keys: readonly string[]): string | nul
   return null
 }
 
+function pumpFunCreationMint(record: PumpApiObject): string | null {
+  const action = firstText(record, ['action', 'txType', 'tx_type', 'type'])
+  const compactAction = action?.toLowerCase().replaceAll(/[^a-z0-9]/g, '')
+  const pool = firstText(record, ['pool'])?.toLowerCase()
+  if ((compactAction !== 'create' && compactAction !== 'createtoken') || pool !== 'pump') return null
+  return firstText(record, ['mint', 'tokenAddress', 'token_address'])
+}
+
 function inWindow(sourceAt: string | null, receivedAt: string, startMs: number, stopMs: number): boolean {
   const selected = sourceAt ?? receivedAt
   const epoch = Date.parse(selected)
@@ -153,20 +161,10 @@ export class PumpApiRunRecorder {
       if (root === undefined) throw new Error('PumpAPI frame root must be an object')
     } catch (error) {
       if (!inWindow(null, frame.receivedAt, startMs, stopMs)) return
-      const raw = await dataset.appendRaw({
-        stream: 'pumpapi-live',
-        source: 'pumpapi',
-        transport: 'live',
-        channel: 'data-stream',
-        payload: frame.bytes,
-        receivedAt: frame.receivedAt,
-        ...(frame.receivedMonoMs === null ? {} : { receivedMonoMs: frame.receivedMonoMs }),
-        commitment: 'provider',
-        parserVersion: 'pumpapi-tolerant/1',
-      })
       await this.writeReliability('decode_error', frame.receivedAt, {
         message: error instanceof Error ? error.message : String(error),
-      }, raw.seq)
+        raw_omitted: 'origin_not_verifiable',
+      })
       return
     }
 
@@ -176,7 +174,11 @@ export class PumpApiRunRecorder {
       receivedAt: frame.receivedAt,
       source: 'pumpapi',
     })
-    const eligible = previewGroups.filter(group => inWindow(group.sourceAt, frame.receivedAt, startMs, stopMs))
+    const pumpCreationMint = pumpFunCreationMint(root)
+    const eligible = previewGroups.filter(group =>
+      inWindow(group.sourceAt, frame.receivedAt, startMs, stopMs)
+      && group.mint !== null
+      && (group.mint === pumpCreationMint || this.trackedMints.has(group.mint)))
     if (eligible.length === 0) return
     const sourceAt = pumpApiSourceTime(root) ?? eligible[0]?.sourceAt ?? null
     const raw = await dataset.appendRaw({
@@ -199,13 +201,14 @@ export class PumpApiRunRecorder {
       rawSeq: raw.seq,
       receivedAt: frame.receivedAt,
       source: 'pumpapi',
-    }).filter(group => inWindow(group.sourceAt, frame.receivedAt, startMs, stopMs))
+    }).filter(group => eligible.some(candidate => candidate.eventKey === group.eventKey))
+
+    if (pumpCreationMint !== null) this.trackedMints.add(pumpCreationMint)
 
     for (const group of groups) {
       const appended = await dataset.appendNormalized('events', group.event as NormalizedRecord, `event:${group.eventKey}`)
       if (!appended) continue
       for (const specialized of group.specialized) {
-        if (specialized.family === 'tokens' && group.mint !== null) this.trackedMints.add(group.mint)
         if (['trades', 'curves', 'migrations'].includes(specialized.family)
           && group.mint !== null && !this.trackedMints.has(group.mint)) {
           await this.writeReliability('untracked_mint', frame.receivedAt, {
