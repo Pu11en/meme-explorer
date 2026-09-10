@@ -1,0 +1,69 @@
+{
+  "checked_at": "2026-09-08T14:08:42.463947+00:00",
+  "source_commit": "f7e524ce0782157fe2c99688e9763a5300f150a0",
+  "status": "scheduled-not-yet-captured",
+  "required_hours": 2,
+  "jobs": [
+    {
+      "launch_agent_label": "com.meme-explorer.recording.20260908.1000",
+      "job_path": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908-recovery/batch-20260908-1000-central.json",
+      "plist_path": "/Users/drewp/Library/LaunchAgents/com.meme-explorer.recording.20260908.1000.plist",
+      "schema": "pump.scheduled-recording/1",
+      "batch_id": "batch-20260908-1000-central",
+      "label": "Pump.fun 2026-09-08 10:00\u201311:00 Central",
+      "starts_at": "2026-09-08T10:00:00-05:00",
+      "ends_at": "2026-09-08T11:00:00-05:00",
+      "data_root": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908-recovery/batches/batch-20260908-1000-central",
+      "minimum_free_bytes": 16106127360,
+      "maximum_batch_bytes": 12884901888
+    },
+    {
+      "label": "Pump.fun 2026-09-08 13:00\u201314:00 Central",
+      "job_path": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/batch-20260908-1300-central.json",
+      "plist_path": "/Users/drewp/Library/LaunchAgents/com.meme-explorer.recording.20260908.1300.plist",
+      "schema": "pump.scheduled-recording/1",
+      "batch_id": "batch-20260908-1300-central",
+      "starts_at": "2026-09-08T13:00:00-05:00",
+      "ends_at": "2026-09-08T14:00:00-05:00",
+      "data_root": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/batches/batch-20260908-1300-central",
+      "minimum_free_bytes": 16106127360,
+      "maximum_batch_bytes": 12884901888,
+      "launch_agent_label": "com.meme-explorer.recording.20260908.1300"
+    }
+  ],
+  "patched_idle_runtime": {
+    "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/lib/scheduled-recording.js": {
+      "before_sha256": "fddc6846809ea976e0dfdac21e3f5fd10c522f0b84c778ea5e27ccbe3d52a4ce",
+      "after_sha256": "219087ca72d33ed445231e124fad9ccd5f7a75ca36795ca747b7fd23ac79073b"
+    },
+    "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/lib/scheduled-recording.d.ts.map": {
+      "before_sha256": "e841ef98b81007ecf702d46fa491c41d9d63e5f0fdf1b2e163092f3b0c72e805",
+      "after_sha256": "bdc819d155fdddc127c78f40ff72232c534b4f1e8e6fb2289ea520d4f077445c"
+    },
+    "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/lib/scheduled-recording.d.ts": {
+      "before_sha256": "4699dc10e29ea354dd80d2862de14db9afac462cecf56ecce3d7cca64dfe4033",
+      "after_sha256": "e17ef451f4ff612a6c095294bfb0afb971e1b4ae42118f4d04e7b709a9f9d58d"
+    },
+    "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/lib/scheduled-recording.js.map": {
+      "before_sha256": "874f93e95b8a99f366c850adf5b72cd2651d24fb5b8ed5f18eefa3389d2adf5e",
+      "after_sha256": "e106ddf9b4964b2898b3f7b8a19cd041e4d78710dbbddbc407c3e61204dc8233"
+    }
+  },
+  "backup": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/recovery-backup",
+  "tests_passed": 57,
+  "live_preflight": {
+    "passed": true,
+    "root": "/Users/drewp/Library/Application Support/MemeExplorer/recovery-preflight-1788876447962",
+    "state": "stopped_early",
+    "counts": {
+      "raw_records": 315,
+      "normalized_records": 1627,
+      "tokens": 12,
+      "reliability_records": 13
+    },
+    "stop_reason": "interrupted"
+  },
+  "free_bytes": 35190960128,
+  "sleep_setting": "system idle sleep 0; per-job caffeinate enabled",
+  "prior_partial_preserved": "/Users/drewp/Library/Application Support/MemeExplorer/scheduled-20260908/batches/batch-20260908-0800-central"
+}

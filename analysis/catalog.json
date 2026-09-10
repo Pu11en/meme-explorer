@@ -11,7 +11,11 @@
       "output": "pump.analysis-result/1",
       "human_output": "interactive-comparison-page",
       "parameters": {
-        "preview": { "default": 20, "minimum": 1, "maximum": 20 }
+        "preview": {
+          "default": 20,
+          "minimum": 1,
+          "maximum": 20
+        }
       },
       "model_policy": {
         "raw_records_in_context": 0,
@@ -24,6 +28,218 @@
         "Run 10-second buy activity on Batch 001.",
         "Rank Batch 001 coins by buys in their first ten seconds.",
         "Show the top 20 early-buy coins from Batch 001."
+      ]
+    },
+    {
+      "id": "observable-launches",
+      "version": "1.0.0",
+      "type": "filter",
+      "name": "Complete First-Minute Coverage",
+      "question": "Select launches with a fully observed first minute.",
+      "input": "pump.first-minute-features/1",
+      "output": "pump.filter-cohort/1",
+      "human_output": "first-minute-comparison-page",
+      "implementation_status": "implemented",
+      "validation": "Consult the versioned readiness receipt; runnable is not predictive validation.",
+      "window_ms": 60000,
+      "parameters": {},
+      "definition_hash": "721639de206a7c7d622be1ad4e32461759ca50ad830c36ee53bab5f5ef3c041d",
+      "data_requirements": [
+        "finalized run",
+        "recorded Pump creation",
+        "complete first-minute coverage"
+      ],
+      "model_policy": {
+        "raw_records_in_context": 0,
+        "maximum_receipt_bytes": 65536,
+        "maximum_preview_rows": 20
+      },
+      "examples": [
+        "Run Complete First-Minute Coverage on Batch 001."
+      ],
+      "caveats": [
+        "Incomplete values are not zero.",
+        "Distinct wallets need not be distinct people.",
+        "Filters describe cohorts; predictive performance is unvalidated."
+      ]
+    },
+    {
+      "id": "minimum-buy-activity",
+      "version": "1.0.0",
+      "type": "filter",
+      "name": "Minimum Buy Activity",
+      "question": "Select launches with at least the requested first-minute buy count.",
+      "input": "pump.first-minute-features/1",
+      "output": "pump.filter-cohort/1",
+      "human_output": "first-minute-comparison-page",
+      "implementation_status": "implemented",
+      "validation": "Consult the versioned readiness receipt; runnable is not predictive validation.",
+      "window_ms": 60000,
+      "parameters": {
+        "min_buys": 10
+      },
+      "definition_hash": "bd147694fa670404a689e42ad290a98a04b3807716accaed0daf57614a2e756b",
+      "data_requirements": [
+        "finalized run",
+        "recorded Pump creation",
+        "complete first-minute coverage"
+      ],
+      "model_policy": {
+        "raw_records_in_context": 0,
+        "maximum_receipt_bytes": 65536,
+        "maximum_preview_rows": 20
+      },
+      "examples": [
+        "Run Minimum Buy Activity on Batch 001."
+      ],
+      "caveats": [
+        "Incomplete values are not zero.",
+        "Distinct wallets need not be distinct people.",
+        "Filters describe cohorts; predictive performance is unvalidated."
+      ]
+    },
+    {
+      "id": "buyer-diversity",
+      "version": "1.0.0",
+      "type": "filter",
+      "name": "Buyer Diversity",
+      "question": "Select launches with at least the requested distinct buying wallets in the first minute.",
+      "input": "pump.first-minute-features/1",
+      "output": "pump.filter-cohort/1",
+      "human_output": "first-minute-comparison-page",
+      "implementation_status": "implemented",
+      "validation": "Consult the versioned readiness receipt; runnable is not predictive validation.",
+      "window_ms": 60000,
+      "parameters": {
+        "min_unique_buyers": 5
+      },
+      "definition_hash": "06e840c54fd87dd058cf86a3d49995b1d90b15a31b809f33c6ae37e700c810ec",
+      "data_requirements": [
+        "finalized run",
+        "recorded Pump creation",
+        "complete first-minute coverage",
+        "complete buyer identities"
+      ],
+      "model_policy": {
+        "raw_records_in_context": 0,
+        "maximum_receipt_bytes": 65536,
+        "maximum_preview_rows": 20
+      },
+      "examples": [
+        "Run Buyer Diversity on Batch 001."
+      ],
+      "caveats": [
+        "Incomplete values are not zero.",
+        "Distinct wallets need not be distinct people.",
+        "Filters describe cohorts; predictive performance is unvalidated."
+      ]
+    },
+    {
+      "id": "repeat-buyer-concentration",
+      "version": "1.0.0",
+      "type": "filter",
+      "name": "Repeat-Buyer Concentration",
+      "question": "Select launches whose fraction of buys beyond each wallet’s first buy meets a threshold.",
+      "input": "pump.first-minute-features/1",
+      "output": "pump.filter-cohort/1",
+      "human_output": "first-minute-comparison-page",
+      "implementation_status": "implemented",
+      "validation": "Consult the versioned readiness receipt; runnable is not predictive validation.",
+      "window_ms": 60000,
+      "parameters": {
+        "min_repeat_ratio": 0.5
+      },
+      "definition_hash": "c0011c0f9170e6a25d41a5329a3ee85045dfee1487efb86aaacf94e1b3dc091c",
+      "data_requirements": [
+        "finalized run",
+        "recorded Pump creation",
+        "complete first-minute coverage",
+        "complete buyer identities"
+      ],
+      "model_policy": {
+        "raw_records_in_context": 0,
+        "maximum_receipt_bytes": 65536,
+        "maximum_preview_rows": 20
+      },
+      "examples": [
+        "Run Repeat-Buyer Concentration on Batch 001."
+      ],
+      "caveats": [
+        "Incomplete values are not zero.",
+        "Distinct wallets need not be distinct people.",
+        "Filters describe cohorts; predictive performance is unvalidated."
+      ]
+    },
+    {
+      "id": "launch-activity-shape",
+      "version": "1.0.0",
+      "type": "filter",
+      "name": "Buy Activity Shape",
+      "question": "Select sustained, opening-burst or building buy activity during the first minute.",
+      "input": "pump.first-minute-features/1",
+      "output": "pump.filter-cohort/1",
+      "human_output": "first-minute-comparison-page",
+      "implementation_status": "implemented",
+      "validation": "Consult the versioned readiness receipt; runnable is not predictive validation.",
+      "window_ms": 60000,
+      "parameters": {
+        "mode": "sustained",
+        "min_buys_per_bucket": 1
+      },
+      "definition_hash": "e796f96ec4aac4dce04fad60848c9b9545e6dedcab6b9b18981b039d56ed595f",
+      "data_requirements": [
+        "finalized run",
+        "recorded Pump creation",
+        "complete first-minute coverage"
+      ],
+      "model_policy": {
+        "raw_records_in_context": 0,
+        "maximum_receipt_bytes": 65536,
+        "maximum_preview_rows": 20
+      },
+      "examples": [
+        "Run Buy Activity Shape on Batch 001."
+      ],
+      "caveats": [
+        "Incomplete values are not zero.",
+        "Distinct wallets need not be distinct people.",
+        "Filters describe cohorts; predictive performance is unvalidated."
+      ]
+    },
+    {
+      "id": "new-buyer-arrival-rate",
+      "version": "1.0.0",
+      "type": "filter",
+      "name": "New Buyer Arrival Rate",
+      "question": "Select steady new buyers: each ten-second segment of the first minute meets a new-wallet minimum.",
+      "input": "pump.first-minute-features/1",
+      "output": "pump.filter-cohort/1",
+      "human_output": "first-minute-comparison-page",
+      "implementation_status": "implemented",
+      "validation": "Consult the versioned readiness receipt; runnable is not predictive validation.",
+      "window_ms": 60000,
+      "parameters": {
+        "min_new_buyers_per_bucket": 1
+      },
+      "definition_hash": "1b30ed8b8550478219d26151920ecaa7e138c6437acaf7017278c07c4d340f8f",
+      "data_requirements": [
+        "finalized run",
+        "recorded Pump creation",
+        "complete first-minute coverage",
+        "complete buyer identities"
+      ],
+      "model_policy": {
+        "raw_records_in_context": 0,
+        "maximum_receipt_bytes": 65536,
+        "maximum_preview_rows": 20
+      },
+      "examples": [
+        "Run New Buyer Arrival Rate on Batch 001."
+      ],
+      "caveats": [
+        "Incomplete values are not zero.",
+        "Distinct wallets need not be distinct people.",
+        "Filters describe cohorts; predictive performance is unvalidated."
       ]
     }
   ]

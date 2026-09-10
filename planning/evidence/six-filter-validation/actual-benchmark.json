@@ -1,0 +1,138 @@
+{
+  "case": "Batch 001 actual",
+  "factor": 1,
+  "synthetic": false,
+  "commit": "583ef54e39935c09c3481465f1f35b9b8b75ca63",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
+    "logical_cpus": 6,
+    "total_memory_bytes": 8589934592,
+    "node": "v22.23.1"
+  },
+  "input_raw_records": 1074873,
+  "input_raw_bytes": 2146598836,
+  "observations": 592,
+  "known_wallets": 9088,
+  "extraction_seconds": 309.028328555,
+  "filter_seconds": 0.05062196200003382,
+  "total_seconds": 309.69917194799996,
+  "peak_rss_bytes": 146186240,
+  "derived_bytes": 1374540,
+  "temporary_bytes": 0,
+  "free_bytes_before": 36620062720,
+  "free_bytes_after": 35516665856,
+  "max_receipt_bytes": 5108,
+  "feature_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001/features.json",
+  "feature_content_hash": "af7e8e94755db9b0bb0823f66c367e335ff677c0a12fc01808e6ee2d10d176f1",
+  "summary": {
+    "observations": 592,
+    "complete": 531,
+    "unobservable": 61,
+    "zero_buys": 24,
+    "missing_wallets": 0
+  },
+  "filters": [
+    {
+      "filter_id": "observable-launches",
+      "summary": {
+        "input": 592,
+        "members": 531,
+        "rejected": 61,
+        "unobservable": 0,
+        "missing_selected": 0,
+        "reasons": {
+          "observation_status_not_equal": 61,
+          "recording_ended_early": 61
+        }
+      },
+      "content_hash": "00959e5552da3dcb1a5d027049c8e10cd67b927123a0487cede5a8918350a917",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001/observable-launches.json"
+    },
+    {
+      "filter_id": "minimum-buy-activity",
+      "summary": {
+        "input": 592,
+        "members": 201,
+        "rejected": 330,
+        "unobservable": 61,
+        "missing_selected": 0,
+        "reasons": {
+          "buy_count_below_minimum": 330,
+          "buy_count_unavailable": 61,
+          "recording_ended_early": 61
+        }
+      },
+      "content_hash": "cd340f816fff2ac540624abce89c3b2cbf97d358cb07b147fbc0f9799e947784",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001/minimum-buy-activity.json"
+    },
+    {
+      "filter_id": "buyer-diversity",
+      "summary": {
+        "input": 592,
+        "members": 227,
+        "rejected": 304,
+        "unobservable": 61,
+        "missing_selected": 0,
+        "reasons": {
+          "unique_buyers_below_minimum": 304,
+          "recording_ended_early": 61,
+          "unique_buyers_unavailable": 61
+        }
+      },
+      "content_hash": "a9702e1855b84b654f52d65021fea31812b7d9b9bcc82b9a9f4b8270857bca95",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001/buyer-diversity.json"
+    },
+    {
+      "filter_id": "repeat-buyer-concentration",
+      "summary": {
+        "input": 592,
+        "members": 132,
+        "rejected": 375,
+        "unobservable": 85,
+        "missing_selected": 0,
+        "reasons": {
+          "repeat_ratio_below_minimum": 375,
+          "repeat_ratio_unavailable": 85,
+          "recording_ended_early": 61
+        }
+      },
+      "content_hash": "2c5cd17d6a33a2744b3ebbfc7d703b91f3b2a2360f511913d47515da22bc1198",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001/repeat-buyer-concentration.json"
+    },
+    {
+      "filter_id": "launch-activity-shape",
+      "summary": {
+        "input": 592,
+        "members": 76,
+        "rejected": 455,
+        "unobservable": 61,
+        "missing_selected": 0,
+        "reasons": {
+          "buy_buckets_sustained_failed": 455,
+          "buy_buckets_unavailable": 61,
+          "recording_ended_early": 61
+        }
+      },
+      "content_hash": "5052f9b1e6056581e17c4281313346e0a9c65f73ccf419e69d684771a3b243d7",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001/launch-activity-shape.json"
+    },
+    {
+      "filter_id": "new-buyer-arrival-rate",
+      "summary": {
+        "input": 592,
+        "members": 32,
+        "rejected": 499,
+        "unobservable": 61,
+        "missing_selected": 0,
+        "reasons": {
+          "arrival_buckets_sustained_failed": 499,
+          "arrival_buckets_unavailable": 61,
+          "recording_ended_early": 61
+        }
+      },
+      "content_hash": "0b2274a118bfa8bb88e3999ef702e836edb46e9adbc98b0e56cf5303f7544f83",
+      "full_result_path": "/Users/drewp/Library/Application Support/MemeExplorer/analysis-six-filters/batch-001/new-buyer-arrival-rate.json"
+    }
+  ],
+  "budgets_pass": true
+}

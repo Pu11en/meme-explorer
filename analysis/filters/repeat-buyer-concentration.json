@@ -1,0 +1,20 @@
+{
+  "schema": "pump.filter-definition/1",
+  "id": "repeat-buyer-concentration",
+  "version": "1.0.0",
+  "name": "Repeat-Buyer Concentration",
+  "description": "Select launches whose fraction of buys beyond each wallet’s first buy meets a threshold.",
+  "source_schema": "pump.first-minute-features/1",
+  "formula_version": "first-minute/1",
+  "window_ms": 60000,
+  "missing_policy": "unknown",
+  "parameters": {
+    "min_repeat_ratio": 0.5
+  },
+  "expression": {
+    "op": "ratio",
+    "numerator": "repeat_buy_count",
+    "denominator": "buy_count",
+    "minimum": 0.5
+  }
+}

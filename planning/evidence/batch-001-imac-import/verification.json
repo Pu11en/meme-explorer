@@ -1,0 +1,45 @@
+{
+  "verified_at": "2026-09-08T13:05:27.274357+00:00",
+  "handoff_commit": "5a0c4c4c0a270556f01d8f24ccb5c9082775a066",
+  "archive_sha256": "7e39232f64cc23b08b96a274759b8a40287fb3e54740b5f3731a2756c7a966ca",
+  "archive_verified": true,
+  "inventory_matches_pinned_commit": true,
+  "installed_files_verified": 58,
+  "installed_bytes": 3916097642,
+  "data_root": "/Users/drewp/Library/Application Support/MemeExplorer/imports/batch-001-imac-v1/verified/data",
+  "free_bytes_after": 37872693248,
+  "runs": [
+    {
+      "run_id": "run-0001-20260901T090521.931Z",
+      "status": "stopped",
+      "counts": {
+        "raw_records": 210305,
+        "normalized_records": 577396
+      }
+    },
+    {
+      "run_id": "run-0002-20260902T213813.900Z",
+      "status": "stopped",
+      "counts": {
+        "raw_records": 369103,
+        "normalized_records": 1063031
+      }
+    },
+    {
+      "run_id": "run-0003-20260904T012430.686Z",
+      "status": "stopped",
+      "counts": {
+        "raw_records": 342146,
+        "normalized_records": 1011795
+      }
+    },
+    {
+      "run_id": "run-0004-20260904T025702.891Z",
+      "status": "stopped",
+      "counts": {
+        "raw_records": 153319,
+        "normalized_records": 458824
+      }
+    }
+  ]
+}

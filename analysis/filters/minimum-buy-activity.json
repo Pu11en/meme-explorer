@@ -1,0 +1,19 @@
+{
+  "schema": "pump.filter-definition/1",
+  "id": "minimum-buy-activity",
+  "version": "1.0.0",
+  "name": "Minimum Buy Activity",
+  "description": "Select launches with at least the requested first-minute buy count.",
+  "source_schema": "pump.first-minute-features/1",
+  "formula_version": "first-minute/1",
+  "window_ms": 60000,
+  "missing_policy": "unknown",
+  "parameters": {
+    "min_buys": 10
+  },
+  "expression": {
+    "op": "gte",
+    "field": "buy_count",
+    "value": 10
+  }
+}

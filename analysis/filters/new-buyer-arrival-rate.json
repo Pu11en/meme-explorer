@@ -1,0 +1,20 @@
+{
+  "schema": "pump.filter-definition/1",
+  "id": "new-buyer-arrival-rate",
+  "version": "1.0.0",
+  "name": "New Buyer Arrival Rate",
+  "description": "Select steady new buyers: each ten-second segment of the first minute meets a new-wallet minimum.",
+  "source_schema": "pump.first-minute-features/1",
+  "formula_version": "first-minute/1",
+  "window_ms": 60000,
+  "missing_policy": "unknown",
+  "parameters": {
+    "min_new_buyers_per_bucket": 1
+  },
+  "expression": {
+    "op": "shape",
+    "series": "arrival_buckets",
+    "mode": "sustained",
+    "threshold": 1
+  }
+}

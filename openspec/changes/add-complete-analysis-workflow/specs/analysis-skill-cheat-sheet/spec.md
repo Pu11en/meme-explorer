@@ -31,3 +31,10 @@ The cheat sheet SHALL display data-quality, manipulation, causality, and “metr
 #### Scenario: View an early-activity filter
 - **WHEN** a user opens its guidance
 - **THEN** the entry identifies the fixed first-60-second window and states that high activity can be manipulated and is not evidence of predictive value by itself
+
+### Requirement: Six filters expose implementation and validation status
+The catalog and generated guidance SHALL expose the six initial filter IDs, pinned formulas and defaults, and per-batch prerequisite status independently of the later dashboard. Guidance SHALL distinguish implemented, correctness-validated and scale-validated states with evidence references; planned entries SHALL NOT advertise runnable commands.
+
+#### Scenario: Filter passes fixtures but lacks real-data validation
+- **WHEN** a filter has only synthetic test evidence
+- **THEN** its guidance reports that limited validation state and does not label it ready for hourly batches
