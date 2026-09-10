@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meme Explorer — Batch Analysis Report</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f172a; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 32px 24px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 700; color: #f1f5f9; margin-bottom: 4px; }
+  h2 { font-size: 18px; font-weight: 600; color: #f1f5f9; margin: 32px 0 12px; }
+  h3 { font-size: 14px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .05em; margin: 24px 0 8px; }
+  p { color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  td, th { padding: 8px 12px; border-bottom: 1px solid #1e293b; }
+  tr:hover td { background: #1e293b44; }
+  .cards { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+  .section { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .rule { background: #1e293b; border-left: 3px solid #60a5fa; padding: 12px 16px; border-radius: 0 6px 6px 0; margin-bottom: 10px; font-size: 13px; }
+  .rule code { color: #60a5fa; font-family: monospace; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-right: 4px; }
+  .insight { background: #1e293b; border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; font-size: 13px; line-height: 1.6; }
+  .insight strong { color: #f1f5f9; }
+  .updated { color: #475569; font-size: 12px; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<h1>Meme Explorer — Batch Analysis Report</h1>
+<p class="updated">Batches: 002 &amp; 003 · Sep 8, 2026 · Batch 001 data on Geo (not yet imported)</p>
+
+<!-- ── SUMMARY STATS ── -->
+<div class="cards" style="margin-top:24px">
+  
+    <div style="background:#1e293b;border-radius:8px;padding:20px 24px;min-width:160px">
+      <div style="font-size:28px;font-weight:700;color:#60a5fa">2,702</div>
+      <div style="font-size:13px;color:#94a3b8;margin-top:4px">Coins Launched</div>
+      <div style='font-size:11px;color:#64748b;margin-top:2px'>across 2 batches</div>
+    </div>
+  
+    <div style="background:#1e293b;border-radius:8px;padding:20px 24px;min-width:160px">
+      <div style="font-size:28px;font-weight:700;color:#a78bfa">68</div>
+      <div style="font-size:13px;color:#94a3b8;margin-top:4px">Migrated</div>
+      <div style='font-size:11px;color:#64748b;margin-top:2px'>2.5% of all launches</div>
+    </div>
+  
+    <div style="background:#1e293b;border-radius:8px;padding:20px 24px;min-width:160px">
+      <div style="font-size:28px;font-weight:700;color:#22c55e">8</div>
+      <div style="font-size:13px;color:#94a3b8;margin-top:4px">Organic Migrators</div>
+      <div style='font-size:11px;color:#64748b;margin-top:2px'>passed fraud filter</div>
+    </div>
+  
+    <div style="background:#1e293b;border-radius:8px;padding:20px 24px;min-width:160px">
+      <div style="font-size:28px;font-weight:700;color:#ef4444">60</div>
+      <div style="font-size:13px;color:#94a3b8;margin-top:4px">Bundled/Controlled</div>
+      <div style='font-size:11px;color:#64748b;margin-top:2px'>filtered out</div>
+    </div>
+  
+    <div style="background:#1e293b;border-radius:8px;padding:20px 24px;min-width:160px">
+      <div style="font-size:28px;font-weight:700;color:#60a5fa">~1,351</div>
+      <div style="font-size:13px;color:#94a3b8;margin-top:4px">Launches/Hour</div>
+      <div style='font-size:11px;color:#64748b;margin-top:2px'>consistent both batches</div>
+    </div>
+</div>
+
+<!-- ── PER-BATCH STATS ── -->
+<div class="section">
+  <h2>Per-Batch Summary</h2>
+  <table>
+    <tr style="background:#1e293b;color:#94a3b8;font-size:12px;text-transform:uppercase">
+      <th style="text-align:left;padding:8px 12px">Batch</th>
+      <th>Window</th>
+      <th>Launches</th>
+      <th>Migrated</th>
+      <th>Rate</th>
+      <th>Organic Migrators</th>
+    </tr>
+    
+    <tr>
+      <td style="font-weight:600">Batch 002</td>
+      <td style="color:#94a3b8">Sep 8 · 12:00–1:00 PM Central</td>
+      <td style="text-align:center">1,280</td>
+      <td style="text-align:center">36</td>
+      <td style="text-align:center">2.8%</td>
+      <td style="text-align:center">4</td>
+    </tr>
+    <tr>
+      <td style="font-weight:600">Batch 003</td>
+      <td style="color:#94a3b8">Sep 8 · 1:00–2:00 PM Central</td>
+      <td style="text-align:center">1,422</td>
+      <td style="text-align:center">34</td>
+      <td style="text-align:center">2.4%</td>
+      <td style="text-align:center">4</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ── FRAUD DETECTION ── -->
+<div class="section">
+  <h2>Fraud Detection Rules (v2)</h2>
+  <p>These rules run on first-minute data only. A coin is filtered if it hits any one rule.</p>
+
+  <div class="rule">
+    <strong>DISTRIBUTED BUNDLE</strong> — <code>same_slot_buys ≥ 5</code><br>
+    Multiple wallets all buying in the exact same block as the coin creation. The dev pre-coordinates a pack of wallets to launch simultaneously and inflate early metrics. DoubleZebra had 20 same-slot buys; second Ziggy had 23.
+  </div>
+  <div class="rule">
+    <strong>CONTROLLED</strong> — <code>unique_buyers ≤ 6 AND sniper_ratio ≥ 80%</code><br>
+    A small cabal of known bot wallets controls the majority of buys. Real organic activity has not started yet.
+  </div>
+  <div class="rule">
+    <strong>SINGLE-WALLET BUNDLE</strong> — <code>top_wallet_pct ≥ 40%</code><br>
+    One wallet holds ≥40% of first-minute SOL volume. Classic bundle with fewer wallets.
+  </div>
+
+  <h3 style="margin-top:20px">What is NOT filtered out</h3>
+  <p><strong>High sniper ratio alone</strong> — snipers are drawn to winners. In both batches, 33/34 migrators had known sniper wallets pile in. Filtering on sniper presence alone would remove almost every winner.</p>
+  <p><strong>Low SOL volume</strong> — some organic coins migrate on community momentum with low SOL. Volume alone is not the signal.</p>
+</div>
+
+<!-- ── ORGANIC MIGRATORS ── -->
+<div class="section">
+  <h2>✅ Organic Migrators — Both Batches (8 coins)</h2>
+  <p>Passed all fraud filters. Sorted by migration speed.</p>
+  <table>
+    
+    <tr style="background:#1e293b;color:#94a3b8;font-size:12px;text-transform:uppercase;letter-spacing:.05em">
+      <th style="text-align:left;padding:8px 12px">Coin</th>
+      <th style="padding:8px">Migrated In</th>
+      <th style="padding:8px">1m Buys</th>
+      <th style="padding:8px">1m Unique</th>
+      <th style="padding:8px">1m SOL</th>
+      <th style="padding:8px">Same-Slot</th>
+      <th style="padding:8px">Sniper%</th>
+      <th style="padding:8px">Verdict</th>
+      <th>Batch</th>
+    </tr>
+    
+    <tr>
+      <td><a href="https://pump.fun/coin/2k7X2uxgrDKWrGDTjZKAkn5iZDgsoV655pCvowvopump" target="_blank" style="color:#60a5fa;text-decoration:none">Ziggy <span style="opacity:.6">(Ziggy)</span></a></td>
+      <td style="text-align:center">0m 17s</td>
+      <td style="text-align:right">924</td>
+      <td style="text-align:right">613</td>
+      <td style="text-align:right">568.3</td>
+      <td style="text-align:center">2</td>
+      <td style="text-align:center">39.5%</td>
+      <td style="text-align:center"><span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">ORGANIC</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/5dE75T4khSPmNJwa5nqqVBdDVQp7dQUNbo3vtgrbD1uV" target="_blank" style="color:#60a5fa;text-decoration:none">Monero <span style="opacity:.6">(Luke)</span></a></td>
+      <td style="text-align:center">1m 5s</td>
+      <td style="text-align:right">464</td>
+      <td style="text-align:right">248</td>
+      <td style="text-align:right">141.4</td>
+      <td style="text-align:center">2</td>
+      <td style="text-align:center">71.6%</td>
+      <td style="text-align:center"><span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">ORGANIC</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/9Ev9MhnahvgeHChnEFPEG6C1BAaN4doG61vTfDNBwsni" target="_blank" style="color:#60a5fa;text-decoration:none">Suica Rabbit <span style="opacity:.6">(うさぎ
+)</span></a></td>
+      <td style="text-align:center">1m 32s</td>
+      <td style="text-align:right">586</td>
+      <td style="text-align:right">467</td>
+      <td style="text-align:right">261.6</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">45.9%</td>
+      <td style="text-align:center"><span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">ORGANIC</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/CjMCNtoHVnzxNtztKyoiTyaYVnwcpkmN9CyRDr2r6jPE" target="_blank" style="color:#60a5fa;text-decoration:none">MoneroCat <span style="opacity:.6">(Luke)</span></a></td>
+      <td style="text-align:center">1m 58s</td>
+      <td style="text-align:right">684</td>
+      <td style="text-align:right">508</td>
+      <td style="text-align:right">354.1</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">44.9%</td>
+      <td style="text-align:center"><span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">ORGANIC</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/4W64cnFRfcZZqPQLHkgnJuTHGWQtSrAoUU8kaAAqpump" target="_blank" style="color:#60a5fa;text-decoration:none">DoubleZebra <span style="opacity:.6">(2Z)</span></a></td>
+      <td style="text-align:center">3m 30s</td>
+      <td style="text-align:right">175</td>
+      <td style="text-align:right">159</td>
+      <td style="text-align:right">136.1</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">42.3%</td>
+      <td style="text-align:center"><span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">ORGANIC</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/F6cmnymUCqvBzJgLwE5hwH4UPQ9WpnKi3aTCF5XpywSe" target="_blank" style="color:#60a5fa;text-decoration:none">Sender <span style="opacity:.6">(Sender)</span></a></td>
+      <td style="text-align:center">4m 3s</td>
+      <td style="text-align:right">107</td>
+      <td style="text-align:right">90</td>
+      <td style="text-align:right">39.9</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">58.9%</td>
+      <td style="text-align:center"><span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">ORGANIC</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/2Sa8BEPPnw6TiBrhBQc38utqBDm5Ze7GADHapZiJ6dor" target="_blank" style="color:#60a5fa;text-decoration:none">The UberChad <span style="opacity:.6">(UberChad)</span></a></td>
+      <td style="text-align:center">5m 5s</td>
+      <td style="text-align:right">73</td>
+      <td style="text-align:right">60</td>
+      <td style="text-align:right">56.8</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">61.6%</td>
+      <td style="text-align:center"><span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">ORGANIC</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/GL7M1C4QeLoURyexYgdhuP8SvaPh5LHQLRqKha3epump" target="_blank" style="color:#60a5fa;text-decoration:none">True Adam <span style="opacity:.6">(Adam)</span></a></td>
+      <td style="text-align:center">7m 4s</td>
+      <td style="text-align:right">880</td>
+      <td style="text-align:right">656</td>
+      <td style="text-align:right">335.7</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">40.0%</td>
+      <td style="text-align:center"><span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">ORGANIC</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ── FILTERED MIGRATORS ── -->
+<div class="section">
+  <h2>🚫 Filtered Migrators — Bundles &amp; Controlled (60 coins)</h2>
+  <p>These migrated but are not organic signals — coordinated, bundled, or cabal-driven launches.</p>
+  <table>
+    
+    <tr style="background:#1e293b;color:#94a3b8;font-size:12px;text-transform:uppercase;letter-spacing:.05em">
+      <th style="text-align:left;padding:8px 12px">Coin</th>
+      <th style="padding:8px">Migrated In</th>
+      <th style="padding:8px">1m Buys</th>
+      <th style="padding:8px">1m Unique</th>
+      <th style="padding:8px">1m SOL</th>
+      <th style="padding:8px">Same-Slot</th>
+      <th style="padding:8px">Sniper%</th>
+      <th style="padding:8px">Verdict</th>
+      <th>Batch</th>
+    </tr>
+    
+    <tr>
+      <td><a href="https://pump.fun/coin/78wpcs8k8biiy1NomTnKfU7h4aCrYYzR59sp1NRopump" target="_blank" style="color:#60a5fa;text-decoration:none">DoubleZebra <span style="opacity:.6">(2Z)</span></a></td>
+      <td style="text-align:center">0m 55s</td>
+      <td style="text-align:right">277</td>
+      <td style="text-align:right">201</td>
+      <td style="text-align:right">164.6</td>
+      <td style="text-align:center">20</td>
+      <td style="text-align:center">64.6%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/9cpdDVViZEa16RyoRB4XAv97MmqnhMXJ3eccmFLrpump" target="_blank" style="color:#60a5fa;text-decoration:none">NavierStrokes <span style="opacity:.6">(STOKES)</span></a></td>
+      <td style="text-align:center">1m 29s</td>
+      <td style="text-align:right">90</td>
+      <td style="text-align:right">17</td>
+      <td style="text-align:right">4.6</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/9NuTu4B1Uhx2yMygmFrysN51Uvp38swMhX2jkqSwpump" target="_blank" style="color:#60a5fa;text-decoration:none">Ziggy <span style="opacity:.6">(Ziggy)</span></a></td>
+      <td style="text-align:center">1m 45s</td>
+      <td style="text-align:right">279</td>
+      <td style="text-align:right">188</td>
+      <td style="text-align:right">167.9</td>
+      <td style="text-align:center">23</td>
+      <td style="text-align:center">68.5%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/K92XfGwncauWCFvBYssX47ePLfBzmSSfbJmUDjVpump" target="_blank" style="color:#60a5fa;text-decoration:none">GOLDPEPE <span style="opacity:.6">(goldpepe)</span></a></td>
+      <td style="text-align:center">2m 8s</td>
+      <td style="text-align:right">96</td>
+      <td style="text-align:right">19</td>
+      <td style="text-align:right">2.2</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/5Nw33NZGyn6WWLSomqh6B9eQ9VDBPKeFyApAhgJZmdN1" target="_blank" style="color:#60a5fa;text-decoration:none">The Patriots <span style="opacity:.6">(PATRIOTS)</span></a></td>
+      <td style="text-align:center">2m 25s</td>
+      <td style="text-align:right">44</td>
+      <td style="text-align:right">39</td>
+      <td style="text-align:right">67.3</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">34.1%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/GCoXSXSWimVFLJhnYiAStrDVNjHgJE9Y7E85YNoVpump" target="_blank" style="color:#60a5fa;text-decoration:none">MoneroCat <span style="opacity:.6">(Luke)</span></a></td>
+      <td style="text-align:center">2m 28s</td>
+      <td style="text-align:right">59</td>
+      <td style="text-align:right">8</td>
+      <td style="text-align:right">1.6</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">98.3%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/XEyN9x3TxXG9Ub9riyXYfyN5149XsM2YPdu5o9wpump" target="_blank" style="color:#60a5fa;text-decoration:none">The Toad Cat <span style="opacity:.6">(TOAD)</span></a></td>
+      <td style="text-align:center">2m 38s</td>
+      <td style="text-align:right">61</td>
+      <td style="text-align:right">12</td>
+      <td style="text-align:right">2.8</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/5VoE3y8yAQNFwogdCg6NNAKzovawz4JY1uBHYkXzpump" target="_blank" style="color:#60a5fa;text-decoration:none">Cupidoge <span style="opacity:.6">(doge 💘)</span></a></td>
+      <td style="text-align:center">5m 50s</td>
+      <td style="text-align:right">60</td>
+      <td style="text-align:right">60</td>
+      <td style="text-align:right">85.2</td>
+      <td style="text-align:center">2</td>
+      <td style="text-align:center">28.3%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/2cAWASDH2mrF7bscbbyWyHVCNNCaS5QcT6RtBXhMpump" target="_blank" style="color:#60a5fa;text-decoration:none">America Coin <span style="opacity:.6">(America)</span></a></td>
+      <td style="text-align:center">6m 6s</td>
+      <td style="text-align:right">231</td>
+      <td style="text-align:right">171</td>
+      <td style="text-align:right">103.6</td>
+      <td style="text-align:center">9</td>
+      <td style="text-align:center">57.1%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/Cen1aicA2zhLH3e2dX86RH517585BcqHdspjbF2qFZMg" target="_blank" style="color:#60a5fa;text-decoration:none">invisible dog <span style="opacity:.6">(ㅤ)</span></a></td>
+      <td style="text-align:center">6m 15s</td>
+      <td style="text-align:right">243</td>
+      <td style="text-align:right">196</td>
+      <td style="text-align:right">97.3</td>
+      <td style="text-align:center">13</td>
+      <td style="text-align:center">61.7%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/GHK4WAzR6aNVeK7uvg9gkFbfQGfyYktXz9MCY34Kpump" target="_blank" style="color:#60a5fa;text-decoration:none">Badder Bunny <span style="opacity:.6">(BADBUN)</span></a></td>
+      <td style="text-align:center">9m 50s</td>
+      <td style="text-align:right">52</td>
+      <td style="text-align:right">10</td>
+      <td style="text-align:right">13.6</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">94.2%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/8TLoZK1s9KsHrD6iTMpWQwt5AzP4EPk8Gba69MkRpump" target="_blank" style="color:#60a5fa;text-decoration:none">PROCRASTICOIN <span style="opacity:.6">($LATER)</span></a></td>
+      <td style="text-align:center">10m 10s</td>
+      <td style="text-align:right">60</td>
+      <td style="text-align:right">7</td>
+      <td style="text-align:right">3.1</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/EJvfUSRzhmSf8UCRJrdGzSzsLSnccghHf2CVvZYyALJY" target="_blank" style="color:#60a5fa;text-decoration:none">Baby Nasduck <span style="opacity:.6">(BabyQQQ)</span></a></td>
+      <td style="text-align:center">10m 53s</td>
+      <td style="text-align:right">34</td>
+      <td style="text-align:right">29</td>
+      <td style="text-align:right">48.3</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">35.3%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/BDbS4nVYqHfbc3XiWbToF39fojHfKMZBVihUscqTTd6M" target="_blank" style="color:#60a5fa;text-decoration:none">Corine <span style="opacity:.6">(CORINE)</span></a></td>
+      <td style="text-align:center">14m 2s</td>
+      <td style="text-align:right">17</td>
+      <td style="text-align:right">17</td>
+      <td style="text-align:right">12.2</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">47.1%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/8McjHFNmvZq91FyqVShoJeYti1qMgeZHnrghxiezpump" target="_blank" style="color:#60a5fa;text-decoration:none">TECHNICS <span style="opacity:.6">(TCS)</span></a></td>
+      <td style="text-align:center">18m 31s</td>
+      <td style="text-align:right">85</td>
+      <td style="text-align:right">24</td>
+      <td style="text-align:right">15.8</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">92.9%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/A7cQuwaZgHmfzTFYHcv12SkPYtVkbQTwsF7DHudcpump" target="_blank" style="color:#60a5fa;text-decoration:none">BIPOLAR <span style="opacity:.6">(BIPOLAR)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">234</td>
+      <td style="text-align:right">188</td>
+      <td style="text-align:right">6040.5</td>
+      <td style="text-align:center">7</td>
+      <td style="text-align:center">15.8%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/JdgGqeSidgKjAqJbm5T6h6W89NDRpPAXgK8PadMpump" target="_blank" style="color:#60a5fa;text-decoration:none">Robinhood Hat Strategy <span style="opacity:.6">(RSTR)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">168</td>
+      <td style="text-align:right">160</td>
+      <td style="text-align:right">1176.7</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">13.7%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/FgfStcjH1Yqe5mHVx8qvKVEAK8TET9P9u5KuB7bhpump" target="_blank" style="color:#60a5fa;text-decoration:none">Nikey the Cat <span style="opacity:.6">(NIKEY)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">80</td>
+      <td style="text-align:right">74</td>
+      <td style="text-align:right">189.7</td>
+      <td style="text-align:center">6</td>
+      <td style="text-align:center">27.5%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/GeXfiq4h6NafmWTWGGRtdqzcQWEnKRSCQCgbjbM4pump" target="_blank" style="color:#60a5fa;text-decoration:none"> Solana nike <span style="opacity:.6">(SOL NIKE)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">91</td>
+      <td style="text-align:right">86</td>
+      <td style="text-align:right">589.8</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">23.1%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/DkiKv8FHS3PcTTyPEcWN5RJfVyPAqihsh6Ft9jBpump" target="_blank" style="color:#60a5fa;text-decoration:none">TOPBLAST <span style="opacity:.6">(TOPBLAST)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">30</td>
+      <td style="text-align:right">24</td>
+      <td style="text-align:right">1242.7</td>
+      <td style="text-align:center">7</td>
+      <td style="text-align:center">66.7%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/JD22cNbVBvXBxc24awNQNSTma542wciw6syZEg6pump" target="_blank" style="color:#60a5fa;text-decoration:none">AnthropicAI <span style="opacity:.6">(Anthropic)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">37</td>
+      <td style="text-align:right">31</td>
+      <td style="text-align:right">1631.7</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">51.4%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/28ZHuzqJwtg97KhJzuUwypC82vMCKuZa629FaCmrpump" target="_blank" style="color:#60a5fa;text-decoration:none">Meme Solana Feline Token <span style="opacity:.6">(MSFT)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">63</td>
+      <td style="text-align:right">59</td>
+      <td style="text-align:right">218.2</td>
+      <td style="text-align:center">6</td>
+      <td style="text-align:center">20.6%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/gi5Lnx7Y7Qsme5nEmxgCwwHHUMTLb6JMtggLjHapump" target="_blank" style="color:#60a5fa;text-decoration:none">Global Oil Asset Fund <span style="opacity:.6">(GOAF)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">28</td>
+      <td style="text-align:right">22</td>
+      <td style="text-align:right">1243.3</td>
+      <td style="text-align:center">8</td>
+      <td style="text-align:center">60.7%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/cpYnCkaM8y5yndMqC1cZk6RTQJAsyuMHMnkVJrtpump" target="_blank" style="color:#60a5fa;text-decoration:none">GTA VI <span style="opacity:.6">(GTA6)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">44</td>
+      <td style="text-align:right">38</td>
+      <td style="text-align:right">1177.9</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">63.6%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/SDHitvHCCX774rka92cypVgsGZSF62uQ4zU9akvpump" target="_blank" style="color:#60a5fa;text-decoration:none">National Trump Digital Accounts <span style="opacity:.6">(NTDA)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">27</td>
+      <td style="text-align:right">22</td>
+      <td style="text-align:right">683.7</td>
+      <td style="text-align:center">6</td>
+      <td style="text-align:center">59.3%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/J7Mt5Fjr3VTMZMZLHXDTcWj6vWX9rmeqQ9dZUg1pump" target="_blank" style="color:#60a5fa;text-decoration:none">GTA VI <span style="opacity:.6">(GTA6)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">31</td>
+      <td style="text-align:right">25</td>
+      <td style="text-align:right">1078.5</td>
+      <td style="text-align:center">7</td>
+      <td style="text-align:center">61.3%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/dNd9m6PhKeSbaT1E2w4vifZDBMh3REC7Pf4SBeqpump" target="_blank" style="color:#60a5fa;text-decoration:none">MrBeast <span style="opacity:.6">(BEAST)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">40</td>
+      <td style="text-align:right">34</td>
+      <td style="text-align:right">290.9</td>
+      <td style="text-align:center">8</td>
+      <td style="text-align:center">45.0%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/JB4DCKbbAxnKtbRgkaZoWCh122LTpqyJnBTRQgMpump" target="_blank" style="color:#60a5fa;text-decoration:none">LAPTOP <span style="opacity:.6">(LAPTOP)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">43</td>
+      <td style="text-align:right">36</td>
+      <td style="text-align:right">1079.0</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">55.8%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/VxeTjKJ7fiGwx2myhW33fXaj5DFbRF6vnH4VRdzpump" target="_blank" style="color:#60a5fa;text-decoration:none">America Coin <span style="opacity:.6">(America)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">34</td>
+      <td style="text-align:right">28</td>
+      <td style="text-align:right">1008.7</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">67.6%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/Cxu9dHdbx6rwvocTkvtPhTq17ybX21aiRsiRpJ5ppump" target="_blank" style="color:#60a5fa;text-decoration:none">WOFI <span style="opacity:.6">(WOFI)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">89</td>
+      <td style="text-align:right">37</td>
+      <td style="text-align:right">2594.5</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">87.6%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/ALUvctpkNQTRVzu5sT9pJCNkTtH7sfx41wonTNnpump" target="_blank" style="color:#60a5fa;text-decoration:none">LAPTOP <span style="opacity:.6">(LAPTOP)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">23</td>
+      <td style="text-align:right">17</td>
+      <td style="text-align:right">880.6</td>
+      <td style="text-align:center">7</td>
+      <td style="text-align:center">56.5%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/qpRj8LD5yn9bJBtjUzZCpfsFcTLe34Texbe3cd4pump" target="_blank" style="color:#60a5fa;text-decoration:none">LEGO <span style="opacity:.6">(LEGO)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">30</td>
+      <td style="text-align:right">24</td>
+      <td style="text-align:right">1000.8</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">53.3%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/13FZ5z1Gt84UCGb8hVAfUyoZ3wNDER1xjMBb5YY7pump" target="_blank" style="color:#60a5fa;text-decoration:none">Federal Trust Fund System <span style="opacity:.6">(FTFS)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">321</td>
+      <td style="text-align:right">279</td>
+      <td style="text-align:right">1094.0</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">20.9%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/uYuoqDw9v4UsNb45D24ZZCicoMi8bw6aTMwmtmPpump" target="_blank" style="color:#60a5fa;text-decoration:none">RST <span style="opacity:.6">(RST)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">23</td>
+      <td style="text-align:right">18</td>
+      <td style="text-align:right">484.7</td>
+      <td style="text-align:center">8</td>
+      <td style="text-align:center">56.5%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/itJ7pbhzbnCTNeUhsyeE7rq4wqYaLm1AveX1nbrpump" target="_blank" style="color:#60a5fa;text-decoration:none">Robinhood <span style="opacity:.6">(HOOD)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">31</td>
+      <td style="text-align:right">26</td>
+      <td style="text-align:right">1275.7</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">67.7%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/NKuaDGa9ipuUmpTLgpnJuxKxqetQydLKNEtRDEqpump" target="_blank" style="color:#60a5fa;text-decoration:none">Robin Alon <span style="opacity:.6">(RobinAlon)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">31</td>
+      <td style="text-align:right">24</td>
+      <td style="text-align:right">1276.4</td>
+      <td style="text-align:center">8</td>
+      <td style="text-align:center">64.5%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/MHmxyNfLgMbowvXSKBz6Lc31CdcJPniUV8jYEgepump" target="_blank" style="color:#60a5fa;text-decoration:none">LAPTOP <span style="opacity:.6">(LAPTOP)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">24</td>
+      <td style="text-align:right">18</td>
+      <td style="text-align:right">1275.2</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">79.2%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/fb9RkRuepx8qgvXQSGpehBgzzyRLjPAmZj68Bsjpump" target="_blank" style="color:#60a5fa;text-decoration:none">ROBINHOOF <span style="opacity:.6">(ROBINHOOF)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">23</td>
+      <td style="text-align:right">18</td>
+      <td style="text-align:right">1275.9</td>
+      <td style="text-align:center">6</td>
+      <td style="text-align:center">78.3%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/NCZxJogpeBniYxJ1Z39FLEGA7o2K3tqqLSHJtxGpump" target="_blank" style="color:#60a5fa;text-decoration:none">Robin the Frog <span style="opacity:.6">(ROBIN)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">27</td>
+      <td style="text-align:right">21</td>
+      <td style="text-align:right">1276.6</td>
+      <td style="text-align:center">7</td>
+      <td style="text-align:center">70.4%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/12syr7kiXRVHotCzM298S4T5QnczCnijGs9AcCbLpump" target="_blank" style="color:#60a5fa;text-decoration:none">Federal Trust Fund System <span style="opacity:.6">(FTFS)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">312</td>
+      <td style="text-align:right">272</td>
+      <td style="text-align:right">1093.3</td>
+      <td style="text-align:center">5</td>
+      <td style="text-align:center">22.8%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/H57FVLeCNM6nysqCmjdogmQi7yC6CLWu55ph1kjapump" target="_blank" style="color:#60a5fa;text-decoration:none">WOFI <span style="opacity:.6">(WOFI)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">135</td>
+      <td style="text-align:right">43</td>
+      <td style="text-align:right">3069.8</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">94.8%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/5wDfDX6uSaevLbuY5NVT17fRQSued5avyr1c8Jq6pump" target="_blank" style="color:#60a5fa;text-decoration:none">opensea <span style="opacity:.6">(OpenSea)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">90</td>
+      <td style="text-align:right">85</td>
+      <td style="text-align:right">588.1</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">16.7%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/BwNhdUs7M4m8pEUPwjh7g5oakLAe9R73VDGTvADpump" target="_blank" style="color:#60a5fa;text-decoration:none">Trumpcoin <span style="opacity:.6">($1)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">42</td>
+      <td style="text-align:right">36</td>
+      <td style="text-align:right">1612.8</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">47.6%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/14YAFUUrAstzXvRLayPqfbo3stiTh5tjC82VEC1tpump" target="_blank" style="color:#60a5fa;text-decoration:none">Artificial Inu <span style="opacity:.6">(AI)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">46</td>
+      <td style="text-align:right">40</td>
+      <td style="text-align:right">1577.3</td>
+      <td style="text-align:center">3</td>
+      <td style="text-align:center">45.7%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/bYXR9BPVXXFJhXKTLXMyKNwb37z8CEHPFt5rs2Ypump" target="_blank" style="color:#60a5fa;text-decoration:none">Just Do It <span style="opacity:.6">(NIKE)</span></a></td>
+      <td style="text-align:center">0m 0s</td>
+      <td style="text-align:right">27</td>
+      <td style="text-align:right">21</td>
+      <td style="text-align:right">880.9</td>
+      <td style="text-align:center">4</td>
+      <td style="text-align:center">51.9%</td>
+      <td style="text-align:center"><span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">BUNDLE</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/FbEjPEXHMEkjK67C2Tm56Xcg9Ycvix6bvHBUHdRqpump" target="_blank" style="color:#60a5fa;text-decoration:none">Dashkin <span style="opacity:.6">(Daskinos)</span></a></td>
+      <td style="text-align:center">2m 30s</td>
+      <td style="text-align:right">47</td>
+      <td style="text-align:right">6</td>
+      <td style="text-align:right">2.6</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">95.7%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/Hq5dQjuhTNg9VGbmkZubwUoHo8ecJZSSMSRVXkXjpump" target="_blank" style="color:#60a5fa;text-decoration:none">CRIMEDOG <span style="opacity:.6">(CRIMEDOG)</span></a></td>
+      <td style="text-align:center">3m 39s</td>
+      <td style="text-align:right">44</td>
+      <td style="text-align:right">3</td>
+      <td style="text-align:right">7.1</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/FMXPXzmHWxuhepu7Zzy2WHy7zw3NoifV2m76xm7Qpump" target="_blank" style="color:#60a5fa;text-decoration:none">goku coin <span style="opacity:.6">(sol)</span></a></td>
+      <td style="text-align:center">3m 52s</td>
+      <td style="text-align:right">55</td>
+      <td style="text-align:right">6</td>
+      <td style="text-align:right">2.5</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/7uEF8TY9nFBC5aiSyC3cBPZm3XyF4imdnJCsrgvLpump" target="_blank" style="color:#60a5fa;text-decoration:none">ROTHS <span style="opacity:.6">(ROTHS)</span></a></td>
+      <td style="text-align:center">3m 55s</td>
+      <td style="text-align:right">48</td>
+      <td style="text-align:right">6</td>
+      <td style="text-align:right">4.0</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">97.9%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/BLDtUfNdM6Kyan71EyTdDLyUKNacaNmUqvno4g6jpump" target="_blank" style="color:#60a5fa;text-decoration:none">Ape to the moon <span style="opacity:.6">(MOONKEY)</span></a></td>
+      <td style="text-align:center">4m 25s</td>
+      <td style="text-align:right">37</td>
+      <td style="text-align:right">6</td>
+      <td style="text-align:right">1.8</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">97.3%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/EyWGf8XQwFkzSjn77kz4wo2dtfrzpwNazJCYx7eLpump" target="_blank" style="color:#60a5fa;text-decoration:none">MEOW <span style="opacity:.6">(MEOW)</span></a></td>
+      <td style="text-align:center">4m 52s</td>
+      <td style="text-align:right">15</td>
+      <td style="text-align:right">3</td>
+      <td style="text-align:right">0.2</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/AG7nQtFMQmjYz14FtwBDwSdwSMbocX4VHURph8Zspump" target="_blank" style="color:#60a5fa;text-decoration:none">CRIMEWIF <span style="opacity:.6">(CWIF)</span></a></td>
+      <td style="text-align:center">5m 2s</td>
+      <td style="text-align:right">16</td>
+      <td style="text-align:right">3</td>
+      <td style="text-align:right">1.3</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/7mneEUMZaiXsYV7FsvARmxcZupNacut7aGsRDjYcpump" target="_blank" style="color:#60a5fa;text-decoration:none">GOLDPEPE <span style="opacity:.6">(goldpepe)</span></a></td>
+      <td style="text-align:center">5m 14s</td>
+      <td style="text-align:right">6</td>
+      <td style="text-align:right">4</td>
+      <td style="text-align:right">2.1</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">83.3%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/8UEkda5L7v1keXfuP7JUQFYRtqGwDnUHQv34gMWRpump" target="_blank" style="color:#60a5fa;text-decoration:none">CrimeDog <span style="opacity:.6">(WANTED)</span></a></td>
+      <td style="text-align:center">6m 41s</td>
+      <td style="text-align:right">57</td>
+      <td style="text-align:right">6</td>
+      <td style="text-align:right">10.8</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/5aiw7VMsZSxANF3Gmeq2gV114BLwjGcsLdEGBB1ypump" target="_blank" style="color:#60a5fa;text-decoration:none">Rich Cat <span style="opacity:.6">(RichCat)</span></a></td>
+      <td style="text-align:center">7m 12s</td>
+      <td style="text-align:right">49</td>
+      <td style="text-align:right">5</td>
+      <td style="text-align:right">2.9</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">98.0%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 003</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/71B1Ax6pSJdbwVuHpyw55wTp2SxaymdikA6pfMqapump" target="_blank" style="color:#60a5fa;text-decoration:none">robo stonks <span style="opacity:.6">(robostonks)</span></a></td>
+      <td style="text-align:center">8m 18s</td>
+      <td style="text-align:right">33</td>
+      <td style="text-align:right">3</td>
+      <td style="text-align:right">0.7</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/5kRH1goY7kdKPHZQUfjjGcHXZNZ4VUwfkXQmteMEpump" target="_blank" style="color:#60a5fa;text-decoration:none">worthless <span style="opacity:.6">(WL)</span></a></td>
+      <td style="text-align:center">17m 22s</td>
+      <td style="text-align:right">11</td>
+      <td style="text-align:right">2</td>
+      <td style="text-align:right">0.1</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">90.9%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/2T6mu5ZrhCmHoF3GKKovYuJFZjqVETQcf1sdnh3Apump" target="_blank" style="color:#60a5fa;text-decoration:none">Rayden <span style="opacity:.6">(RAYDEN)</span></a></td>
+      <td style="text-align:center">20m 56s</td>
+      <td style="text-align:right">7</td>
+      <td style="text-align:right">2</td>
+      <td style="text-align:right">0.1</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/AmCqHyYaq6VLiwgHXDBENrFNDHEpG4VjodQkZ7TEpump" target="_blank" style="color:#60a5fa;text-decoration:none">AURACOIN <span style="opacity:.6">($AURA)</span></a></td>
+      <td style="text-align:center">25m 9s</td>
+      <td style="text-align:right">19</td>
+      <td style="text-align:right">3</td>
+      <td style="text-align:right">0.3</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">94.7%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+    <tr>
+      <td><a href="https://pump.fun/coin/2NFrddwN3oh9BAd2MYPa3phsNQ5KkG6CgPFVjAsppump" target="_blank" style="color:#60a5fa;text-decoration:none">Banana <span style="opacity:.6">(Banana)</span></a></td>
+      <td style="text-align:center">25m 58s</td>
+      <td style="text-align:right">37</td>
+      <td style="text-align:right">5</td>
+      <td style="text-align:right">221.4</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">100.0%</td>
+      <td style="text-align:center"><span style="background:#f97316;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">CONTROLLED</span></td>
+      <td style='text-align:center;opacity:.6;font-size:12px'>Batch 002</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ── KEY INSIGHTS ── -->
+<div class="section">
+  <h2>Key Insights</h2>
+
+  <div class="insight">
+    <strong>1. Migration rate is locked at ~2.3–2.6% every hour.</strong><br>
+    Both batches produced exactly 34 migrators from ~1,300–1,465 launches. Consistent. You can expect roughly 34 migrations per hour regardless of time of day.
+  </div>
+
+  <div class="insight">
+    <strong>2. The signal for sub-2-minute migrations is unmistakable in real time.</strong><br>
+    Ziggy (17s): 924 buys, 613 unique buyers in 1 min. Monero (65s): 464 buys, 248 unique. These are obvious — no algorithm needed. You'd see them in the feed immediately.
+  </div>
+
+  <div class="insight">
+    <strong>3. Sniper wallets chase winners, not cause them.</strong><br>
+    33 of 34 migrators in each batch had known sniper wallets pile in. Snipers are detecting the same organic signal you want to find. High sniper presence = more eyes on this coin, not a red flag.
+  </div>
+
+  <div class="insight">
+    <strong>4. Repeat devs launch the same coin multiple times in one session.</strong><br>
+    "Luke" launched Monero + MoneroCat back to back in Batch 002 — both migrated under 2 minutes. In Batch 003, Ziggy appeared twice: the first (17s) was organic, the second (105s) was a distributed bundle (23 same-slot buys). DoubleZebra also appeared twice. Watching dev wallets = early edge.
+  </div>
+
+  <div class="insight">
+    <strong>5. Distributed bundles look organic until you check same-slot buys.</strong><br>
+    DoubleZebra had 201 unique buyers in 1 min which looks clean — but 20 of those buys landed in the exact same block as the coin creation. That's impossible organically. Same for second Ziggy (23 same-slot). Threshold: ≥5 same-slot buys = bundle.
+  </div>
+
+  <div class="insight">
+    <strong>6. Best real-time rule (from batch-002 threshold scan):</strong><br>
+    <code style="background:#0f172a;padding:2px 6px;border-radius:4px">≥50 unique buyers in first 60 seconds (no bundle flags)</code> → <strong>33% chance of migration</strong>, fires ~12 times per hour, catches 100% of organic fast migrators.
+  </div>
+</div>
+
+<!-- ── CROSS-BATCH REPEATS ── -->
+<div class="section">
+  <h2>Cross-Batch Repeat Patterns</h2>
+  <p>Same coins or devs appearing across batches — worth tracking their wallet.</p>
+  <table>
+    <tr style="background:#1e293b;color:#94a3b8;font-size:12px;text-transform:uppercase">
+      <th style="text-align:left;padding:8px 12px">Coin</th>
+      <th>Batch 002</th>
+      <th>Batch 003</th>
+      <th>Note</th>
+    </tr>
+    <tr>
+      <td>GOLDPEPE</td>
+      <td style="text-align:center">Migrated 2m 8s</td>
+      <td style="text-align:center">Migrated 5m 14s</td>
+      <td style="color:#94a3b8">Same dev relaunching. Both times bundled/controlled.</td>
+    </tr>
+    <tr>
+      <td>CrimeDog family</td>
+      <td style="text-align:center">CrimeDog (WANTED) — 6m 41s</td>
+      <td style="text-align:center">CRIMEDOG — 3m 39s · CRIMEWIF</td>
+      <td style="color:#94a3b8">Same dev, crime-themed coins. Repeats every session.</td>
+    </tr>
+    <tr>
+      <td>Ziggy</td>
+      <td style="text-align:center">—</td>
+      <td style="text-align:center">Organic 17s · Bundle 105s</td>
+      <td style="color:#94a3b8">Dev re-launched with bundle after organic one popped.</td>
+    </tr>
+    <tr>
+      <td>DoubleZebra</td>
+      <td style="text-align:center">—</td>
+      <td style="text-align:center">Bundle 55s · Less-bundled 3m 30s</td>
+      <td style="color:#94a3b8">Launched twice in same hour with different bundle sizes.</td>
+    </tr>
+    <tr>
+      <td>Luke (Monero/MoneroCat)</td>
+      <td style="text-align:center">Both migrated &lt;2 min</td>
+      <td style="text-align:center">—</td>
+      <td style="color:#94a3b8">Same dev, back-to-back organic migrations. Track this wallet.</td>
+    </tr>
+  </table>
+</div>
+
+<p style="margin-top:32px;color:#334155;font-size:12px">Generated 2026-09-10 01:58 UTC · meme-explorer analysis pipeline</p>
+</body>
+</html>
