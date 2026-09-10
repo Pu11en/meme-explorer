@@ -1,0 +1,75 @@
+{
+  "batch_id": "batch-002",
+  "run_id": "run-0001-20260908T170044.113Z",
+  "recorded": "2026-09-08 12:00\u201313:00 Central",
+  "total_coins": 1280,
+  "migrated": 36,
+  "clean_coins": 3,
+  "clean_migrators": 0,
+  "patterns": {
+    "velocity_30s_slots": {
+      "migrators": {
+        "0-30s": 0,
+        "30-60s": 0,
+        "60-90s": 0,
+        "90-120s": 0
+      },
+      "non_migrators": {
+        "0-30s": 3,
+        "30-60s": 8,
+        "60-90s": 0,
+        "90-120s": 0
+      },
+      "insight": "Do migrators sustain or accelerate? Non-migrators often spike then die."
+    },
+    "repeat_creators": {
+      "total_unique_creators": 0,
+      "repeat_creators_3plus": 0,
+      "coins_from_repeat_creators": 0,
+      "migrators_from_repeat_creators": 0,
+      "insight": "Repeat creators = known dev wallets that traders snipe. Filter these out."
+    },
+    "sniper_saturation": {
+      "migrators_with_sniper_traffic": 32,
+      "migrators_clean_of_snipers": 2,
+      "non_mig_with_sniper_traffic": 954,
+      "insight": "High sniper ratio = others already saw it; harder to catch early."
+    },
+    "repeat_buyer_ratio": {
+      "migrators_median_pct": 0,
+      "non_migrators_median_pct": 0.0,
+      "insight": "Higher repeat-buyer % = more conviction from early holders."
+    },
+    "mcap_trajectory": {
+      "1min_end_mcap": {
+        "migrators_median": 0,
+        "non_migrators_median": 34.9
+      },
+      "3min_end_mcap": {
+        "migrators_median": 0,
+        "non_migrators_median": 34.9
+      },
+      "insight": "Most non-migrators stall below 35 SOL mcap by minute 3; migrators are already past 100 SOL."
+    }
+  },
+  "top_rules": [
+    {
+      "rule": "\u226550 unique buyers in first 1 min (clean)",
+      "precision_pct": 33.3,
+      "recall_pct": 100,
+      "signals_per_hour": 12
+    },
+    {
+      "rule": "\u226530 SOL volume in first 1 min (clean)",
+      "precision_pct": 30.8,
+      "recall_pct": 100,
+      "signals_per_hour": 13
+    },
+    {
+      "rule": "\u226530 unique buyers in first 1 min (clean)",
+      "precision_pct": 23.5,
+      "recall_pct": 100,
+      "signals_per_hour": 17
+    }
+  ]
+}
