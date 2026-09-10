@@ -124,6 +124,10 @@ def archive_to_parquet(batch_id, norm_dir):
 # ── Cross-batch sniper persistence ────────────────────────────────────────
 CUMULATIVE_SNIPERS_PATH = FINDINGS_DIR / "cumulative-snipers.json"
 
+# Ensure required dirs exist
+BATCHES_DIR.mkdir(parents=True, exist_ok=True)
+PARQUET_ARCHIVE.mkdir(parents=True, exist_ok=True)
+
 def load_cumulative_snipers():
     if CUMULATIVE_SNIPERS_PATH.exists():
         with open(CUMULATIVE_SNIPERS_PATH) as f:
@@ -385,9 +389,9 @@ def run_one_batch():
     batch_num    = next_batch_number()
     batch_id     = f"batch-{batch_num:03d}"
     now_utc      = datetime.now(timezone.utc)
-    starts_at    = now_utc.replace(second=0, microsecond=0).isoformat().replace("+00:00", "Z")
-    ends_dt      = datetime.fromisoformat(starts_at.replace("Z", "+00:00")) + timedelta(hours=1)
-    ends_at      = ends_dt.isoformat().replace("+00:00", "Z")
+    start_dt     = now_utc.replace(microsecond=0)
+    starts_at    = start_dt.isoformat().replace("+00:00", "Z")
+    ends_at      = (start_dt + timedelta(hours=1)).isoformat().replace("+00:00", "Z")
     window_label = now_utc.strftime("%Y-%m-%d %H:%M UTC")
 
     data_root = DATA_ROOT_BASE / "batches" / batch_id
