@@ -25,6 +25,8 @@ import threading
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 # ── Paths ──────────────────────────────────────────────────────────────────
 REPO          = Path(__file__).parent.parent.resolve()
@@ -39,6 +41,7 @@ LOG_FILE      = DATA_ROOT_BASE / "pipeline.log"
 
 MINIMUM_FREE_BYTES  = 16_106_127_360   # 15 GiB
 MAXIMUM_BATCH_BYTES = 12_884_901_888   # 12 GiB
+PARQUET_ARCHIVE     = Path("/Users/drewp/Library/Application Support/MemeExplorer/parquet")
 
 # ── Helpers ────────────────────────────────────────────────────────────────
 def log(msg):
@@ -79,6 +82,44 @@ def classify(c):
     if top_wallet >= 40:     return "bundle"
     if uniq <= 6 and sniper_ratio >= 80: return "controlled"
     return "organic"
+
+# ── Parquet archiver ──────────────────────────────────────────────────────
+def archive_to_parquet(batch_id, norm_dir):
+    """Convert all 4 raw ndjson files to parquet before deletion. ~50MB vs 1.4GB."""
+    PARQUET_ARCHIVE.mkdir(parents=True, exist_ok=True)
+    out_dir = PARQUET_ARCHIVE / batch_id
+    out_dir.mkdir(exist_ok=True)
+
+    files = {
+        "trades":     norm_dir / "trades.ndjson",
+        "events":     norm_dir / "events.ndjson",
+        "migrations": norm_dir / "migrations.ndjson",
+        "tokens":     norm_dir / "tokens.ndjson",
+    }
+
+    sizes = {}
+    for name, path in files.items():
+        if not path.exists():
+            continue
+        rows = []
+        with open(path) as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    rows.append(json.loads(line))
+        if not rows:
+            continue
+        # Flatten — all values to strings to avoid schema conflicts across batches
+        flat = [{k: str(v) if v is not None else None for k, v in r.items()} for r in rows]
+        keys = list(flat[0].keys())
+        arrays = {k: pa.array([r.get(k) for r in flat], type=pa.string()) for k in keys}
+        table = pa.table(arrays)
+        out_path = out_dir / f"{name}.parquet"
+        pq.write_table(table, out_path, compression="zstd")
+        sizes[name] = round(out_path.stat().st_size / 1024 / 1024, 1)
+
+    total_mb = sum(sizes.values())
+    return total_mb, sizes
 
 # ── Cross-batch sniper persistence ────────────────────────────────────────
 CUMULATIVE_SNIPERS_PATH = FINDINGS_DIR / "cumulative-snipers.json"
@@ -483,12 +524,18 @@ def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
         (FINDINGS_DIR / "report.html").write_text(report_html)
         log(f"  [{batch_id}] Report updated")
 
+        # Archive raw ndjson → parquet before deleting (~50MB vs 1.4GB)
+        norm_dir = data_root / "runs" / run_id / "normalized"
+        if norm_dir.exists():
+            total_mb, sizes = archive_to_parquet(batch_id, norm_dir)
+            log(f"  [{batch_id}] Archived to parquet: {total_mb:.1f} MB total {sizes}")
+
         run_dir = data_root / "runs" / run_id
         for subdir in ["raw", "normalized"]:
             p = run_dir / subdir
             if p.exists():
                 shutil.rmtree(p)
-        log(f"  [{batch_id}] Raw data deleted")
+        log(f"  [{batch_id}] Raw data deleted — parquet copy kept")
 
         subprocess.run(["git", "-C", str(REPO), "add",
                         str(batch_file), str(findings_out),
