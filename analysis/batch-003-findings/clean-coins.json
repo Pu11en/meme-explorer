@@ -1,0 +1,353 @@
+[
+  {
+    "mint": "9BXJRGCoPPw3F9e6Bumb5WnD1MMeS8GmQEhbuEthpump",
+    "name": "boobs",
+    "symbol": "BOOBS",
+    "creator": null,
+    "migrated": false,
+    "migration_sec": null,
+    "flags": [],
+    "sniper_ratio_60": 12.5,
+    "w60": {
+      "buy_count": 8,
+      "unique_buyers": 8,
+      "total_sol": 5.8504,
+      "top_wallet_pct": 16.5,
+      "sniper_buys": 1,
+      "same_slot_buys": 1,
+      "end_mcap": 39.93
+    },
+    "w120": {
+      "buy_count": 8,
+      "unique_buyers": 8,
+      "total_sol": 5.8504,
+      "top_wallet_pct": 16.5,
+      "sniper_buys": 1,
+      "same_slot_buys": 1,
+      "end_mcap": 39.93
+    },
+    "w180": {
+      "buy_count": 11,
+      "unique_buyers": 11,
+      "total_sol": 6.9597,
+      "top_wallet_pct": 13.9,
+      "sniper_buys": 2,
+      "same_slot_buys": 1,
+      "end_mcap": 39.49
+    },
+    "total_buys_60min": 12,
+    "total_sol_60min": 6.9882
+  },
+  {
+    "mint": "HptQw4KTr5CAQaRcbPGtUCneVQNt7hBn3iF4EApkWBVo",
+    "name": "Overheat",
+    "symbol": "OVERHE",
+    "creator": null,
+    "migrated": false,
+    "migration_sec": null,
+    "flags": [],
+    "sniper_ratio_60": 11.1,
+    "w60": {
+      "buy_count": 9,
+      "unique_buyers": 9,
+      "total_sol": 8.3358,
+      "top_wallet_pct": 23.7,
+      "sniper_buys": 1,
+      "same_slot_buys": 0,
+      "end_mcap": 44.49
+    },
+    "w120": {
+      "buy_count": 10,
+      "unique_buyers": 10,
+      "total_sol": 8.3453,
+      "top_wallet_pct": 23.7,
+      "sniper_buys": 2,
+      "same_slot_buys": 0,
+      "end_mcap": 44.51
+    },
+    "w180": {
+      "buy_count": 10,
+      "unique_buyers": 10,
+      "total_sol": 8.3453,
+      "top_wallet_pct": 23.7,
+      "sniper_buys": 2,
+      "same_slot_buys": 0,
+      "end_mcap": 44.51
+    },
+    "total_buys_60min": 10,
+    "total_sol_60min": 8.3453
+  },
+  {
+    "mint": "GsVnbscmQzW6tyfpqgEUTnzvpySReUwLtFWHHfZypump",
+    "name": "Oculus Lab",
+    "symbol": "Oculus",
+    "creator": null,
+    "migrated": false,
+    "migration_sec": null,
+    "flags": [],
+    "sniper_ratio_60": 15.6,
+    "w60": {
+      "buy_count": 32,
+      "unique_buyers": 31,
+      "total_sol": 8.5414,
+      "top_wallet_pct": 21.6,
+      "sniper_buys": 5,
+      "same_slot_buys": 1,
+      "end_mcap": 28.87
+    },
+    "w120": {
+      "buy_count": 32,
+      "unique_buyers": 31,
+      "total_sol": 8.5414,
+      "top_wallet_pct": 21.6,
+      "sniper_buys": 5,
+      "same_slot_buys": 1,
+      "end_mcap": 28.87
+    },
+    "w180": {
+      "buy_count": 32,
+      "unique_buyers": 31,
+      "total_sol": 8.5414,
+      "top_wallet_pct": 21.6,
+      "sniper_buys": 5,
+      "same_slot_buys": 1,
+      "end_mcap": 28.87
+    },
+    "total_buys_60min": 32,
+    "total_sol_60min": 8.5414
+  },
+  {
+    "mint": "6qzYH7MHy3hRALwUhwJurkjwVc5kKcc8vafozt26pump",
+    "name": "BRUKO",
+    "symbol": "BRUKO",
+    "creator": null,
+    "migrated": false,
+    "migration_sec": null,
+    "flags": [],
+    "sniper_ratio_60": 5.9,
+    "w60": {
+      "buy_count": 101,
+      "unique_buyers": 101,
+      "total_sol": 11.3021,
+      "top_wallet_pct": 15.9,
+      "sniper_buys": 6,
+      "same_slot_buys": 1,
+      "end_mcap": 28.25
+    },
+    "w120": {
+      "buy_count": 101,
+      "unique_buyers": 101,
+      "total_sol": 11.3021,
+      "top_wallet_pct": 15.9,
+      "sniper_buys": 6,
+      "same_slot_buys": 1,
+      "end_mcap": 28.25
+    },
+    "w180": {
+      "buy_count": 102,
+      "unique_buyers": 102,
+      "total_sol": 11.3104,
+      "top_wallet_pct": 15.9,
+      "sniper_buys": 6,
+      "same_slot_buys": 1,
+      "end_mcap": 28.1
+    },
+    "total_buys_60min": 103,
+    "total_sol_60min": 11.3112
+  },
+  {
+    "mint": "5KcvttWdBearTWqvZVtfPA9RpbqsvHzyAsVuDU8Ypump",
+    "name": "Token Tunes",
+    "symbol": "TUNES",
+    "creator": null,
+    "migrated": false,
+    "migration_sec": null,
+    "flags": [],
+    "sniper_ratio_60": 13.9,
+    "w60": {
+      "buy_count": 122,
+      "unique_buyers": 118,
+      "total_sol": 24.6345,
+      "top_wallet_pct": 7.0,
+      "sniper_buys": 17,
+      "same_slot_buys": 1,
+      "end_mcap": 28.4
+    },
+    "w120": {
+      "buy_count": 122,
+      "unique_buyers": 118,
+      "total_sol": 24.6345,
+      "top_wallet_pct": 7.0,
+      "sniper_buys": 17,
+      "same_slot_buys": 1,
+      "end_mcap": 28.4
+    },
+    "w180": {
+      "buy_count": 122,
+      "unique_buyers": 118,
+      "total_sol": 24.6345,
+      "top_wallet_pct": 7.0,
+      "sniper_buys": 17,
+      "same_slot_buys": 1,
+      "end_mcap": 28.4
+    },
+    "total_buys_60min": 122,
+    "total_sol_60min": 24.6345
+  },
+  {
+    "mint": "7E4qTMgSzwm5PZD9ArjB22ZvtqAxHEEzqGnLkwn3pump",
+    "name": "STONK SZN",
+    "symbol": "STONKSZN",
+    "creator": null,
+    "migrated": false,
+    "migration_sec": null,
+    "flags": [],
+    "sniper_ratio_60": 9.2,
+    "w60": {
+      "buy_count": 142,
+      "unique_buyers": 129,
+      "total_sol": 18.6099,
+      "top_wallet_pct": 10.1,
+      "sniper_buys": 13,
+      "same_slot_buys": 1,
+      "end_mcap": 58.14
+    },
+    "w120": {
+      "buy_count": 217,
+      "unique_buyers": 197,
+      "total_sol": 28.5006,
+      "top_wallet_pct": 6.6,
+      "sniper_buys": 17,
+      "same_slot_buys": 1,
+      "end_mcap": 74.52
+    },
+    "w180": {
+      "buy_count": 288,
+      "unique_buyers": 261,
+      "total_sol": 38.0374,
+      "top_wallet_pct": 4.9,
+      "sniper_buys": 21,
+      "same_slot_buys": 1,
+      "end_mcap": 84.11
+    },
+    "total_buys_60min": 376,
+    "total_sol_60min": 50.6292
+  },
+  {
+    "mint": "FiBHzhsYSHavvmNFz6vXJyFtQrqx4pBPwMZR1rueSpiF",
+    "name": "ZIGGY",
+    "symbol": "AI BUDDY",
+    "creator": null,
+    "migrated": false,
+    "migration_sec": null,
+    "flags": [],
+    "sniper_ratio_60": 0.0,
+    "w60": {
+      "buy_count": 5,
+      "unique_buyers": 5,
+      "total_sol": 0.22,
+      "top_wallet_pct": 23.0,
+      "sniper_buys": 0,
+      "same_slot_buys": 1,
+      "end_mcap": 28.37
+    },
+    "w120": {
+      "buy_count": 5,
+      "unique_buyers": 5,
+      "total_sol": 0.22,
+      "top_wallet_pct": 23.0,
+      "sniper_buys": 0,
+      "same_slot_buys": 1,
+      "end_mcap": 28.37
+    },
+    "w180": {
+      "buy_count": 5,
+      "unique_buyers": 5,
+      "total_sol": 0.22,
+      "top_wallet_pct": 23.0,
+      "sniper_buys": 0,
+      "same_slot_buys": 1,
+      "end_mcap": 28.37
+    },
+    "total_buys_60min": 5,
+    "total_sol_60min": 0.22
+  },
+  {
+    "mint": "Bi3ijtJwPePZPADSh1MnQpNBXX4F9kotynfF8t4Cpump",
+    "name": "ZIggy ",
+    "symbol": "ZIggy ",
+    "creator": null,
+    "migrated": false,
+    "migration_sec": null,
+    "flags": [],
+    "sniper_ratio_60": 8.3,
+    "w60": {
+      "buy_count": 12,
+      "unique_buyers": 9,
+      "total_sol": 6.3152,
+      "top_wallet_pct": 33.3,
+      "sniper_buys": 1,
+      "same_slot_buys": 1,
+      "end_mcap": 36.33
+    },
+    "w120": {
+      "buy_count": 15,
+      "unique_buyers": 10,
+      "total_sol": 7.7697,
+      "top_wallet_pct": 27.0,
+      "sniper_buys": 1,
+      "same_slot_buys": 1,
+      "end_mcap": 39.49
+    },
+    "w180": {
+      "buy_count": 15,
+      "unique_buyers": 10,
+      "total_sol": 7.7697,
+      "top_wallet_pct": 27.0,
+      "sniper_buys": 1,
+      "same_slot_buys": 1,
+      "end_mcap": 39.49
+    },
+    "total_buys_60min": 15,
+    "total_sol_60min": 7.7697
+  },
+  {
+    "mint": "7mnWEadNBheSQwuAmZGn9mrN57yS5DYKQ8gxZcNYjPRt",
+    "name": "AI BUDDY",
+    "symbol": "ZIGGY",
+    "creator": null,
+    "migrated": false,
+    "migration_sec": null,
+    "flags": [],
+    "sniper_ratio_60": 0.0,
+    "w60": {
+      "buy_count": 5,
+      "unique_buyers": 5,
+      "total_sol": 0.22,
+      "top_wallet_pct": 22.7,
+      "sniper_buys": 0,
+      "same_slot_buys": 1,
+      "end_mcap": 28.37
+    },
+    "w120": {
+      "buy_count": 9,
+      "unique_buyers": 5,
+      "total_sol": 0.33,
+      "top_wallet_pct": 36.4,
+      "sniper_buys": 0,
+      "same_slot_buys": 1,
+      "end_mcap": 28.31
+    },
+    "w180": {
+      "buy_count": 11,
+      "unique_buyers": 5,
+      "total_sol": 0.42,
+      "top_wallet_pct": 40.5,
+      "sniper_buys": 0,
+      "same_slot_buys": 1,
+      "end_mcap": 28.39
+    },
+    "total_buys_60min": 12,
+    "total_sol_60min": 0.425
+  }
+]
