@@ -174,6 +174,7 @@ def analyze_batch(batch_id, data_root, run_id):
         "total_coins":      len(coins),
         "migrated":         len(migrators),
         "sniper_wallets":   len(sniper_wallets),
+        "all_coins":        coins,
         "all_migrators":    migrators,
         "organic_migrators": [c for c in migrators if classify(c) == "organic"],
     }
@@ -401,13 +402,21 @@ def run_one_batch():
         with open(path, "w") as f:
             json.dump(data, f, indent=2)
 
-    # Save compact migrator list (no bars to keep small)
+    # Save compact migrator list (no bars — kept in all-coins-bars.json)
     compact_mig = []
     for c in result_data["all_migrators"]:
         cc = {k: v for k, v in c.items() if k != "bars_3min"}
         cc["verdict"] = classify(c)
         compact_mig.append(cc)
     write_json(findings_out / "migrators.json", compact_mig)
+
+    # Save bars for every coin — needed for false positive rate on 10/30 Burst signals
+    # ~0.66 MB per batch; pure data, zero tokens to generate
+    all_bars = [
+        {"mint": c["mint"], "migrated": c["migrated"], "verdict": classify(c), "bars_3min": c["bars_3min"]}
+        for c in result_data["all_coins"]
+    ]
+    write_json(findings_out / "all-coins-bars.json", all_bars)
     write_json(findings_out / "summary.json", {
         "batch_id":         batch_id,
         "window":           window_label,
