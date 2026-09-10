@@ -455,6 +455,25 @@ def run_one_batch():
     log(f"  Committed {batch_id}")
     return result_data
 
+WINDOW_START_HOUR = 8   # 8 AM Central
+WINDOW_END_HOUR   = 17  # 5 PM Central
+
+def in_window():
+    """True if current Central time is within 8 AM – 5 PM."""
+    from datetime import timezone as tz
+    import zoneinfo
+    central = datetime.now(zoneinfo.ZoneInfo("America/Chicago"))
+    return WINDOW_START_HOUR <= central.hour < WINDOW_END_HOUR
+
+def seconds_until_window():
+    """Seconds until 8 AM Central tomorrow."""
+    import zoneinfo
+    now_ct = datetime.now(zoneinfo.ZoneInfo("America/Chicago"))
+    tomorrow_8am = now_ct.replace(hour=WINDOW_START_HOUR, minute=0, second=0, microsecond=0)
+    if tomorrow_8am <= now_ct:
+        tomorrow_8am = tomorrow_8am + timedelta(days=1)
+    return (tomorrow_8am - now_ct).total_seconds()
+
 def main():
     DATA_ROOT_BASE.mkdir(parents=True, exist_ok=True)
 
@@ -463,16 +482,24 @@ def main():
         sys.exit(1)
 
     LOCK_FILE.write_text(str(os.getpid()))
-    log("Pipeline started")
+    log(f"Pipeline started. Active window: {WINDOW_START_HOUR}:00–{WINDOW_END_HOUR}:00 Central.")
 
     try:
         while True:
+            if not in_window():
+                wait_sec = seconds_until_window()
+                wake = datetime.now(timezone.utc) + timedelta(seconds=wait_sec)
+                log(f"Outside window. Sleeping until 8 AM Central (~{wake.strftime('%Y-%m-%d %H:%M UTC')}).")
+                time.sleep(wait_sec)
+                continue
+
             result = run_one_batch()
             if result:
-                log(f"Batch complete. Next batch starting now.")
+                log("Batch complete.")
             else:
                 log("Batch skipped/errored. Waiting 60s before retry.")
                 time.sleep(60)
+
     except KeyboardInterrupt:
         log("Pipeline stopped by user.")
     finally:
