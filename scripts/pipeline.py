@@ -21,6 +21,7 @@ import shutil
 import subprocess
 import sys
 import time
+import threading
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -67,17 +68,30 @@ def next_batch_number():
 def epoch(ts):
     return datetime.fromisoformat(ts.replace("Z", "+00:00")).timestamp()
 
-# ── Fraud detection v2 ────────────────────────────────────────────────────
+# ── Fraud detection v3 ────────────────────────────────────────────────────
 def classify(c):
     w60          = c.get("w60", {})
     same_slot    = w60.get("same_slot_buys", 0)
     uniq         = w60.get("unique_buyers", 0)
     sniper_ratio = c.get("sniper_ratio_60", 0)
     top_wallet   = w60.get("top_wallet_pct", 0)
-    if same_slot >= 5:       return "bundle"
+    if same_slot >= 4:       return "bundle"   # lowered from 5 — 4 same-slot buys is coordinated
     if top_wallet >= 40:     return "bundle"
     if uniq <= 6 and sniper_ratio >= 80: return "controlled"
     return "organic"
+
+# ── Cross-batch sniper persistence ────────────────────────────────────────
+CUMULATIVE_SNIPERS_PATH = FINDINGS_DIR / "cumulative-snipers.json"
+
+def load_cumulative_snipers():
+    if CUMULATIVE_SNIPERS_PATH.exists():
+        with open(CUMULATIVE_SNIPERS_PATH) as f:
+            return set(json.load(f))
+    return set()
+
+def save_cumulative_snipers(wallets):
+    with open(CUMULATIVE_SNIPERS_PATH, "w") as f:
+        json.dump(sorted(wallets), f)
 
 # ── Analysis ──────────────────────────────────────────────────────────────
 def read_ndjson(path):
@@ -123,12 +137,20 @@ def analyze_batch(batch_id, data_root, run_id):
             })
             if w: all_wallet_counts[w] += 1
 
-    sniper_wallets = {w for w, c in all_wallet_counts.items() if c >= 10}
+    # Fix 2: merge this batch's snipers with cumulative cross-batch snipers
+    batch_snipers      = {w for w, c in all_wallet_counts.items() if c >= 10}
+    cumulative_snipers = load_cumulative_snipers()
+    sniper_wallets     = batch_snipers | cumulative_snipers
+    save_cumulative_snipers(sniper_wallets)
+
     RUN_END = min(coin_created.values()) + 3600 if coin_created else 0
 
     coins = []
     for mint, t0 in coin_created.items():
-        if t0 > RUN_END - 180: continue
+        # Fix 1: don't skip tail coins — compute however many seconds are available
+        coverage_sec = min(180, int(RUN_END - t0))
+        if coverage_sec < 10: continue  # need at least 10s for any signal
+
         buys = sorted(trades_by_mint[mint], key=lambda x: x["t"])
         create_slot = coin_slot.get(mint)
 
@@ -142,8 +164,11 @@ def analyze_batch(batch_id, data_root, run_id):
             top_share = (max(wallet_vol.values()) / total_sol) if total_sol > 0 and wallet_vol else 0
             sniper_ct = sum(1 for b in wb if b["wallet"] in sniper_wallets)
             same_slot = sum(1 for b in wb if b["slot"] == create_slot)
+            # Fix 4: SOL-weighted unique buyers — wallets with ≥ 0.5 SOL (not dust)
+            whale_buyers = len({b["wallet"] for b in wb if b["wallet"] and b["sol"] >= 0.5})
             return {
                 "buy_count": len(wb), "unique_buyers": len(set(wallets)),
+                "whale_buyers": whale_buyers,
                 "total_sol": round(total_sol, 4), "top_wallet_pct": round(top_share * 100, 1),
                 "sniper_buys": sniper_ct, "same_slot_buys": same_slot,
                 "end_mcap": round(wb[-1]["mcap"] if wb else 0, 2),
@@ -152,6 +177,7 @@ def analyze_batch(batch_id, data_root, run_id):
         w60 = window(60); w120 = window(120); w180 = window(180)
         all_sol = sum(b["sol"] for b in buys)
         sniper_ratio_60 = round(w60["sniper_buys"] / w60["buy_count"] * 100, 1) if w60["buy_count"] > 0 else 0
+        # Fix 1: bars padded to 180 with zeros beyond coverage window
         bars = [sum(1 for b in buys if t0 + s <= b["t"] < t0 + s + 1) for s in range(180)]
 
         meta = token_meta.get(mint, {})
@@ -160,6 +186,7 @@ def analyze_batch(batch_id, data_root, run_id):
             "creator": meta.get("creator"), "launched_at": t0,
             "migrated": mint in migrated,
             "migration_sec": round(migration_time[mint] - t0) if mint in migrated else None,
+            "coverage_sec": coverage_sec,   # Fix 1: how many seconds of data we have
             "flags": [], "low_activity": w60["buy_count"] < 3,
             "w60": w60, "w120": w120, "w180": w180,
             "sniper_ratio_60": sniper_ratio_60,
@@ -391,78 +418,90 @@ def run_one_batch():
     with open(batch_file, "w") as f:
         json.dump(bf, f, indent=2)
 
-    # ── Analyse ───────────────────────────────────────────────────────────
-    result_data = analyze_batch(batch_id, data_root, run_id)
-    result_data["window"] = window_label
+    # Fix 5: kick off analysis in background — next recording starts immediately
+    t = threading.Thread(
+        target=post_process_batch,
+        args=(batch_id, batch_file, data_root, run_id, window_label),
+        daemon=True,
+        name=f"analyze-{batch_id}",
+    )
+    t.start()
+    log(f"  Analysis running in background ({t.name}) — next recording starting now.")
+    return {"batch_id": batch_id, "analysis_thread": t}
 
-    findings_out = FINDINGS_DIR / f"{batch_id}-findings"
-    findings_out.mkdir(exist_ok=True)
 
-    def write_json(path, data):
-        with open(path, "w") as f:
-            json.dump(data, f, indent=2)
+def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
+    """Analyze, save findings, delete raw data, commit. Runs in a background thread."""
+    try:
+        result_data = analyze_batch(batch_id, data_root, run_id)
+        result_data["window"] = window_label
 
-    # Save compact migrator list (no bars — kept in all-coins-bars.json)
-    compact_mig = []
-    for c in result_data["all_migrators"]:
-        cc = {k: v for k, v in c.items() if k != "bars_3min"}
-        cc["verdict"] = classify(c)
-        compact_mig.append(cc)
-    write_json(findings_out / "migrators.json", compact_mig)
+        findings_out = FINDINGS_DIR / f"{batch_id}-findings"
+        findings_out.mkdir(exist_ok=True)
 
-    # Save bars for every coin — needed for false positive rate on 10/30 Burst signals
-    # ~0.66 MB per batch; pure data, zero tokens to generate
-    all_bars = [
-        {"mint": c["mint"], "migrated": c["migrated"], "verdict": classify(c), "bars_3min": c["bars_3min"]}
-        for c in result_data["all_coins"]
-    ]
-    write_json(findings_out / "all-coins-bars.json", all_bars)
-    write_json(findings_out / "summary.json", {
-        "batch_id":         batch_id,
-        "window":           window_label,
-        "total_coins":      result_data["total_coins"],
-        "migrated":         result_data["migrated"],
-        "organic":          len(result_data["organic_migrators"]),
-        "sniper_wallets":   result_data["sniper_wallets"],
-        "migration_rate_pct": round(result_data["migrated"] / result_data["total_coins"] * 100, 2) if result_data["total_coins"] else 0,
-    })
+        def write_json(path, data):
+            with open(path, "w") as f:
+                json.dump(data, f, indent=2)
 
-    log(f"  Analysis done — {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic")
+        compact_mig = []
+        for c in result_data["all_migrators"]:
+            cc = {k: v for k, v in c.items() if k != "bars_3min"}
+            cc["verdict"] = classify(c)
+            compact_mig.append(cc)
+        write_json(findings_out / "migrators.json", compact_mig)
 
-    # ── Rebuild cumulative report ─────────────────────────────────────────
-    all_results = []
-    for bf_path in sorted(FINDINGS_DIR.glob("batch-*-findings/summary.json")):
-        with open(bf_path) as f:
-            s = json.load(f)
-        mig_path = bf_path.parent / "migrators.json"
-        if mig_path.exists():
-            with open(mig_path) as f:
-                s["all_migrators"] = json.load(f)
-            s["organic_migrators"] = [c for c in s["all_migrators"] if c.get("verdict") == "organic"]
-        all_results.append(s)
+        all_bars = [
+            {"mint": c["mint"], "migrated": c["migrated"], "verdict": classify(c),
+             "coverage_sec": c.get("coverage_sec", 180), "bars_3min": c["bars_3min"]}
+            for c in result_data["all_coins"]
+        ]
+        write_json(findings_out / "all-coins-bars.json", all_bars)
+        write_json(findings_out / "summary.json", {
+            "batch_id":           batch_id,
+            "window":             window_label,
+            "total_coins":        result_data["total_coins"],
+            "migrated":           result_data["migrated"],
+            "organic":            len(result_data["organic_migrators"]),
+            "sniper_wallets":     result_data["sniper_wallets"],
+            "migration_rate_pct": round(result_data["migrated"] / result_data["total_coins"] * 100, 2) if result_data["total_coins"] else 0,
+        })
 
-    report_html = build_report(all_results)
-    (FINDINGS_DIR / "report.html").write_text(report_html)
-    log("  Report updated")
+        log(f"  [{batch_id}] Analysis done — {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic")
 
-    # ── Delete raw data ───────────────────────────────────────────────────
-    run_dir = data_root / "runs" / run_id
-    for subdir in ["raw", "normalized"]:
-        p = run_dir / subdir
-        if p.exists():
-            shutil.rmtree(p)
-    saved_mb = round((data_root / "runs" / run_id).stat().st_size / 1024 / 1024, 1) if (data_root / "runs" / run_id).exists() else 0
-    log(f"  Raw data deleted. Remaining: {saved_mb} MB")
+        all_results = []
+        for bf_path in sorted(FINDINGS_DIR.glob("batch-*-findings/summary.json")):
+            with open(bf_path) as f:
+                s = json.load(f)
+            mig_path = bf_path.parent / "migrators.json"
+            if mig_path.exists():
+                with open(mig_path) as f:
+                    s["all_migrators"] = json.load(f)
+                s["organic_migrators"] = [c for c in s["all_migrators"] if c.get("verdict") == "organic"]
+            all_results.append(s)
 
-    # ── Commit ────────────────────────────────────────────────────────────
-    subprocess.run(["git", "-C", str(REPO), "add",
-                    str(batch_file), str(findings_out), str(FINDINGS_DIR / "report.html")],
-                   capture_output=True)
-    subprocess.run(["git", "-C", str(REPO), "commit", "-m",
-                    f"pipeline: {batch_id} — {result_data['total_coins']} coins, {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
-                   capture_output=True)
-    log(f"  Committed {batch_id}")
-    return result_data
+        report_html = build_report(all_results)
+        (FINDINGS_DIR / "report.html").write_text(report_html)
+        log(f"  [{batch_id}] Report updated")
+
+        run_dir = data_root / "runs" / run_id
+        for subdir in ["raw", "normalized"]:
+            p = run_dir / subdir
+            if p.exists():
+                shutil.rmtree(p)
+        log(f"  [{batch_id}] Raw data deleted")
+
+        subprocess.run(["git", "-C", str(REPO), "add",
+                        str(batch_file), str(findings_out),
+                        str(FINDINGS_DIR / "report.html"),
+                        str(CUMULATIVE_SNIPERS_PATH)],
+                       capture_output=True)
+        subprocess.run(["git", "-C", str(REPO), "commit", "-m",
+                        f"pipeline: {batch_id} — {result_data['total_coins']} coins, {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
+                       capture_output=True)
+        log(f"  [{batch_id}] Committed")
+
+    except Exception as e:
+        log(f"  [{batch_id}] ERROR in post_process_batch: {e}")
 
 WINDOW_START_HOUR = 8   # 8 AM Central
 WINDOW_END_HOUR   = 17  # 5 PM Central
