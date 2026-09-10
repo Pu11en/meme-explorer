@@ -99,60 +99,45 @@ def fp_line(all_coins, signal_fn, label):
 
 def section_10(organic, all_coins, label):
     passing = [c for c in organic if signal10(c)]
-    rows = sorted(organic, key=lambda c: c.get("migration_sec") or 9999)
-    table = "\n".join(
-        f"  {c.get('name','?'):<18} 0-5s={c['b_0_5']:>3} 5-10s={c['b_5_10']:>3}  sustain={c['sustain10']:.2f}  {'✓' if signal10(c) else '✗'}  {fmt(c.get('migration_sec'))}"
-        for c in rows
-    )
+    avg_sustain = sum(c["sustain10"] for c in organic) / len(organic) if organic else 0
     return f"""**⚡ 10 BURST** — {label}
-*Volume floor (≥25 buys in 0-10s) + Sustain ratio (5-10s ÷ 0-5s ≥ 0.3). Bundles front-dump and crater; organic stays flat or builds.*
+*Should I keep watching at 10 seconds?*
+Watch if: **≥25 buys in first 10s + sustain ratio ≥ 0.3**
+Sustain = buys in 5-10s ÷ buys in 0-5s. Bundles front-dump and crater (ratio <0.1). Organic stays flat or builds.
 
 ```
-Coin               0-5s  5-10s  Sustain  Pass  Migrated
-────────────────────────────────────────────────────────
-{table}
-```
-Signal fires: **{len(passing)}/{len(organic)}** organic migrators · {fp_line(all_coins, signal10, label)}"""
+Catches:      {len(passing)}/{len(organic)} organic migrators
+Avg sustain:  {avg_sustain:.2f} across organic coins
+{fp_line(all_coins, signal10, label)}
+```"""
 
 def section_30(organic, all_coins, label):
     passing = [c for c in organic if signal30(c)]
-    rows = sorted(organic, key=lambda c: c.get("migration_sec") or 9999)
-    table = "\n".join(
-        f"  {c.get('name','?'):<18} 0-15s={c['b_0_15']:>3} 15-30s={c['b_15_30']:>3}  sustain={c['sustain30']:.2f}  {'✓' if signal30(c) else '✗'}  {fmt(c.get('migration_sec'))}"
-        for c in rows
-    )
+    avg_sustain = sum(c["sustain30"] for c in organic) / len(organic) if organic else 0
     return f"""**⏱ 30 BURST** — {label}
-*Volume floor (≥50 buys in 0-30s) + Sustain ratio (15-30s ÷ 0-15s ≥ 0.4). By 30s organic coins are still pulling in new buyers; bundles have already peaked.*
+*Still worth watching at 30 seconds?*
+Watch if: **≥50 buys in first 30s + sustain ratio ≥ 0.4**
+Sustain = buys in 15-30s ÷ buys in 0-15s. By 30s organic keeps pulling buyers in. Bundles have peaked and are fading.
 
 ```
-Coin               0-15s  15-30s  Sustain  Pass  Migrated
-──────────────────────────────────────────────────────────
-{table}
-```
-Signal fires: **{len(passing)}/{len(organic)}** organic migrators · {fp_line(all_coins, signal30, label)}"""
+Catches:      {len(passing)}/{len(organic)} organic migrators
+Avg sustain:  {avg_sustain:.2f} across organic coins
+{fp_line(all_coins, signal30, label)}
+```"""
 
 def section_60(organic, all_coins, label):
     passing = [c for c in organic if signal60(c)]
-    rows = sorted(organic, key=lambda c: c.get("migration_sec") or 9999)
-    table = "\n".join(
-        f"  {c.get('name','?'):<18} uniq={c['uniq60']:>4}  slot={c['slot60']:>2}  {'✓' if signal60(c) else '✗'}  {fmt(c.get('migration_sec'))}"
-        for c in rows
-    )
-    links = "\n".join(
-        f"  {c.get('name','?')} → <https://pump.fun/coin/{c['mint']}>"
-        for c in rows if signal60(c)
-    )
+    avg_uniq = sum(c["uniq60"] for c in organic) / len(organic) if organic else 0
     return f"""**🟢 60 BURST** — {label}
-*Unique buyers ≥60 + same-slot buys <5. Raw buy count inflatable by bots; unique wallets are not. 60 distinct wallets in one minute = real organic discovery.*
+*High confidence at 60 seconds — act on it.*
+Watch if: **≥60 unique buyers in first 60s + same-slot buys <5**
+Unique wallets can't be faked. 60 distinct buyers in one minute = real organic discovery across multiple communities.
 
 ```
-Coin               Unique  Slot  Pass  Migrated
-────────────────────────────────────────────────
-{table}
-```
-Signal fires: **{len(passing)}/{len(organic)}** organic migrators · {fp_line(all_coins, signal60, label)}
-
-{links}"""
+Catches:      {len(passing)}/{len(organic)} organic migrators
+Avg unique:   {avg_uniq:.0f} buyers across organic coins
+{fp_line(all_coins, signal60, label)}
+```"""
 
 # ── main ────────────────────────────────────────────────────────────────────
 def available_batches():
