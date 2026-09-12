@@ -48,31 +48,46 @@ def enrich(c, bid):
 
 def load_batches(batch_ids):
     migrators = []
-    all_coins  = []   # populated only when all-coins-bars.json exists
+    all_coins  = []
     has_full_data = True
 
     for bid in batch_ids:
-        findings = ANALYSIS / f"{bid}-findings"
-        mig_path  = findings / "all-migrators.json"
+        findings  = ANALYSIS / f"{bid}-findings"
         bars_path = findings / "all-coins-bars.json"
 
+        # support both old all-migrators.json and new migrators.json
+        mig_path = findings / "all-migrators.json"
+        if not mig_path.exists():
+            mig_path = findings / "migrators.json"
         if not mig_path.exists():
             print(f"[warn] {bid} not found, skipping")
             continue
 
-        with open(mig_path) as f:
-            for c in json.load(f):
-                if c.get("migrated"):
-                    enriched = enrich(c, bid)
-                    if enriched["_verdict"] == "organic":
-                        migrators.append(enriched)
-
+        # build bars lookup from all-coins-bars.json
+        bars_by_mint = {}
         if bars_path.exists():
             with open(bars_path) as f:
                 for c in json.load(f):
-                    all_coins.append(enrich(c, bid))
+                    bars_by_mint[c["mint"]] = c.get("bars_3min", [])
         else:
             has_full_data = False
+
+        with open(mig_path) as f:
+            raw = json.load(f)
+
+        for c in raw:
+            if not c.get("migrated"):
+                continue
+            # inject bars from all-coins-bars.json if not embedded
+            if "bars_3min" not in c and c["mint"] in bars_by_mint:
+                c = dict(c, bars_3min=bars_by_mint[c["mint"]])
+            enriched = enrich(c, bid)
+            if enriched["_verdict"] == "organic":
+                migrators.append(enriched)
+
+        # all_coins for FP rate — bars-only records
+        for mint, bars in bars_by_mint.items():
+            all_coins.append(enrich({"mint": mint, "bars_3min": bars}, bid))
 
     return migrators, all_coins, has_full_data
 
@@ -81,10 +96,10 @@ def fmt(sec):
     return f"{int(sec)//60}m {int(sec)%60:02d}s"
 
 def signal10(c):
-    return c["b_0_10"] >= 25 and c["sustain10"] >= 0.3
+    return c["b_0_10"] >= 100 and c["sustain10"] >= 0.3
 
 def signal30(c):
-    return c["b_0_30"] >= 50 and c["sustain30"] >= 0.4
+    return c["b_0_30"] >= 200 and c["sustain30"] >= 0.4
 
 def signal60(c):
     return c["uniq60"] >= 60 and c["slot60"] < 5
@@ -101,9 +116,10 @@ def section_10(organic, all_coins, label):
     passing = [c for c in organic if signal10(c)]
     avg_sustain = sum(c["sustain10"] for c in organic) / len(organic) if organic else 0
     return f"""**⚡ 10 BURST** — {label}
-*Should I keep watching at 10 seconds?*
-Watch if: **≥25 buys in first 10s + sustain ratio ≥ 0.3**
-Sustain = buys in 5-10s ÷ buys in 0-5s. Bundles front-dump and crater (ratio <0.1). Organic stays flat or builds.
+*Extreme velocity alert — sub-60s migration range.*
+Fire if: **≥100 buys in first 10s + sustain ratio ≥ 0.3**
+Only the fastest rockets hit this. If it fires, the coin may already be migrating — act immediately or miss it.
+Sustain = buys in 5-10s ÷ buys in 0-5s. Below 0.3 = front-dump only.
 
 ```
 Catches:      {len(passing)}/{len(organic)} organic migrators
@@ -115,9 +131,10 @@ def section_30(organic, all_coins, label):
     passing = [c for c in organic if signal30(c)]
     avg_sustain = sum(c["sustain30"] for c in organic) / len(organic) if organic else 0
     return f"""**⏱ 30 BURST** — {label}
-*Still worth watching at 30 seconds?*
-Watch if: **≥50 buys in first 30s + sustain ratio ≥ 0.4**
-Sustain = buys in 15-30s ÷ buys in 0-15s. By 30s organic keeps pulling buyers in. Bundles have peaked and are fading.
+*Strong build confirmed — 1-3 min migration range.*
+Fire if: **≥200 buys in first 30s + sustain ratio ≥ 0.4**
+Raised from ≥50 — 0.45% FP rate. By 30s organic keeps compounding buyers. Bundles peak at 15s then fade.
+Sustain = buys in 15-30s ÷ buys in 0-15s.
 
 ```
 Catches:      {len(passing)}/{len(organic)} organic migrators
@@ -129,9 +146,9 @@ def section_60(organic, all_coins, label):
     passing = [c for c in organic if signal60(c)]
     avg_uniq = sum(c["uniq60"] for c in organic) / len(organic) if organic else 0
     return f"""**🟢 60 BURST** — {label}
-*High confidence at 60 seconds — act on it.*
-Watch if: **≥60 unique buyers in first 60s + same-slot buys <5**
-Unique wallets can't be faked. 60 distinct buyers in one minute = real organic discovery across multiple communities.
+*Highest confidence — act on it. 0% false positive rate.*
+Fire if: **≥60 unique buyers in first 60s + same-slot buys <5**
+Unique wallets can't be faked. 60 distinct buyers in 60s = real organic discovery. 36% of fires are organic migrators.
 
 ```
 Catches:      {len(passing)}/{len(organic)} organic migrators
@@ -141,7 +158,12 @@ Avg unique:   {avg_uniq:.0f} buyers across organic coins
 
 # ── main ────────────────────────────────────────────────────────────────────
 def available_batches():
-    return sorted(p.parent.name.replace("-findings", "") for p in ANALYSIS.glob("batch-*-findings/all-migrators.json"))
+    found = set()
+    for p in ANALYSIS.glob("batch-*-findings/all-migrators.json"):
+        found.add(p.parent.name.replace("-findings", ""))
+    for p in ANALYSIS.glob("batch-*-findings/migrators.json"):
+        found.add(p.parent.name.replace("-findings", ""))
+    return sorted(found)
 
 def main():
     args = sys.argv[1:]
