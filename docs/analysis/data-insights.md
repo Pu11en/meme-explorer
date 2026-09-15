@@ -245,3 +245,22 @@ Key findings:
 - **Tier 0 is the primary trading signal.** Tiers 1-2 need different features or serve as hold/exit signals.
 
 Next: Phase 3 — exit signal design (dead-streak, buyer-stall, concentration-climb).
+
+---
+
+## Phase 3: Exit Signal Design (Sep 15 2026)
+
+Calibrated dead-streak (N seconds no buys) and buyer-stall (<X new buyers/10s) exits on 1,991 Tier 0 entries from parquet.
+
+| Exit rule | EV/fire | Win% | vs baseline |
+|---|---|---|---|
+| Baseline (2×TP / 0.5×SL / 5min) | +0.2000 | 42.8% | — |
+| Dead streak N=5s | +0.1983 | 42.8% | −0.0017 |
+| Dead streak N=30s | +0.1999 | 42.6% | −0.0001 |
+| Dead streak N=120s | +0.2000 | 42.7% | ≈ 0 |
+| Buyer stall X=0.5/10s | +0.1987 | 44.2% | −0.0013 |
+| Best combo | +0.1987 | 44.1% | −0.0013 |
+
+**Phase 3 conclusion: no exit signal improves EV.** Dead streaks are temporary (coins buy in waves). Buyer stall cuts positions that recover. Keep naive exits.
+
+**Optimal exit rules (confirmed): 2× TP / 0.5× SL / 5min timeout.**

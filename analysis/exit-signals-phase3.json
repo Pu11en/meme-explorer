@@ -1,0 +1,218 @@
+{
+  "baseline": {
+    "fires": 1954,
+    "ev": 0.20003,
+    "win_rate": 42.8,
+    "total_pnl": 390.8591,
+    "exits": {
+      "timeout": 421,
+      "take_profit": 665,
+      "stop_loss": 801,
+      "migration": 67
+    }
+  },
+  "dead_streak": {
+    "5": {
+      "fires": 1954,
+      "ev": 0.198302,
+      "win_rate": 42.8,
+      "total_pnl": 387.4827,
+      "exits": {
+        "stop_loss": 611,
+        "dead_streak": 630,
+        "timeout": 101,
+        "take_profit": 545,
+        "migration": 67
+      }
+    },
+    "10": {
+      "fires": 1954,
+      "ev": 0.198841,
+      "win_rate": 42.6,
+      "total_pnl": 388.5363,
+      "exits": {
+        "stop_loss": 744,
+        "dead_streak": 375,
+        "timeout": 163,
+        "take_profit": 605,
+        "migration": 67
+      }
+    },
+    "15": {
+      "fires": 1954,
+      "ev": 0.199292,
+      "win_rate": 42.5,
+      "total_pnl": 389.4175,
+      "exits": {
+        "stop_loss": 766,
+        "dead_streak": 297,
+        "timeout": 197,
+        "take_profit": 627,
+        "migration": 67
+      }
+    },
+    "20": {
+      "fires": 1954,
+      "ev": 0.199813,
+      "win_rate": 42.5,
+      "total_pnl": 390.4342,
+      "exits": {
+        "stop_loss": 776,
+        "dead_streak": 241,
+        "timeout": 225,
+        "take_profit": 645,
+        "migration": 67
+      }
+    },
+    "30": {
+      "fires": 1954,
+      "ev": 0.199868,
+      "win_rate": 42.6,
+      "total_pnl": 390.5419,
+      "exits": {
+        "stop_loss": 790,
+        "dead_streak": 174,
+        "timeout": 269,
+        "take_profit": 654,
+        "migration": 67
+      }
+    },
+    "45": {
+      "fires": 1954,
+      "ev": 0.199889,
+      "win_rate": 42.7,
+      "total_pnl": 390.5821,
+      "exits": {
+        "stop_loss": 796,
+        "dead_streak": 129,
+        "timeout": 305,
+        "take_profit": 657,
+        "migration": 67
+      }
+    },
+    "60": {
+      "fires": 1954,
+      "ev": 0.199929,
+      "win_rate": 42.6,
+      "total_pnl": 390.6609,
+      "exits": {
+        "stop_loss": 797,
+        "dead_streak": 98,
+        "timeout": 333,
+        "take_profit": 659,
+        "migration": 67
+      }
+    },
+    "90": {
+      "fires": 1954,
+      "ev": 0.199927,
+      "win_rate": 42.6,
+      "total_pnl": 390.6579,
+      "exits": {
+        "stop_loss": 799,
+        "dead_streak": 57,
+        "timeout": 370,
+        "take_profit": 661,
+        "migration": 67
+      }
+    },
+    "120": {
+      "fires": 1954,
+      "ev": 0.200004,
+      "win_rate": 42.7,
+      "total_pnl": 390.8082,
+      "exits": {
+        "stop_loss": 800,
+        "dead_streak": 35,
+        "timeout": 389,
+        "take_profit": 663,
+        "migration": 67
+      }
+    }
+  },
+  "buyer_stall": {
+    "0.5": {
+      "fires": 1954,
+      "ev": 0.198689,
+      "win_rate": 44.2,
+      "total_pnl": 388.2385,
+      "exits": {
+        "stop_loss": 666,
+        "timeout": 232,
+        "buyer_stall": 460,
+        "take_profit": 529,
+        "migration": 67
+      }
+    },
+    "1": {
+      "fires": 1954,
+      "ev": 0.198689,
+      "win_rate": 44.2,
+      "total_pnl": 388.2385,
+      "exits": {
+        "stop_loss": 666,
+        "timeout": 232,
+        "buyer_stall": 460,
+        "take_profit": 529,
+        "migration": 67
+      }
+    },
+    "2": {
+      "fires": 1954,
+      "ev": 0.198564,
+      "win_rate": 44.3,
+      "total_pnl": 387.9946,
+      "exits": {
+        "stop_loss": 658,
+        "timeout": 146,
+        "buyer_stall": 559,
+        "take_profit": 524,
+        "migration": 67
+      }
+    },
+    "3": {
+      "fires": 1954,
+      "ev": 0.198564,
+      "win_rate": 44.3,
+      "total_pnl": 387.9946,
+      "exits": {
+        "stop_loss": 658,
+        "timeout": 146,
+        "buyer_stall": 559,
+        "take_profit": 524,
+        "migration": 67
+      }
+    },
+    "5": {
+      "fires": 1954,
+      "ev": 0.198564,
+      "win_rate": 44.3,
+      "total_pnl": 387.9946,
+      "exits": {
+        "stop_loss": 658,
+        "timeout": 146,
+        "buyer_stall": 559,
+        "take_profit": 524,
+        "migration": 67
+      }
+    }
+  },
+  "best_combo": {
+    "dead_streak_s": 120,
+    "stall_x": 0.5,
+    "result": {
+      "fires": 1954,
+      "ev": 0.198677,
+      "win_rate": 44.1,
+      "total_pnl": 388.2154,
+      "exits": {
+        "stop_loss": 666,
+        "dead_streak": 23,
+        "timeout": 217,
+        "buyer_stall": 452,
+        "take_profit": 529,
+        "migration": 67
+      }
+    }
+  }
+}
