@@ -202,3 +202,46 @@ The signal logic works correctly on Dune data. The FP gap is in fraud classifica
 | Old v1 creates | `pumpdotfun_solana.pump_call_create` (< 200/day) |
 
 See `scripts/dune_backfill.sql` for the complete working query.
+
+---
+
+## Phase 1: Repeat-Dev Watchlist (Sep 15 2026)
+
+Built from Dune 6-month history (Mar 14 – Sep 14 2026, query 8721383).
+
+| | Value |
+|--|--|
+| Raw wallets with ≥2 migrations | 5,534 |
+| Watchlist (Tier A ≥30% hit-rate or Tier B ≥8 migs ≥5%) | 1,346 |
+| ≥50% hit-rate + active ≤30d | 794 |
+
+**Cross-validation on Dune Sep 10-14 data (137k coins):**
+- Watchlist coins: 5,182 → 16.2% migration rate
+- Non-watchlist: 132,722 → 3.0% migration rate
+- **Alpha: 5.3×** — watchlist devs are 5x more likely to produce migrating coins
+
+Watchlist file: `analysis/dev-watchlist.json` (1,346 wallets, 2 tiers).
+Build script: `scripts/build_dev_watchlist.py` (Dune large tier, ~1 min).
+
+---
+
+## Phase 2: Backtest (Sep 15 2026)
+
+Backtest on 40-batch parquet dataset (Sep 10-14, 58,672 coins, 1,377 migrated).
+Sim: 0.1 SOL position, 1% fee each side, 0.7% slippage, 2× TP / 0.5× SL / 5min timeout.
+
+| Strategy | Fires | Win% | EV/fire | Gate |
+|----------|-------|------|---------|------|
+| Tier 0: watchlist dev @ launch | 1,955 | 42.8% | **+0.200 SOL** | ✅ PASS |
+| Tier 1: 15s entry (all variants) | 8k-26k | 22-24% | -0.014 to -0.018 SOL | ✗ FAIL |
+| Tier 2: 60 Burst @ 60s | 2,411 | 26.4% | -0.008 SOL | ✗ FAIL |
+
+**Phase 2 gate: PASS** (Tier 0 positive EV, confirmed 5.3× alpha on 137k Dune coins).
+
+Key findings:
+- Tier 0 wins come from migrations (67 exits, uncapped gains) + TPs (665) vs SLs (801)
+- Tier 1 (15s/20s features) doesn't overcome 2% round-trip fee — buyer count alone is not predictive enough
+- 60 Burst at 60s barely breaks even — late entry price kills EV despite high precision
+- **Tier 0 is the primary trading signal.** Tiers 1-2 need different features or serve as hold/exit signals.
+
+Next: Phase 3 — exit signal design (dead-streak, buyer-stall, concentration-climb).

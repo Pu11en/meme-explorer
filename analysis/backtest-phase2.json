@@ -1,0 +1,424 @@
+{
+  "dataset": {
+    "batches": 40,
+    "total_coins": 58672,
+    "migrated": 1377
+  },
+  "sim_params": {
+    "pumpfun_fee_rate": 0.01,
+    "priority_fee_sol": 0.002,
+    "buy_size_sol": 0.1,
+    "slippage_pct": 0.007,
+    "take_profit_x": 2.0,
+    "stop_loss_x": 0.5,
+    "timeout_sec": 300
+  },
+  "results": [
+    {
+      "label": "Tier0: watchlist@launch",
+      "fires": 1955,
+      "ev_per_fire_sol": 0.199933,
+      "win_rate_pct": 42.8,
+      "total_pnl_sol": 390.8694,
+      "median_pnl_sol": -0.005695,
+      "exits": {
+        "take_profit": 665,
+        "timeout": 422,
+        "stop_loss": 801,
+        "migration": 67
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u22653, gap\u22645s",
+      "fires": 18739,
+      "ev_per_fire_sol": -0.013767,
+      "win_rate_pct": 22.8,
+      "total_pnl_sol": -257.9721,
+      "median_pnl_sol": -0.027666,
+      "exits": {
+        "timeout": 9272,
+        "take_profit": 2553,
+        "stop_loss": 6491,
+        "migration": 423
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u22653, gap\u226410s",
+      "fires": 24963,
+      "ev_per_fire_sol": -0.01288,
+      "win_rate_pct": 23.8,
+      "total_pnl_sol": -321.5144,
+      "median_pnl_sol": -0.023383,
+      "exits": {
+        "timeout": 12793,
+        "take_profit": 3329,
+        "stop_loss": 8143,
+        "migration": 698
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u22653, gap\u226420s",
+      "fires": 26263,
+      "ev_per_fire_sol": -0.012626,
+      "win_rate_pct": 23.9,
+      "total_pnl_sol": -331.5982,
+      "median_pnl_sol": -0.02177,
+      "exits": {
+        "timeout": 13725,
+        "take_profit": 3445,
+        "stop_loss": 8281,
+        "migration": 812
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u22655, gap\u22645s",
+      "fires": 16180,
+      "ev_per_fire_sol": -0.014347,
+      "win_rate_pct": 23.9,
+      "total_pnl_sol": -232.1336,
+      "median_pnl_sol": -0.036053,
+      "exits": {
+        "timeout": 7061,
+        "take_profit": 2471,
+        "stop_loss": 6225,
+        "migration": 423
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u22655, gap\u226410s",
+      "fires": 20948,
+      "ev_per_fire_sol": -0.013602,
+      "win_rate_pct": 24.5,
+      "total_pnl_sol": -284.9439,
+      "median_pnl_sol": -0.030354,
+      "exits": {
+        "timeout": 9725,
+        "take_profit": 3094,
+        "stop_loss": 7431,
+        "migration": 698
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u22655, gap\u226420s",
+      "fires": 21673,
+      "ev_per_fire_sol": -0.013573,
+      "win_rate_pct": 24.5,
+      "total_pnl_sol": -294.1711,
+      "median_pnl_sol": -0.02875,
+      "exits": {
+        "timeout": 10243,
+        "take_profit": 3153,
+        "stop_loss": 7465,
+        "migration": 812
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u22658, gap\u22645s",
+      "fires": 13618,
+      "ev_per_fire_sol": -0.014646,
+      "win_rate_pct": 24.3,
+      "total_pnl_sol": -199.4442,
+      "median_pnl_sol": -0.040593,
+      "exits": {
+        "timeout": 5479,
+        "take_profit": 2218,
+        "stop_loss": 5507,
+        "migration": 414
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u22658, gap\u226410s",
+      "fires": 16568,
+      "ev_per_fire_sol": -0.014457,
+      "win_rate_pct": 24.3,
+      "total_pnl_sol": -239.5309,
+      "median_pnl_sol": -0.035039,
+      "exits": {
+        "timeout": 7226,
+        "take_profit": 2573,
+        "stop_loss": 6089,
+        "migration": 680
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u22658, gap\u226420s",
+      "fires": 16962,
+      "ev_per_fire_sol": -0.014564,
+      "win_rate_pct": 24.3,
+      "total_pnl_sol": -247.0408,
+      "median_pnl_sol": -0.034263,
+      "exits": {
+        "timeout": 7492,
+        "take_profit": 2602,
+        "stop_loss": 6099,
+        "migration": 769
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u226510, gap\u22645s",
+      "fires": 11873,
+      "ev_per_fire_sol": -0.015214,
+      "win_rate_pct": 24.0,
+      "total_pnl_sol": -180.6414,
+      "median_pnl_sol": -0.042049,
+      "exits": {
+        "timeout": 4712,
+        "take_profit": 1930,
+        "stop_loss": 4817,
+        "migration": 414
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u226510, gap\u226410s",
+      "fires": 14032,
+      "ev_per_fire_sol": -0.015548,
+      "win_rate_pct": 23.7,
+      "total_pnl_sol": -218.1655,
+      "median_pnl_sol": -0.037181,
+      "exits": {
+        "timeout": 6048,
+        "take_profit": 2147,
+        "stop_loss": 5161,
+        "migration": 676
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u226510, gap\u226420s",
+      "fires": 14318,
+      "ev_per_fire_sol": -0.015684,
+      "win_rate_pct": 23.7,
+      "total_pnl_sol": -224.5675,
+      "median_pnl_sol": -0.036681,
+      "exits": {
+        "timeout": 6213,
+        "take_profit": 2172,
+        "stop_loss": 5171,
+        "migration": 762
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u226515, gap\u22645s",
+      "fires": 8197,
+      "ev_per_fire_sol": -0.01614,
+      "win_rate_pct": 23.3,
+      "total_pnl_sol": -132.2975,
+      "median_pnl_sol": -0.041252,
+      "exits": {
+        "timeout": 3455,
+        "take_profit": 1279,
+        "stop_loss": 3067,
+        "migration": 396
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u226515, gap\u226410s",
+      "fires": 9409,
+      "ev_per_fire_sol": -0.017219,
+      "win_rate_pct": 22.7,
+      "total_pnl_sol": -162.013,
+      "median_pnl_sol": -0.038778,
+      "exits": {
+        "timeout": 4181,
+        "take_profit": 1380,
+        "stop_loss": 3205,
+        "migration": 643
+      }
+    },
+    {
+      "label": "Tier1@15s: uniq\u226515, gap\u226420s",
+      "fires": 9522,
+      "ev_per_fire_sol": -0.017517,
+      "win_rate_pct": 22.6,
+      "total_pnl_sol": -166.7976,
+      "median_pnl_sol": -0.038827,
+      "exits": {
+        "timeout": 4222,
+        "take_profit": 1388,
+        "stop_loss": 3213,
+        "migration": 699
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u22655, gap\u22645s",
+      "fires": 13373,
+      "ev_per_fire_sol": -0.014463,
+      "win_rate_pct": 23.5,
+      "total_pnl_sol": -193.413,
+      "median_pnl_sol": -0.036925,
+      "exits": {
+        "timeout": 5726,
+        "take_profit": 2041,
+        "stop_loss": 5265,
+        "migration": 341
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u22655, gap\u226410s",
+      "fires": 19659,
+      "ev_per_fire_sol": -0.013428,
+      "win_rate_pct": 24.6,
+      "total_pnl_sol": -263.9873,
+      "median_pnl_sol": -0.030002,
+      "exits": {
+        "timeout": 9084,
+        "take_profit": 2873,
+        "stop_loss": 7057,
+        "migration": 645
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u22655, gap\u226420s",
+      "fires": 21538,
+      "ev_per_fire_sol": -0.013151,
+      "win_rate_pct": 24.6,
+      "total_pnl_sol": -283.2401,
+      "median_pnl_sol": -0.02642,
+      "exits": {
+        "timeout": 10389,
+        "take_profit": 3044,
+        "stop_loss": 7287,
+        "migration": 818
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u22658, gap\u22645s",
+      "fires": 12005,
+      "ev_per_fire_sol": -0.014743,
+      "win_rate_pct": 24.1,
+      "total_pnl_sol": -176.9901,
+      "median_pnl_sol": -0.042024,
+      "exits": {
+        "timeout": 4698,
+        "take_profit": 1943,
+        "stop_loss": 5023,
+        "migration": 341
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u22658, gap\u226410s",
+      "fires": 16566,
+      "ev_per_fire_sol": -0.014153,
+      "win_rate_pct": 24.6,
+      "total_pnl_sol": -234.4596,
+      "median_pnl_sol": -0.034734,
+      "exits": {
+        "timeout": 7136,
+        "take_profit": 2551,
+        "stop_loss": 6239,
+        "migration": 640
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u22658, gap\u226420s",
+      "fires": 17616,
+      "ev_per_fire_sol": -0.014082,
+      "win_rate_pct": 24.5,
+      "total_pnl_sol": -248.0711,
+      "median_pnl_sol": -0.031718,
+      "exits": {
+        "timeout": 7876,
+        "take_profit": 2644,
+        "stop_loss": 6313,
+        "migration": 783
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u226510, gap\u22645s",
+      "fires": 11174,
+      "ev_per_fire_sol": -0.014614,
+      "win_rate_pct": 24.4,
+      "total_pnl_sol": -163.299,
+      "median_pnl_sol": -0.043524,
+      "exits": {
+        "timeout": 4227,
+        "take_profit": 1860,
+        "stop_loss": 4746,
+        "migration": 341
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u226510, gap\u226410s",
+      "fires": 14777,
+      "ev_per_fire_sol": -0.014443,
+      "win_rate_pct": 24.5,
+      "total_pnl_sol": -213.4225,
+      "median_pnl_sol": -0.03649,
+      "exits": {
+        "timeout": 6205,
+        "take_profit": 2328,
+        "stop_loss": 5608,
+        "migration": 636
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u226510, gap\u226420s",
+      "fires": 15541,
+      "ev_per_fire_sol": -0.01455,
+      "win_rate_pct": 24.3,
+      "total_pnl_sol": -226.1167,
+      "median_pnl_sol": -0.034353,
+      "exits": {
+        "timeout": 6726,
+        "take_profit": 2389,
+        "stop_loss": 5656,
+        "migration": 770
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u226515, gap\u22645s",
+      "fires": 9089,
+      "ev_per_fire_sol": -0.015237,
+      "win_rate_pct": 24.2,
+      "total_pnl_sol": -138.4852,
+      "median_pnl_sol": -0.045321,
+      "exits": {
+        "timeout": 3355,
+        "take_profit": 1515,
+        "stop_loss": 3881,
+        "migration": 338
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u226515, gap\u226410s",
+      "fires": 11189,
+      "ev_per_fire_sol": -0.016045,
+      "win_rate_pct": 23.6,
+      "total_pnl_sol": -179.5275,
+      "median_pnl_sol": -0.040113,
+      "exits": {
+        "timeout": 4583,
+        "take_profit": 1727,
+        "stop_loss": 4255,
+        "migration": 624
+      }
+    },
+    {
+      "label": "Tier1@20s: uniq\u226515, gap\u226420s",
+      "fires": 11558,
+      "ev_per_fire_sol": -0.016334,
+      "win_rate_pct": 23.5,
+      "total_pnl_sol": -188.7868,
+      "median_pnl_sol": -0.039482,
+      "exits": {
+        "timeout": 4795,
+        "take_profit": 1759,
+        "stop_loss": 4277,
+        "migration": 727
+      }
+    },
+    {
+      "label": "Tier2@60s: 60Burst signal (comparison)",
+      "fires": 2411,
+      "ev_per_fire_sol": -0.008388,
+      "win_rate_pct": 26.4,
+      "total_pnl_sol": -20.2231,
+      "median_pnl_sol": -0.020832,
+      "exits": {
+        "timeout": 1444,
+        "take_profit": 252,
+        "stop_loss": 632,
+        "migration": 83
+      }
+    }
+  ]
+}
