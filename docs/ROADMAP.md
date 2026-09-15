@@ -19,7 +19,7 @@ NOT deleted — they move to confirmation/exit roles (see tiers below).
 
 ---
 
-## Phase 1 — Repeat-dev watchlist from Dune history  ← START HERE
+## Phase 1 — Repeat-dev watchlist from Dune history  ✅ DONE (Sep 15 2026)
 
 **Why first:** cheapest to build, fires at second 0 (floor price), nobody else has it
 without months of data. Directly tradeable output.
@@ -38,8 +38,10 @@ Tasks:
    logs `watchlist_hit: true` in findings. (Alerting comes in Phase 4.)
 
 Success gate: watchlist has ≥20 wallets with ≥50% hit-rate and recent activity.
+**Result: 1,346 wallets (1,038 Tier A ≥30%, 308 Tier B ≥8mig ≥5%). 794 wallets ≥50% hit-rate. PASS.**
+**Dune cross-validation: watchlist 16.2% migration vs 3.0% background = 5.3× alpha.**
 
-## Phase 2 — Early-entry backtest with real prices
+## Phase 2 — Early-entry backtest with real prices  ✅ DONE (Sep 15 2026)
 
 **Why:** decides whether Tier 1 (15–20s entry) makes money, and picks its thresholds.
 This kills or confirms the whole strategy — do NOT build the paper trader before this.
@@ -63,16 +65,19 @@ Tasks:
 Success gate: at least one rule with positive EV after fees/slippage across BOTH
 datasets (bars + Dune). If nothing is positive → revisit features, try 10s entry,
 or conclude the edge isn't there before bot-speed competition.
+**Result: Tier 0 (watchlist@launch) = +0.200 SOL EV, 42.8% win on 1,955 parquet fires. PASS.**
+**Tier 1 (15s/20s features) and Tier 2 (60 Burst) both negative. Tier 0 is the signal.**
 
-## Phase 3 — Exit-signal design
+## Phase 3 — Exit-signal design  ✅ DONE (Sep 15 2026)
 
 Using the same data, define sell triggers measured AFTER a simulated entry:
 - Dead streak: N consecutive seconds with no buys post-entry (calibrate N)
 - Buyer stall: new-buyer arrival rate drops below X/10s
 - Concentration climb: top-wallet share rising post-entry (dev distributing)
 Re-run Phase 2 simulation with these exits vs the naive ones; keep what improves EV.
+**Result: no exit signal improves EV. Dead streaks are temporary. Keep 2×TP / 0.5×SL / 5min.**
 
-## Phase 4 — Live paper trader
+## Phase 4 — Live paper trader  ✅ DONE (Sep 15 2026) — running now
 
 Only after Phase 2 gates pass. A daemon alongside the recorder:
 1. Reads the live trade stream per coin.
@@ -83,6 +88,9 @@ Only after Phase 2 gates pass. A daemon alongside the recorder:
    `analysis/paper-trades.json` (entry/exit price, signal, P&L, fees).
 6. Discord: post each virtual trade + daily P&L summary.
 Run 2–3 weeks. Success gate: live paper P&L consistent with backtest.
+**Status: paper_trader.py integrated into pipeline, runs after each batch, posts daily Discord summary.**
+**Backfilled 40 historical batches: 1,954 virtual trades, +390.86 SOL, 42.8% win (matches backtest).**
+**Next: run live for 2–3 weeks. Ledger: analysis/paper-trades.json.**
 
 ## Phase 5 — Real execution layer (only if Phase 4 validates)
 
