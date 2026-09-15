@@ -159,3 +159,46 @@ batch-020 (Sep 12, 4PM CDT) had 12 organics in one hour — biggest outlier reco
 Organic coins buy across 43 of 60 seconds. Dead coins buy in 9.
 Organic buying is 8x steadier (lower volatility). Bundles spike and crater.
 Organic peak buy rate happens at ~20s in. Bundle peak is at 0–5s.
+
+---
+
+## Dune Analytics Backfill Validation (Sep 10-14 2026)
+
+Pulled 137,904 token launches from Dune using `pump_call_create_v2` +
+`pumpdotfun_solana.trades` + `pump_call_migrate_v2`.
+
+**Cross-validation: 124/125 pipeline organics found in Dune (99.2%).** All
+124 are correctly classified as migrated with same_slot_buys < 5.
+
+| Metric | Value |
+|--------|-------|
+| Total launches (5 days) | 137,904 |
+| Migrated (any) | 4,878 (3.54%) |
+| "Organic" in Dune (ssb<5) | 4,845 |
+
+Signal performance on Dune data vs pipeline data:
+
+| Signal | Dune catch% | Dune FP% | Pipeline catch% | Pipeline FP% |
+|--------|------------|----------|-----------------|--------------|
+| 10 Burst | 1% | 0.26% | 17% | 0.36% |
+| 30 Burst | 2% | 0.28% | 25% | 0.35% |
+| 60 Burst | 10% | 4.34% | 76% | 0.00% |
+
+**Why the gap?** Our pipeline applies stricter fraud filters (top_wallet_pct + sniper ratio)
+before classifying as organic. Dune's `ssb<5` alone lets many bot-driven migrators through,
+raising the FP rate for 60 Burst. Without `top_wallet_pct >= 40` filtering, many bot-driven
+migrators also hit ≥60 unique buyers — they just use separate transactions.
+
+**Key finding:** Every pipeline organic that had ≥60 uniq_60 in Dune correctly fires 60 Burst.
+The signal logic works correctly on Dune data. The FP gap is in fraud classification, not the signal.
+
+### Dune Tables for Future Queries
+
+| Purpose | Table |
+|---------|-------|
+| Launches | `pumpdotfun_solana.pump_call_create_v2` (99% of volume) |
+| Buys (unified) | `pumpdotfun_solana.trades` WHERE `token_bought_mint_address = mint` |
+| Migrations | `pumpdotfun_solana.pump_call_migrate_v2` — `account_base_mint` is the mint |
+| Old v1 creates | `pumpdotfun_solana.pump_call_create` (< 200/day) |
+
+See `scripts/dune_backfill.sql` for the complete working query.
