@@ -123,10 +123,18 @@ def archive_to_parquet(batch_id, norm_dir):
 
 # ── Cross-batch sniper persistence ────────────────────────────────────────
 CUMULATIVE_SNIPERS_PATH = FINDINGS_DIR / "cumulative-snipers.json"
+WATCHLIST_PATH          = FINDINGS_DIR / "dev-watchlist.json"
 
 # Ensure required dirs exist
 BATCHES_DIR.mkdir(parents=True, exist_ok=True)
 PARQUET_ARCHIVE.mkdir(parents=True, exist_ok=True)
+
+def load_dev_watchlist():
+    if not WATCHLIST_PATH.exists():
+        return {}
+    with open(WATCHLIST_PATH) as f:
+        data = json.load(f)
+    return {w["wallet"]: w for w in data.get("wallets", [])}
 
 def load_cumulative_snipers():
     if CUMULATIVE_SNIPERS_PATH.exists():
@@ -146,7 +154,7 @@ def read_ndjson(path):
             if line:
                 yield json.loads(line)
 
-def analyze_batch(batch_id, data_root, run_id):
+def analyze_batch(batch_id, data_root, run_id, dev_watchlist=None):
     log(f"  Analyzing {batch_id}...")
     norm_dir = data_root / "runs" / run_id / "normalized"
 
@@ -226,9 +234,13 @@ def analyze_batch(batch_id, data_root, run_id):
         bars = [sum(1 for b in buys if t0 + s <= b["t"] < t0 + s + 1) for s in range(180)]
 
         meta = token_meta.get(mint, {})
+        creator = meta.get("creator")
+        wl_entry = (dev_watchlist or {}).get(creator) if creator else None
         coins.append({
             "mint": mint, "name": meta.get("name"), "symbol": meta.get("symbol"),
-            "creator": meta.get("creator"), "launched_at": t0,
+            "creator": creator, "launched_at": t0,
+            "watchlist_hit": wl_entry is not None,
+            "watchlist_info": {"hit_rate": wl_entry["hit_rate"], "migrations": wl_entry["migrations"], "tier": wl_entry.get("tier")} if wl_entry else None,
             "migrated": mint in migrated,
             "migration_sec": round(migration_time[mint] - t0) if mint in migrated else None,
             "coverage_sec": coverage_sec,   # Fix 1: how many seconds of data we have
@@ -240,15 +252,18 @@ def analyze_batch(batch_id, data_root, run_id):
         })
 
     migrators = [c for c in coins if c["migrated"]]
+    watchlist_hits = [c for c in coins if c.get("watchlist_hit")]
     return {
         "batch_id":         batch_id,
         "run_id":           run_id,
         "total_coins":      len(coins),
         "migrated":         len(migrators),
         "sniper_wallets":   len(sniper_wallets),
+        "watchlist_hits":   len(watchlist_hits),
         "all_coins":        coins,
         "all_migrators":    migrators,
         "organic_migrators": [c for c in migrators if classify(c) == "organic"],
+        "watchlist_migrators": [c for c in migrators if c.get("watchlist_hit")],
     }
 
 # ── Report builder ────────────────────────────────────────────────────────
@@ -478,7 +493,8 @@ def run_one_batch():
 def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
     """Analyze, save findings, delete raw data, commit. Runs in a background thread."""
     try:
-        result_data = analyze_batch(batch_id, data_root, run_id)
+        dev_watchlist = load_dev_watchlist()
+        result_data = analyze_batch(batch_id, data_root, run_id, dev_watchlist=dev_watchlist)
         result_data["window"] = window_label
 
         findings_out = FINDINGS_DIR / f"{batch_id}-findings"
@@ -502,16 +518,19 @@ def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
         ]
         write_json(findings_out / "all-coins-bars.json", all_bars)
         write_json(findings_out / "summary.json", {
-            "batch_id":           batch_id,
-            "window":             window_label,
-            "total_coins":        result_data["total_coins"],
-            "migrated":           result_data["migrated"],
-            "organic":            len(result_data["organic_migrators"]),
-            "sniper_wallets":     result_data["sniper_wallets"],
-            "migration_rate_pct": round(result_data["migrated"] / result_data["total_coins"] * 100, 2) if result_data["total_coins"] else 0,
+            "batch_id":             batch_id,
+            "window":               window_label,
+            "total_coins":          result_data["total_coins"],
+            "migrated":             result_data["migrated"],
+            "organic":              len(result_data["organic_migrators"]),
+            "sniper_wallets":       result_data["sniper_wallets"],
+            "watchlist_hits":       result_data["watchlist_hits"],
+            "watchlist_migrators":  len(result_data["watchlist_migrators"]),
+            "migration_rate_pct":   round(result_data["migrated"] / result_data["total_coins"] * 100, 2) if result_data["total_coins"] else 0,
         })
 
-        log(f"  [{batch_id}] Analysis done — {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic")
+        wl_note = f", {result_data['watchlist_hits']} watchlist hits ({len(result_data['watchlist_migrators'])} migrated)" if result_data["watchlist_hits"] else ""
+        log(f"  [{batch_id}] Analysis done — {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic{wl_note}")
 
         all_results = []
         for bf_path in sorted(FINDINGS_DIR.glob("batch-*-findings/summary.json")):
@@ -541,11 +560,12 @@ def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
                 shutil.rmtree(p)
         log(f"  [{batch_id}] Raw data deleted — parquet copy kept")
 
-        subprocess.run(["git", "-C", str(REPO), "add",
-                        str(batch_file), str(findings_out),
-                        str(FINDINGS_DIR / "report.html"),
-                        str(CUMULATIVE_SNIPERS_PATH)],
-                       capture_output=True)
+        git_add = [str(batch_file), str(findings_out),
+                   str(FINDINGS_DIR / "report.html"),
+                   str(CUMULATIVE_SNIPERS_PATH)]
+        if WATCHLIST_PATH.exists():
+            git_add.append(str(WATCHLIST_PATH))
+        subprocess.run(["git", "-C", str(REPO), "add"] + git_add, capture_output=True)
         subprocess.run(["git", "-C", str(REPO), "commit", "-m",
                         f"pipeline: {batch_id} — {result_data['total_coins']} coins, {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
                        capture_output=True)
