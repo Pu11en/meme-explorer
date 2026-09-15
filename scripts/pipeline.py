@@ -560,11 +560,30 @@ def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
                 shutil.rmtree(p)
         log(f"  [{batch_id}] Raw data deleted — parquet copy kept")
 
+        # Phase 4: run paper trader on this batch's parquet before git add
+        paper_trader_py = SCRIPTS_DIR / "paper_trader.py"
+        pt_parquet = PARQUET_ARCHIVE / batch_id
+        if paper_trader_py.exists() and pt_parquet.exists():
+            try:
+                pt_result = subprocess.run(
+                    ["python3", str(paper_trader_py), "--batch", batch_id],
+                    capture_output=True, text=True, timeout=60,
+                )
+                if pt_result.returncode == 0:
+                    log(f"  [{batch_id}] Paper trader: {pt_result.stdout.strip().splitlines()[-1] if pt_result.stdout.strip() else 'ok'}")
+                else:
+                    log(f"  [{batch_id}] Paper trader error: {pt_result.stderr[:200]}")
+            except Exception as pt_err:
+                log(f"  [{batch_id}] Paper trader exception: {pt_err}")
+
+        paper_trades_path = FINDINGS_DIR / "paper-trades.json"
         git_add = [str(batch_file), str(findings_out),
                    str(FINDINGS_DIR / "report.html"),
                    str(CUMULATIVE_SNIPERS_PATH)]
         if WATCHLIST_PATH.exists():
             git_add.append(str(WATCHLIST_PATH))
+        if paper_trades_path.exists():
+            git_add.append(str(paper_trades_path))
         subprocess.run(["git", "-C", str(REPO), "add"] + git_add, capture_output=True)
         subprocess.run(["git", "-C", str(REPO), "commit", "-m",
                         f"pipeline: {batch_id} — {result_data['total_coins']} coins, {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
@@ -615,6 +634,15 @@ def main():
             result = run_one_batch()
             if result:
                 log("Batch complete.")
+                # Post daily summary at end of trading day (last batch before 5 PM CDT)
+                from datetime import timezone as tz
+                import zoneinfo
+                central = datetime.now(zoneinfo.ZoneInfo("America/Chicago"))
+                if central.hour >= WINDOW_END_HOUR - 1:  # last hour
+                    paper_trader_py = SCRIPTS_DIR / "paper_trader.py"
+                    if paper_trader_py.exists():
+                        subprocess.run(["python3", str(paper_trader_py), "--daily-summary"],
+                                       capture_output=True, timeout=10)
             else:
                 log("Batch skipped/errored. Waiting 60s before retry.")
                 time.sleep(60)
