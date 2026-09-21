@@ -1,0 +1,9 @@
+{
+  "batch_id": "batch-100",
+  "window": "2026-09-21 15:00 UTC",
+  "total_coins": 1886,
+  "migrated": 42,
+  "organic": 7,
+  "sniper_wallets": 74096,
+  "migration_rate_pct": 2.23
+}
