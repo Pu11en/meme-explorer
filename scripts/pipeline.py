@@ -464,6 +464,14 @@ def run_one_batch():
 
     if state not in ("completed", "stopped"):
         log(f"  Skipping analysis — state={state}")
+        run_id = status.get("run_id")
+        if run_id:
+            run_dir = data_root / "runs" / run_id
+            for subdir in ["raw", "normalized"]:
+                p = run_dir / subdir
+                if p.exists():
+                    shutil.rmtree(p)
+            log(f"  Cleaned up orphaned raw data for {run_id}")
         return None
 
     run_id = status.get("run_id")
