@@ -620,6 +620,44 @@ def seconds_until_window():
         tomorrow_8am = tomorrow_8am + timedelta(days=1)
     return (tomorrow_8am - now_ct).total_seconds()
 
+def cleanup_orphaned_raw_data():
+    """On startup, delete raw/normalized ndjson from any stopped_early/skipped batches.
+
+    If the pipeline crashes mid-cleanup and launchd restarts it, orphaned raw data
+    accumulates until the disk fills. This sweep catches those leftovers.
+    """
+    batches_dir = DATA_ROOT_BASE / "batches"
+    if not batches_dir.exists():
+        return
+    cleaned = 0
+    freed_bytes = 0
+    for batch_dir in sorted(batches_dir.iterdir()):
+        status_path = batch_dir / "job-status.json"
+        if not status_path.exists():
+            continue
+        try:
+            with open(status_path) as f:
+                status = json.load(f)
+        except Exception:
+            continue
+        state = status.get("state")
+        if state in ("completed", "stopped"):
+            continue
+        run_id = status.get("run_id")
+        if not run_id:
+            continue
+        run_dir = batch_dir / "runs" / run_id
+        for subdir in ("raw", "normalized"):
+            p = run_dir / subdir
+            if p.exists():
+                size = sum(f.stat().st_size for f in p.rglob("*") if f.is_file())
+                shutil.rmtree(p)
+                freed_bytes += size
+                cleaned += 1
+    if cleaned:
+        log(f"Startup cleanup: removed {cleaned} orphaned raw dirs, freed {freed_bytes / 1e9:.2f} GB")
+
+
 def main():
     DATA_ROOT_BASE.mkdir(parents=True, exist_ok=True)
 
@@ -629,6 +667,7 @@ def main():
 
     LOCK_FILE.write_text(str(os.getpid()))
     log(f"Pipeline started. Active window: {WINDOW_START_HOUR}:00–{WINDOW_END_HOUR}:00 Central.")
+    cleanup_orphaned_raw_data()
 
     try:
         while True:
