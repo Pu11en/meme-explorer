@@ -620,6 +620,23 @@ def seconds_until_window():
         tomorrow_8am = tomorrow_8am + timedelta(days=1)
     return (tomorrow_8am - now_ct).total_seconds()
 
+PARQUET_KEEP_BATCHES = 40  # keep ~40 most recent parquet archives (~4 GB)
+
+def trim_parquet_archive():
+    """Delete oldest parquet batches beyond PARQUET_KEEP_BATCHES."""
+    if not PARQUET_ARCHIVE.exists():
+        return
+    batches = sorted(PARQUET_ARCHIVE.iterdir(), key=lambda p: int(p.name.split("-")[1]) if p.name.split("-")[1].isdigit() else 0)
+    to_delete = batches[:-PARQUET_KEEP_BATCHES] if len(batches) > PARQUET_KEEP_BATCHES else []
+    freed = 0
+    for d in to_delete:
+        size = sum(f.stat().st_size for f in d.rglob("*") if f.is_file())
+        shutil.rmtree(d)
+        freed += size
+    if to_delete:
+        log(f"Parquet trim: removed {len(to_delete)} old batches, freed {freed/1e9:.2f} GB")
+
+
 def cleanup_orphaned_raw_data():
     """On startup, delete raw/normalized ndjson from any stopped_early/skipped batches.
 
@@ -668,6 +685,7 @@ def main():
     LOCK_FILE.write_text(str(os.getpid()))
     log(f"Pipeline started. Active window: {WINDOW_START_HOUR}:00–{WINDOW_END_HOUR}:00 Central.")
     cleanup_orphaned_raw_data()
+    trim_parquet_archive()
 
     try:
         while True:
