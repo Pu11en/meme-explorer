@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-09-28T23:50:39.790439+00:00",
+  "window_days": 3650,
+  "migrators_seen": 4264,
+  "migrators_with_return_data": 0,
+  "min_samples_required": 30,
+  "watchlist": {
+    "n": 0
+  },
+  "baseline": {
+    "n": 0
+  },
+  "edge_pct": null,
+  "verdict": "insufficient_data",
+  "ledger_devs_tracked": 1440,
+  "score": null
+}
