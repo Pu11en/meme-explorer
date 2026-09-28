@@ -25,7 +25,9 @@ LOG_FILE     = DATA_ROOT / "pipeline.log"
 LEDGER       = ANALYSIS / "dev-ledger.json"
 LIVE_WL      = ANALYSIS / "dev-watchlist-live.json"
 MIN_FREE_GB  = 15          # pipeline needs 15 GiB free to record
-STALE_BATCH_HOURS = 26     # findings should refresh at least daily (8AM window)
+# Recording runs in a daily 8AM window, so ~24h between batches is normal; allow
+# headroom for jitter/a single skipped run before crying wolf.
+STALE_BATCH_HOURS = 34
 
 OK, WARN, CRIT = 0, 1, 2
 results = []
@@ -54,7 +56,9 @@ if not summaries:
     check("findings", CRIT, "no batch findings found at all")
 else:
     h = age_hours(summaries[-1])
-    if h > STALE_BATCH_HOURS:
+    if h is None:
+        check("findings", WARN, "latest findings file vanished mid-check")
+    elif h > STALE_BATCH_HOURS:
         check("findings", CRIT, f"latest findings are {h:.0f}h old (>{STALE_BATCH_HOURS}h) — pipeline may be stuck")
     else:
         check("findings", OK, f"latest findings {h:.1f}h old ({summaries[-1].parent.name})")

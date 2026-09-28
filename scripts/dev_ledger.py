@@ -53,9 +53,10 @@ MAX_INACTIVE_DAYS      = 21     # drop devs idle longer than this from the list
 # Long-running hygiene: without pruning the ledger grows unbounded (~1.4k new
 # devs/hour, most launch once and never migrate). Drop devs that are stale AND
 # never produced a migration — they can never qualify, so we lose nothing.
-PRUNE_INACTIVE_DAYS    = 30     # a dev idle this long...
-PRUNE_KEEP_IF_MIGRATED = True   # ...is dropped only if it never migrated
+PRUNE_INACTIVE_DAYS    = 30     # never-migrated devs idle this long are dropped
+PRUNE_MIGRATED_DAYS    = 120    # even a once-migrated dev is dropped after this long idle (bounds growth)
 MAX_PROCESSED_BATCHES  = 5000   # keep the dedupe list bounded (~7 months hourly)
+PROFIT_HIT_PCT         = 50.0   # a coin counts as "would've been profitable" at >=+50% best-case in-window
 
 
 def now_utc():
@@ -107,11 +108,20 @@ def save_ledger(ledger):
     LEDGER_PATH.parent.mkdir(parents=True, exist_ok=True)
     ledger["updated_at"] = now_utc().isoformat()
     tmp = LEDGER_PATH.with_suffix(".tmp")
-    with open(tmp, "w") as f:
-        json.dump(ledger, f, indent=2)
-        f.flush()
-        os.fsync(f.fileno())
-    os.replace(tmp, LEDGER_PATH)
+    try:
+        with open(tmp, "w") as f:
+            json.dump(ledger, f, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, LEDGER_PATH)
+    except Exception:
+        # e.g. disk full mid-write — don't leave a partial temp lying around,
+        # and re-raise so the caller/health check sees the failure.
+        try:
+            tmp.unlink(missing_ok=True)
+        except Exception:
+            pass
+        raise
 
 
 class _FileLock:
@@ -145,9 +155,10 @@ def _verdict(coin):
 
 
 def _prune(ledger):
-    """Drop devs that are stale AND never migrated (they can never qualify),
-    and cap the processed-batch dedupe list. Keeps the file bounded for
-    months-long runs."""
+    """Drop dead weight so the file stays bounded over months. Never-migrated
+    devs go after PRUNE_INACTIVE_DAYS idle; even migrated devs go after the
+    longer PRUNE_MIGRATED_DAYS (they're long past qualifying by then), so the
+    'devs' map cannot grow without bound. Also caps the dedupe list."""
     now = now_utc()
     keep = {}
     for dev, d in ledger["devs"].items():
@@ -155,7 +166,8 @@ def _prune(ledger):
             idle_days = (now - datetime.fromisoformat(d["last_seen"])).total_seconds() / 86400.0
         except Exception:
             idle_days = 0
-        if idle_days > PRUNE_INACTIVE_DAYS and (not PRUNE_KEEP_IF_MIGRATED or d.get("migrations", 0) == 0):
+        cutoff = PRUNE_MIGRATED_DAYS if d.get("migrations", 0) > 0 else PRUNE_INACTIVE_DAYS
+        if idle_days > cutoff:
             continue
         keep[dev] = d
     ledger["devs"] = keep
@@ -181,8 +193,13 @@ def update_ledger(batch_id, coins, batch_time=None):
             d = ledger["devs"].get(dev)
             if d is None:
                 d = {"launches": 0, "migrations": 0, "organic_migrations": 0,
-                     "first_seen": ts, "last_seen": ts, "last_migration": None}
+                     "first_seen": ts, "last_seen": ts, "last_migration": None,
+                     "gain_samples": 0, "gain_sum_pct": 0.0, "profit_hits": 0,
+                     "hold_sum_pct": 0.0, "hold_wins": 0}
                 ledger["devs"][dev] = d
+            for k, v in (("gain_samples", 0), ("gain_sum_pct", 0.0), ("profit_hits", 0),
+                         ("hold_sum_pct", 0.0), ("hold_wins", 0)):
+                d.setdefault(k, v)               # backfill fields for pre-existing devs
             d["launches"] += 1
             d["last_seen"] = ts
             if c.get("migrated"):
@@ -190,6 +207,20 @@ def update_ledger(batch_id, coins, batch_time=None):
                 d["last_migration"] = ts
                 if _verdict(c) == "organic":
                     d["organic_migrations"] += 1
+            # "Would you have made money?" — accumulate two returns per tradable
+            # coin: best-case (perfect exit at peak, a ceiling) and realistic
+            # (bought ~30s in, held, sold at window end — CAN be negative).
+            g = c.get("max_gain_pct")
+            if g is not None:
+                d["gain_samples"] += 1
+                d["gain_sum_pct"] += g
+                if g >= PROFIT_HIT_PCT:
+                    d["profit_hits"] += 1
+            h = c.get("hold_gain_pct")
+            if h is not None:
+                d["hold_sum_pct"] += h
+                if h > 0:
+                    d["hold_wins"] += 1
 
         ledger["processed_batches"].append(batch_id)
         _prune(ledger)
@@ -234,6 +265,17 @@ def rank(ledger=None, write=True):
         else:
             continue  # not reliable enough to publish
 
+        # Money proxy (CEILING, not expected profit): across this dev's coins we
+        # could have entered by hand, the best-case return of buying ~30s in and
+        # selling at the later peak. Real returns are lower (no perfect exit, plus
+        # slippage/fees/MEV). Only coins with a tradable post-entry buy count.
+        gs = d.get("gain_samples", 0)
+        avg_gain_pct  = round(d.get("gain_sum_pct", 0.0) / gs, 1) if gs else None
+        profit_rate   = round(100 * d.get("profit_hits", 0) / gs, 1) if gs else None
+        # The realistic pair: held to window end, so it can be (and often is) negative.
+        realistic_gain = round(d.get("hold_sum_pct", 0.0) / gs, 1) if gs else None
+        realistic_win  = round(100 * d.get("hold_wins", 0) / gs, 1) if gs else None
+
         rows.append({
             "wallet": dev,
             "tier": tier,
@@ -243,6 +285,13 @@ def rank(ledger=None, write=True):
             "organic_rate_pct": round(100 * O / L, 1),
             "migration_rate_pct": round(100 * M / L, 1),
             "wilson_organic": round(wilson_organic, 3),
+            # Money proxies, bracketing reality. Trust the realistic pair; the
+            # best-case pair is an unreachable ceiling (perfect exit, no costs).
+            "realistic_avg_gain_pct": realistic_gain,   # bought ~30s in, sold at window end — CAN be negative
+            "realistic_win_rate_pct": realistic_win,    # % of tradable coins where that hold was profitable
+            "best_case_avg_gain_pct": avg_gain_pct,     # CEILING only — perfect peak exit, never negative
+            "best_case_profit_rate_pct": profit_rate,
+            "gain_samples": gs,                         # how many of their coins these are based on
             "days_inactive": days_inactive,
             "score": score,
             "last_seen": d["last_seen"],

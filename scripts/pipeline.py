@@ -41,6 +41,7 @@ LOG_FILE      = DATA_ROOT_BASE / "pipeline.log"
 
 MINIMUM_FREE_BYTES  = 16_106_127_360   # 15 GiB
 MAXIMUM_BATCH_BYTES = 12_884_901_888   # 12 GiB
+ENTRY_DELAY_SEC     = 30                # assumed manual entry lag for the "would you have made money" proxy
 PARQUET_ARCHIVE     = Path("/Users/drewp/Library/Application Support/MemeExplorer/parquet")
 
 # ── Helpers ────────────────────────────────────────────────────────────────
@@ -247,6 +248,32 @@ def analyze_batch(batch_id, data_root, run_id, dev_watchlist=None):
         # Fix 1: bars padded to 180 with zeros beyond coverage window
         bars = [sum(1 for b in buys if t0 + s <= b["t"] < t0 + s + 1) for s in range(180)]
 
+        # "Would you have made money following this dev?" — a realistic-entry,
+        # best-case-exit proxy over the observed window.
+        #   entry = mcap of the first buy at/after ENTRY_DELAY_SEC (a human sees
+        #           the launch, then buys — you cannot enter at t0).
+        #   peak  = highest mcap AT OR AFTER that entry buy. Critically NOT the
+        #           whole-window peak: an early snipe-and-dump peaks before you
+        #           could buy, and counting it would fake a gain you never had.
+        #   gain  = peak/entry - 1 (best case: assumes a perfect exit).
+        # If nobody buys after the entry delay the coin was untradeable by hand,
+        # so we leave gain None and it is excluded from the dev's stats rather
+        # than credited a fictional launch-spike gain. Still capped by our 180s
+        # window (a coin running past 180s has upside we can't see yet).
+        entry_buys = [b for b in buys
+                      if t0 + ENTRY_DELAY_SEC <= b["t"] <= t0 + coverage_sec and b["mcap"] > 0]
+        entry_mcap = peak_mcap = max_gain_pct = exit_mcap = hold_gain_pct = None
+        if entry_buys:
+            entry_mcap = round(entry_buys[0]["mcap"], 2)
+            peak_mcap = round(max(b["mcap"] for b in entry_buys), 2)  # entry_buys are all at/after entry, sorted
+            exit_mcap = round(entry_buys[-1]["mcap"], 2)              # last observed price = held-to-window-end exit
+            if entry_mcap > 0:
+                # max_gain_pct: best-case (perfect exit at peak) — a CEILING, always >= 0.
+                max_gain_pct = round((peak_mcap - entry_mcap) / entry_mcap * 100, 1)
+                # hold_gain_pct: realistic — bought ~30s in, held, sold at the end
+                # of what we observed. CAN be negative; this is the honest one.
+                hold_gain_pct = round((exit_mcap - entry_mcap) / entry_mcap * 100, 1)
+
         meta = token_meta.get(mint, {})
         creator = meta.get("creator") or dev_by_mint.get(mint)
         wl_entry = (dev_watchlist or {}).get(creator) if creator else None
@@ -262,6 +289,8 @@ def analyze_batch(batch_id, data_root, run_id, dev_watchlist=None):
             "w60": w60, "w120": w120, "w180": w180,
             "sniper_ratio_60": sniper_ratio_60,
             "total_buys_60min": len(buys), "total_sol_60min": round(all_sol, 4),
+            "entry_mcap": entry_mcap, "peak_mcap": peak_mcap, "max_gain_pct": max_gain_pct,
+            "exit_mcap": exit_mcap, "hold_gain_pct": hold_gain_pct,
             "bars_3min": bars,
         })
 
@@ -558,8 +587,8 @@ def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
             import dev_ledger
             for c in result_data["all_coins"]:
                 c["verdict"] = classify(c)
-            dev_ledger.update_ledger(batch_id, result_data["all_coins"])
-            live = dev_ledger.rank()
+            ledger = dev_ledger.update_ledger(batch_id, result_data["all_coins"])
+            live = dev_ledger.rank(ledger=ledger)   # reuse in-memory ledger, no re-read
             log(f"  [{batch_id}] Dev ledger: {live['total_devs_tracked']} devs tracked, "
                 f"{live['watchlist_count']} on live watchlist (A={live['tier_a']}, B={live['tier_b']})")
         except Exception as e:
