@@ -95,6 +95,7 @@ def archive_to_parquet(batch_id, norm_dir):
         "events":     norm_dir / "events.ndjson",
         "migrations": norm_dir / "migrations.ndjson",
         "tokens":     norm_dir / "tokens.ndjson",
+        "wallets":    norm_dir / "wallets.ndjson",   # holds creator_fee_recipient = dev wallet; needed to re-score dev ledger later
     }
 
     sizes = {}
@@ -165,11 +166,24 @@ def analyze_batch(batch_id, data_root, run_id, dev_watchlist=None):
             coin_created[ev["mint"]] = epoch(ev["source_at"])
             coin_slot[ev["mint"]]    = ev.get("slot")
 
+    # Dev wallet: the provider feed leaves creator/launch_signer null, but the
+    # create tx tags the launcher wallet with role "creator_fee_recipient" in
+    # wallets.ndjson (pump.fun routes creator fees to the launcher). 100% coverage.
+    dev_by_mint = {}
+    wallets_path = norm_dir / "wallets.ndjson"
+    if wallets_path.exists():
+        for w in read_ndjson(wallets_path):
+            if w.get("action") == "create" and "creator_fee_recipient" in (w.get("roles") or []):
+                m = w.get("mint")
+                if m and m not in dev_by_mint:
+                    dev_by_mint[m] = w.get("address")
+
     token_meta = {}
     for tk in read_ndjson(norm_dir / "tokens.ndjson"):
         mint = tk.get("mint")
         if mint:
-            token_meta[mint] = {"name": tk.get("name"), "symbol": tk.get("symbol"), "creator": tk.get("creator_wallet")}
+            creator = tk.get("creator_wallet") or dev_by_mint.get(mint)
+            token_meta[mint] = {"name": tk.get("name"), "symbol": tk.get("symbol"), "creator": creator}
 
     migrated       = set()
     migration_time = {}
@@ -234,7 +248,7 @@ def analyze_batch(batch_id, data_root, run_id, dev_watchlist=None):
         bars = [sum(1 for b in buys if t0 + s <= b["t"] < t0 + s + 1) for s in range(180)]
 
         meta = token_meta.get(mint, {})
-        creator = meta.get("creator")
+        creator = meta.get("creator") or dev_by_mint.get(mint)
         wl_entry = (dev_watchlist or {}).get(creator) if creator else None
         coins.append({
             "mint": mint, "name": meta.get("name"), "symbol": meta.get("symbol"),
@@ -537,6 +551,20 @@ def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
             "migration_rate_pct":   round(result_data["migrated"] / result_data["total_coins"] * 100, 2) if result_data["total_coins"] else 0,
         })
 
+        # Fold this batch into the real-time dev-reputation ledger and re-rank.
+        # Uses the launcher wallet we now recover locally, so it self-updates
+        # every batch instead of waiting on a manual Dune refresh.
+        try:
+            import dev_ledger
+            for c in result_data["all_coins"]:
+                c["verdict"] = classify(c)
+            dev_ledger.update_ledger(batch_id, result_data["all_coins"])
+            live = dev_ledger.rank()
+            log(f"  [{batch_id}] Dev ledger: {live['total_devs_tracked']} devs tracked, "
+                f"{live['watchlist_count']} on live watchlist (A={live['tier_a']}, B={live['tier_b']})")
+        except Exception as e:
+            log(f"  [{batch_id}] WARN dev_ledger update failed: {e}")
+
         wl_note = f", {result_data['watchlist_hits']} watchlist hits ({len(result_data['watchlist_migrators'])} migrated)" if result_data["watchlist_hits"] else ""
         log(f"  [{batch_id}] Analysis done — {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic{wl_note}")
 
@@ -592,6 +620,9 @@ def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
             git_add.append(str(WATCHLIST_PATH))
         if paper_trades_path.exists():
             git_add.append(str(paper_trades_path))
+        for ledger_file in (FINDINGS_DIR / "dev-ledger.json", FINDINGS_DIR / "dev-watchlist-live.json"):
+            if ledger_file.exists():
+                git_add.append(str(ledger_file))
         subprocess.run(["git", "-C", str(REPO), "add"] + git_add, capture_output=True)
         subprocess.run(["git", "-C", str(REPO), "commit", "-m",
                         f"pipeline: {batch_id} — {result_data['total_coins']} coins, {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
