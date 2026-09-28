@@ -31310,9 +31310,10 @@
     "batch-1626",
     "batch-1627",
     "batch-1628",
-    "batch-2381"
+    "batch-2381",
+    "batch-2382"
   ],
-  "generated_at": "2026-09-28T14:04:05.824224+00:00",
+  "generated_at": "2026-09-28T15:00:56.219900+00:00",
   "total_trades": 1954,
   "total_pnl_sol": 390.8591,
   "win_rate_pct": 42.8
