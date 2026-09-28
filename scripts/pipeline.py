@@ -541,8 +541,21 @@ def run_one_batch():
     return {"batch_id": batch_id, "analysis_thread": t}
 
 
+# Serializes post-processing across overlapping batch threads. analyze_batch is
+# slow so two threads CAN overlap if a batch stops early; without this they race
+# on the git index (index.lock collision → a silently-lost commit) and on the
+# shared report.html / cumulative-snipers.json / dev-ledger writes. Recording
+# (the main thread) is unaffected, so serializing here costs nothing real.
+_POST_PROCESS_LOCK = threading.Lock()
+
+
 def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
     """Analyze, save findings, delete raw data, commit. Runs in a background thread."""
+    with _POST_PROCESS_LOCK:
+        _post_process_batch_locked(batch_id, batch_file, data_root, run_id, window_label)
+
+
+def _post_process_batch_locked(batch_id, batch_file, data_root, run_id, window_label):
     try:
         dev_watchlist = load_dev_watchlist()
         result_data = analyze_batch(batch_id, data_root, run_id, dev_watchlist=dev_watchlist)
@@ -655,11 +668,17 @@ def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
         live_watchlist = FINDINGS_DIR / "dev-watchlist-live.json"
         if live_watchlist.exists():
             git_add.append(str(live_watchlist))
-        subprocess.run(["git", "-C", str(REPO), "add"] + git_add, capture_output=True)
-        subprocess.run(["git", "-C", str(REPO), "commit", "-m",
+        add_r = subprocess.run(["git", "-C", str(REPO), "add"] + git_add, capture_output=True, text=True)
+        if add_r.returncode != 0:
+            log(f"  [{batch_id}] WARN git add failed: {add_r.stderr[:200]}")
+        commit_r = subprocess.run(["git", "-C", str(REPO), "commit", "-m",
                         f"pipeline: {batch_id} — {result_data['total_coins']} coins, {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
-                       capture_output=True)
-        log(f"  [{batch_id}] Committed")
+                       capture_output=True, text=True)
+        # returncode 1 with "nothing to commit" is normal; anything else is a real failure to surface.
+        if commit_r.returncode != 0 and "nothing to commit" not in (commit_r.stdout + commit_r.stderr):
+            log(f"  [{batch_id}] WARN git commit failed: {(commit_r.stderr or commit_r.stdout)[:200]}")
+        else:
+            log(f"  [{batch_id}] Committed")
 
     except Exception as e:
         log(f"  [{batch_id}] ERROR in post_process_batch: {e}")
