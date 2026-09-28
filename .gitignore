@@ -9,3 +9,9 @@ data/
 *.log
 .ccdb-attachments-*
 analysis/dune-backfill-sep10-14.json
+
+# dev-ledger: raw accumulator grows unbounded; only commit dev-watchlist-live.json
+analysis/dev-ledger.json
+analysis/.dev-ledger.lock
+analysis/dev-ledger.tmp
+analysis/dev-ledger.corrupt-*

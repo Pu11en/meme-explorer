@@ -620,9 +620,12 @@ def post_process_batch(batch_id, batch_file, data_root, run_id, window_label):
             git_add.append(str(WATCHLIST_PATH))
         if paper_trades_path.exists():
             git_add.append(str(paper_trades_path))
-        for ledger_file in (FINDINGS_DIR / "dev-ledger.json", FINDINGS_DIR / "dev-watchlist-live.json"):
-            if ledger_file.exists():
-                git_add.append(str(ledger_file))
+        # Commit only the compact ranked watchlist. The raw accumulator
+        # (dev-ledger.json) grows unbounded and is gitignored — committing it
+        # hourly would bloat the repo over months.
+        live_watchlist = FINDINGS_DIR / "dev-watchlist-live.json"
+        if live_watchlist.exists():
+            git_add.append(str(live_watchlist))
         subprocess.run(["git", "-C", str(REPO), "add"] + git_add, capture_output=True)
         subprocess.run(["git", "-C", str(REPO), "commit", "-m",
                         f"pipeline: {batch_id} — {result_data['total_coins']} coins, {result_data['migrated']} migrated, {len(result_data['organic_migrators'])} organic\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],

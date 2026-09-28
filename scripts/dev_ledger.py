@@ -29,15 +29,18 @@ Usage:
   # One-time seed from the latest on-disk batch (proves it end to end):
   python3 scripts/dev_ledger.py --seed-latest
 """
+import fcntl
 import json
-import math
+import os
 import sys
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 
 REPO        = Path(__file__).parent.parent.resolve()
 LEDGER_PATH = REPO / "analysis" / "dev-ledger.json"
 OUT_PATH    = REPO / "analysis" / "dev-watchlist-live.json"
+LOCK_PATH   = REPO / "analysis" / ".dev-ledger.lock"
 
 # ── Tunables ────────────────────────────────────────────────────────────────
 RECENCY_HALFLIFE_DAYS = 10.0   # a dev's score halves every 10 idle days
@@ -46,6 +49,13 @@ TIER_A_MIN_ORGANIC    = 2      # need >=2 organic migrations
 TIER_B_MIN_WILSON     = 0.05   # lower bar, but needs volume
 TIER_B_MIN_MIGRATIONS = 3
 MAX_INACTIVE_DAYS      = 21     # drop devs idle longer than this from the list
+
+# Long-running hygiene: without pruning the ledger grows unbounded (~1.4k new
+# devs/hour, most launch once and never migrate). Drop devs that are stale AND
+# never produced a migration — they can never qualify, so we lose nothing.
+PRUNE_INACTIVE_DAYS    = 30     # a dev idle this long...
+PRUNE_KEEP_IF_MIGRATED = True   # ...is dropped only if it never migrated
+MAX_PROCESSED_BATCHES  = 5000   # keep the dedupe list bounded (~7 months hourly)
 
 
 def now_utc():
@@ -64,18 +74,62 @@ def wilson_lower_bound(successes, n, z=1.96):
     return max(0.0, (center - margin) / denom)
 
 
-def load_ledger():
-    if LEDGER_PATH.exists():
-        with open(LEDGER_PATH) as f:
-            return json.load(f)
+def _empty_ledger():
     return {"devs": {}, "processed_batches": [], "updated_at": None}
 
 
+def load_ledger():
+    if not LEDGER_PATH.exists():
+        return _empty_ledger()
+    try:
+        with open(LEDGER_PATH) as f:
+            data = json.load(f)
+        # sanity: expected shape
+        if not isinstance(data.get("devs"), dict) or not isinstance(data.get("processed_batches"), list):
+            raise ValueError("ledger missing expected keys")
+        return data
+    except Exception as e:
+        # Corruption (e.g. truncated by a crash mid-write). Quarantine the bad
+        # file so a human can inspect it, then start fresh rather than bricking
+        # every future batch. The atomic writer below makes this rare.
+        bad = LEDGER_PATH.with_suffix(f".corrupt-{now_utc().strftime('%Y%m%dT%H%M%S')}")
+        try:
+            LEDGER_PATH.replace(bad)
+            sys.stderr.write(f"[dev_ledger] corrupt ledger ({e}); quarantined to {bad.name}, starting fresh\n")
+        except Exception:
+            pass
+        return _empty_ledger()
+
+
 def save_ledger(ledger):
+    """Atomic write: dump to a temp file in the same dir, fsync, then os.replace
+    (atomic rename). A crash can never leave a half-written ledger."""
     LEDGER_PATH.parent.mkdir(parents=True, exist_ok=True)
     ledger["updated_at"] = now_utc().isoformat()
-    with open(LEDGER_PATH, "w") as f:
+    tmp = LEDGER_PATH.with_suffix(".tmp")
+    with open(tmp, "w") as f:
         json.dump(ledger, f, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, LEDGER_PATH)
+
+
+class _FileLock:
+    """Cross-process advisory lock so concurrent post_process threads (and a
+    manual seed run) can't clobber each other's ledger updates."""
+    def __init__(self, path):
+        self.path = path
+        self.fd = None
+    def __enter__(self):
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self.fd = open(self.path, "w")
+        fcntl.flock(self.fd, fcntl.LOCK_EX)
+        return self
+    def __exit__(self, *a):
+        try:
+            fcntl.flock(self.fd, fcntl.LOCK_UN)
+        finally:
+            self.fd.close()
 
 
 def _verdict(coin):
@@ -90,34 +144,57 @@ def _verdict(coin):
         return "bundle"
 
 
+def _prune(ledger):
+    """Drop devs that are stale AND never migrated (they can never qualify),
+    and cap the processed-batch dedupe list. Keeps the file bounded for
+    months-long runs."""
+    now = now_utc()
+    keep = {}
+    for dev, d in ledger["devs"].items():
+        try:
+            idle_days = (now - datetime.fromisoformat(d["last_seen"])).total_seconds() / 86400.0
+        except Exception:
+            idle_days = 0
+        if idle_days > PRUNE_INACTIVE_DAYS and (not PRUNE_KEEP_IF_MIGRATED or d.get("migrations", 0) == 0):
+            continue
+        keep[dev] = d
+    ledger["devs"] = keep
+    pb = ledger["processed_batches"]
+    if len(pb) > MAX_PROCESSED_BATCHES:
+        ledger["processed_batches"] = pb[-MAX_PROCESSED_BATCHES:]
+
+
 def update_ledger(batch_id, coins, batch_time=None):
     """Fold one batch's coins into the persistent dev ledger. Idempotent:
-    a batch already recorded is skipped so re-runs don't double-count."""
-    ledger = load_ledger()
-    if batch_id in ledger["processed_batches"]:
+    a batch already recorded is skipped so re-runs don't double-count. Guarded
+    by a cross-process lock and written atomically."""
+    with _FileLock(LOCK_PATH):
+        ledger = load_ledger()
+        if batch_id in ledger["processed_batches"]:
+            return ledger
+        ts = (batch_time or now_utc()).isoformat()
+
+        for c in coins:
+            dev = c.get("creator")
+            if not dev:
+                continue
+            d = ledger["devs"].get(dev)
+            if d is None:
+                d = {"launches": 0, "migrations": 0, "organic_migrations": 0,
+                     "first_seen": ts, "last_seen": ts, "last_migration": None}
+                ledger["devs"][dev] = d
+            d["launches"] += 1
+            d["last_seen"] = ts
+            if c.get("migrated"):
+                d["migrations"] += 1
+                d["last_migration"] = ts
+                if _verdict(c) == "organic":
+                    d["organic_migrations"] += 1
+
+        ledger["processed_batches"].append(batch_id)
+        _prune(ledger)
+        save_ledger(ledger)
         return ledger
-    ts = (batch_time or now_utc()).isoformat()
-
-    for c in coins:
-        dev = c.get("creator")
-        if not dev:
-            continue
-        d = ledger["devs"].get(dev)
-        if d is None:
-            d = {"launches": 0, "migrations": 0, "organic_migrations": 0,
-                 "first_seen": ts, "last_seen": ts, "last_migration": None}
-            ledger["devs"][dev] = d
-        d["launches"] += 1
-        d["last_seen"] = ts
-        if c.get("migrated"):
-            d["migrations"] += 1
-            d["last_migration"] = ts
-            if _verdict(c) == "organic":
-                d["organic_migrations"] += 1
-
-    ledger["processed_batches"].append(batch_id)
-    save_ledger(ledger)
-    return ledger
 
 
 def _recency_factor(last_seen_iso):
