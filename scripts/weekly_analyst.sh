@@ -25,8 +25,17 @@ DATE=$(date +%Y%m%d-%H%M)
 WT="$STATE_DIR/wt-$DATE"
 BRANCH="self-improve/$DATE"
 KEEP_BRANCH=0
+G=na
 
 log(){ echo "[$(date -u +%FT%TZ)] $*" | tee -a "$LOG"; }
+# Portable wall-clock bound — macOS has no GNU `timeout`. Prefer timeout/gtimeout,
+# fall back to perl's alarm (always present on macOS). Inherited by ( ) subshells.
+bounded(){
+  local secs=$1; shift
+  if command -v timeout >/dev/null 2>&1; then timeout "$secs" "$@"
+  elif command -v gtimeout >/dev/null 2>&1; then gtimeout "$secs" "$@"
+  else perl -e 'alarm shift @ARGV; exec @ARGV' "$secs" "$@"; fi
+}
 cleanup(){
   cd "$REPO" 2>/dev/null || return
   git worktree remove --force "$WT" 2>/dev/null
@@ -48,7 +57,8 @@ if [ -f "$PIPELINE_LOCK" ]; then log "ABORT: pipeline lock present (recording ac
 if ! git diff --cached --quiet; then log "ABORT: staged changes present (a commit may be mid-flight)"; exit 0; fi
 LASTCOMMIT=$(git log -1 --format=%ct 2>/dev/null || echo 0)
 NOW=$(date +%s)
-if [ $((NOW - LASTCOMMIT)) -lt 1800 ]; then log "ABORT: a commit landed <30min ago (pipeline may be finishing)"; exit 0; fi
+COOLDOWN=${ANALYST_COMMIT_COOLDOWN:-1800}   # overridable for testing
+if [ $((NOW - LASTCOMMIT)) -lt "$COOLDOWN" ]; then log "ABORT: a commit landed <${COOLDOWN}s ago (pipeline may be finishing)"; exit 0; fi
 CUR_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [ "$CUR_BRANCH" != "main" ]; then log "ABORT: repo not on main (on $CUR_BRANCH)"; exit 0; fi
 
@@ -56,11 +66,26 @@ if [ "$CUR_BRANCH" != "main" ]; then log "ABORT: repo not on main (on $CUR_BRANC
 $PY scripts/weekly_eval.py --quiet >>"$LOG" 2>&1
 cp analysis/weekly-scorecard.json "$STATE_DIR/baseline-scorecard-$DATE.json" 2>/dev/null
 
+# 2b. Mechanical "licence to do nothing": if we don't have enough data to MEASURE
+# whether a change helps, don't spend money guessing. Skip the LLM entirely and
+# just report. This is the expected path for the first weeks (organic winners are
+# rare) and is the primary guard against noise-chasing / reward-hacking.
+VERDICT=$($PY -c "import json;print(json.load(open('analysis/weekly-scorecard.json')).get('verdict','insufficient_data'))" 2>/dev/null || echo insufficient_data)
+log "eval verdict: $VERDICT"
+if [ "$VERDICT" = "insufficient_data" ]; then
+  log "SKIP: insufficient data to evaluate a change — no LLM run this week (by design)"
+  exit 0
+fi
+
 # 3. Isolated worktree off main — main's HEAD/tree are never touched.
 git worktree prune
 if ! git worktree add -b "$BRANCH" "$WT" main >>"$LOG" 2>&1; then
   log "FATAL: worktree add failed"; exit 1
 fi
+# The freshly-computed scorecard lives in the main tree (and is gitignored, so the
+# worktree checkout won't have it). Copy it in so the analyst reads CURRENT data.
+mkdir -p "$WT/analysis"
+cp analysis/weekly-scorecard.json "$WT/analysis/weekly-scorecard.json" 2>/dev/null
 
 # 4. Bounded, cheap, tightly-scoped model run.
 PROMPT='You are improving ONLY the wallet-ranking logic in scripts/dev_ledger.py of this repo.
@@ -80,34 +105,37 @@ STRICT RULES:
 End your reply with either a one-paragraph summary of the single change and WHY, or "NO CHANGE" and why.'
 
 CLAUDE_OUT="$STATE_DIR/claude-out-$DATE.txt"
-( cd "$WT" && timeout 900 "$CLAUDE" -p "$PROMPT" \
+( cd "$WT" && bounded 900 "$CLAUDE" -p "$PROMPT" \
     --model sonnet \
     --permission-mode acceptEdits \
     --allowedTools "Read" "Edit" ) > "$CLAUDE_OUT" 2>&1
 CL=$?
-[ $CL -eq 124 ] && log "WARN: claude timed out (900s)"
+{ [ $CL -eq 124 ] || [ $CL -eq 142 ]; } && log "WARN: claude timed out (900s)"
 if grep -qiE 'invalid api key|unauthorized|authentication|please run .?login|expired|not logged in' "$CLAUDE_OUT"; then
   log "ALERT: possible claude auth failure — inspect $CLAUDE_OUT and re-authenticate"
 fi
 
-# 5. Safety gate (canonical gate script from main; enforces scope + tests + health).
-bash "$REPO/scripts/self_improve_gate.sh" "$WT" main >>"$LOG" 2>&1
-G=$?
-if [ $G -eq 0 ]; then
-  ( cd "$WT" && git add scripts/dev_ledger.py \
-      && git commit -m "self-improve $DATE: candidate finder change (gated; needs human review)
+# 5. Commit whatever the analyst changed (so the gate can see it), THEN gate.
+#    Committing first means an off-limits edit gets staged and the gate's scope
+#    check catches it — the branch is dropped if the gate fails.
+if [ -z "$(cd "$WT" && git status --porcelain)" ]; then
+  log "NO CHANGE this week (analyst made no edit) — this is fine"
+else
+  ( cd "$WT" && git add -A && git commit -m "self-improve $DATE: candidate finder change (gated; needs human review)
 
 Passed the safety gate (scope+tests+health). NOT auto-merged — review the diff
 and merge into main only if you agree it is a real improvement.
 
 Co-Authored-By: Claude (weekly analyst) <noreply@anthropic.com>" ) >>"$LOG" 2>&1
-  KEEP_BRANCH=1
-  log "KEPT branch $BRANCH — passed gate; review & merge when you return"
-  log "  summary: $(tail -n 3 "$CLAUDE_OUT" | tr '\n' ' ' | cut -c1-300)"
-elif [ $G -eq 3 ]; then
-  log "NO CHANGE this week (analyst made no edit) — this is fine"
-else
-  log "REVERTED: candidate failed the safety gate (exit $G) — dropped"
+  bash "$REPO/scripts/self_improve_gate.sh" "$WT" main >>"$LOG" 2>&1
+  G=$?
+  if [ $G -eq 0 ]; then
+    KEEP_BRANCH=1
+    log "KEPT branch $BRANCH — passed gate; review & merge when you return"
+    log "  summary: $(tail -n 3 "$CLAUDE_OUT" | tr '\n' ' ' | cut -c1-300)"
+  else
+    log "REVERTED: candidate failed the safety gate (exit $G) — dropped"
+  fi
 fi
 
 # 6. Hygiene: drop unmerged self-improve branches older than 60 days.

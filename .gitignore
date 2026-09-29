@@ -15,3 +15,7 @@ analysis/dev-ledger.json
 analysis/.dev-ledger.lock
 analysis/dev-ledger.tmp
 analysis/dev-ledger.corrupt-*
+
+# self-improve loop: regenerated artifacts (read from disk, not git)
+analysis/weekly-scorecard.json
+analysis/weekly-report.md
