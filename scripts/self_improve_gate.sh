@@ -41,16 +41,28 @@ while IFS= read -r f; do
 done <<< "$CHANGED"
 [ "$BAD" -eq 1 ] && { echo "GATE FAIL: out-of-scope edits (possible reward-hacking)"; exit 1; }
 
-echo "== Gate: python syntax/import =="
+echo "== Gate: python syntax =="
 $PY -c "import ast; ast.parse(open('scripts/dev_ledger.py').read())" || { echo "GATE FAIL: syntax"; exit 1; }
-( cd scripts && $PY -c "import dev_ledger" ) || { echo "GATE FAIL: import"; exit 1; }
 
-echo "== Gate: unit tests =="
-$PY test/test_dev_ledger.py || { echo "GATE FAIL: unit tests"; exit 1; }
+# Run tests + health from a CLEAN checkout of $MAIN_REF with ONLY the candidate
+# dev_ledger.py overlaid. This means the analyst cannot subvert the scorer/tests
+# via edited copies OR import-time side effects in its own worktree — the tests
+# and health_check are always the canonical, trusted versions.
+REPO_GIT=$(git rev-parse --show-toplevel)
+TMP=$(mktemp -d)
+trap 'rm -rf "$TMP"' EXIT
+echo "== Gate: building clean $MAIN_REF checkout for testing =="
+git -C "$REPO_GIT" archive "$MAIN_REF" | tar -x -C "$TMP" || { echo "GATE FAIL: archive"; exit 1; }
+cp "$WORKTREE/scripts/dev_ledger.py" "$TMP/scripts/dev_ledger.py" || { echo "GATE FAIL: overlay"; exit 1; }
 
-echo "== Gate: health check =="
-# health_check may return 1 (warn) which is acceptable; 2 (crit) is not.
-$PY scripts/health_check.py; hc=$?
+echo "== Gate: import (candidate dev_ledger on canonical tree) =="
+( cd "$TMP/scripts" && $PY -c "import dev_ledger" ) || { echo "GATE FAIL: import"; exit 1; }
+
+echo "== Gate: unit tests (canonical) =="
+( cd "$TMP" && $PY test/test_dev_ledger.py ) || { echo "GATE FAIL: unit tests"; exit 1; }
+
+echo "== Gate: health check (canonical) =="
+( cd "$TMP" && $PY scripts/health_check.py ); hc=$?
 if [ "$hc" -ge 2 ]; then echo "GATE FAIL: health critical"; exit 1; fi
 
 echo "GATE PASS"

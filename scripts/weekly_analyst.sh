@@ -27,14 +27,28 @@ BRANCH="self-improve/$DATE"
 KEEP_BRANCH=0
 G=na
 
+LOCKDIR="$STATE_DIR/.analyst.lock"
+ALERTS="$STATE_DIR/ALERTS.txt"
 log(){ echo "[$(date -u +%FT%TZ)] $*" | tee -a "$LOG"; }
-# Portable wall-clock bound — macOS has no GNU `timeout`. Prefer timeout/gtimeout,
-# fall back to perl's alarm (always present on macOS). Inherited by ( ) subshells.
+alert(){ echo "[$(date -u +%FT%TZ)] $*" >> "$ALERTS"; log "ALERT: $*"; }
+# Portable wall-clock bound. macOS has no GNU `timeout`. Prefer it if present,
+# else run the command in its OWN process group and kill the whole group on
+# timeout (so claude's node/tool child processes can't be orphaned and keep
+# burning tokens). `set -m` puts the backgrounded job in its own pgroup.
 bounded(){
   local secs=$1; shift
-  if command -v timeout >/dev/null 2>&1; then timeout "$secs" "$@"
-  elif command -v gtimeout >/dev/null 2>&1; then gtimeout "$secs" "$@"
-  else perl -e 'alarm shift @ARGV; exec @ARGV' "$secs" "$@"; fi
+  if command -v timeout >/dev/null 2>&1; then timeout -k 30 "$secs" "$@"; return $?; fi
+  if command -v gtimeout >/dev/null 2>&1; then gtimeout -k 30 "$secs" "$@"; return $?; fi
+  set -m
+  "$@" &
+  local pid=$!
+  ( sleep "$secs"; kill -TERM -"$pid" 2>/dev/null; sleep 10; kill -KILL -"$pid" 2>/dev/null ) 2>/dev/null &
+  local killer=$!
+  local rc=0
+  wait "$pid" 2>/dev/null || rc=$?
+  kill "$killer" 2>/dev/null; wait "$killer" 2>/dev/null
+  set +m
+  return $rc
 }
 cleanup(){
   cd "$REPO" 2>/dev/null || return
@@ -43,11 +57,28 @@ cleanup(){
   if [ "$KEEP_BRANCH" -eq 0 ]; then
     git branch -D "$BRANCH" 2>/dev/null
   fi
+  rmdir "$LOCKDIR" 2>/dev/null
 }
-trap cleanup EXIT
+trap cleanup EXIT INT TERM
 
 log "=== weekly analyst start ($DATE) ==="
 cd "$REPO" || { log "FATAL: cannot cd $REPO"; exit 1; }
+
+# Self-mutex: refuse to run if another analyst is active. Steal a stale lock
+# (>2h old) left by a SIGKILLed run so the loop can't wedge permanently.
+if ! mkdir "$LOCKDIR" 2>/dev/null; then
+  if [ -n "$(find "$LOCKDIR" -maxdepth 0 -mmin +120 2>/dev/null)" ]; then
+    log "stale lock (>2h) — reclaiming"; rmdir "$LOCKDIR" 2>/dev/null; mkdir "$LOCKDIR" 2>/dev/null
+  else
+    log "ABORT: another analyst run is active"; exit 0
+  fi
+fi
+
+# Sweep orphaned worktree dirs from prior SIGKILLed runs (trap can't run on -9).
+git worktree prune 2>/dev/null
+find "$STATE_DIR" -maxdepth 1 -type d -name 'wt-*' -mmin +1440 2>/dev/null | while read -r old; do
+  git worktree remove --force "$old" 2>/dev/null; rm -rf "$old" 2>/dev/null
+done
 
 # 1. Only run when the pipeline is provably idle. We work in an isolated worktree
 #    (a clean checkout of main), so the primary tree's many permanently-untracked
@@ -110,9 +141,16 @@ CLAUDE_OUT="$STATE_DIR/claude-out-$DATE.txt"
     --permission-mode acceptEdits \
     --allowedTools "Read" "Edit" ) > "$CLAUDE_OUT" 2>&1
 CL=$?
-{ [ $CL -eq 124 ] || [ $CL -eq 142 ]; } && log "WARN: claude timed out (900s)"
-if grep -qiE 'invalid api key|unauthorized|authentication|please run .?login|expired|not logged in' "$CLAUDE_OUT"; then
-  log "ALERT: possible claude auth failure — inspect $CLAUDE_OUT and re-authenticate"
+{ [ $CL -eq 124 ] || [ $CL -eq 142 ] || [ $CL -eq 143 ]; } && log "WARN: claude timed out"
+# A nonzero exit is a hard signal (don't let auth expiry masquerade as healthy
+# "no change" for months). Alert and stop rather than silently doing nothing.
+if [ $CL -ne 0 ] && [ $CL -ne 124 ] && [ $CL -ne 142 ] && [ $CL -ne 143 ]; then
+  alert "claude exited nonzero ($CL) — possible auth/API failure. See $CLAUDE_OUT"
+  exit 0
+fi
+if grep -qiE 'invalid api key|unauthorized|authentication|please run .?login|expired|not logged in|session token' "$CLAUDE_OUT"; then
+  alert "possible claude auth failure — inspect $CLAUDE_OUT and re-authenticate"
+  exit 0
 fi
 
 # 5. Commit whatever the analyst changed (so the gate can see it), THEN gate.
@@ -133,6 +171,8 @@ Co-Authored-By: Claude (weekly analyst) <noreply@anthropic.com>" ) >>"$LOG" 2>&1
     KEEP_BRANCH=1
     log "KEPT branch $BRANCH — passed gate; review & merge when you return"
     log "  summary: $(tail -n 3 "$CLAUDE_OUT" | tr '\n' ' ' | cut -c1-300)"
+  elif [ $G -eq 3 ]; then
+    log "no effective change vs main — dropped (fine)"
   else
     log "REVERTED: candidate failed the safety gate (exit $G) — dropped"
   fi

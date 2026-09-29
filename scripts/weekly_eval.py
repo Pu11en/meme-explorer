@@ -37,6 +37,7 @@ FINDINGS_DIR  = REPO / "analysis"
 SCORECARD     = FINDINGS_DIR / "weekly-scorecard.json"
 REPORT        = FINDINGS_DIR / "weekly-report.md"
 LEDGER        = FINDINGS_DIR / "dev-ledger.json"
+LIVE_WATCHLIST = FINDINGS_DIR / "dev-watchlist-live.json"
 
 MIN_SAMPLES   = 30      # need at least this many watchlist coin-observations for a verdict
 PROFIT_PCT    = 0.0     # a coin "made money" if realistic return > this
@@ -85,15 +86,25 @@ def _load_recent_migrators(days):
     return out
 
 
-def _returns(migrators, watchlist_only):
-    """Realistic returns (hold_gain_pct) for migrators, split by watchlist membership.
-    Only coins that actually carry a realistic return count (tradable + new schema)."""
+def _load_live_watchlist_wallets():
+    """The wallet set OUR finder currently publishes — this is what we evaluate,
+    NOT the legacy Dune `watchlist_hit` flag baked into the findings."""
+    try:
+        wl = json.load(open(LIVE_WATCHLIST))
+        return {w["wallet"] for w in wl.get("wallets", []) if w.get("wallet")}
+    except Exception:
+        return set()
+
+
+def _returns(migrators, wallet_set, watchlist_only):
+    """Realistic returns (hold_gain_pct) for migrators, split by whether the coin's
+    creator is on OUR live watchlist. Only coins with a realistic return count."""
     vals = []
     for m in migrators:
         g = m.get("hold_gain_pct")
         if g is None:
             continue
-        is_wl = bool(m.get("watchlist_hit"))
+        is_wl = m.get("creator") in wallet_set
         if is_wl == watchlist_only:
             vals.append(g)
     return vals
@@ -103,8 +114,9 @@ def evaluate(days=7):
     migrators = _load_recent_migrators(days)
     total_with_return = sum(1 for m in migrators if m.get("hold_gain_pct") is not None)
 
-    wl = _returns(migrators, watchlist_only=True)
-    base = _returns(migrators, watchlist_only=False)
+    wallet_set = _load_live_watchlist_wallets()
+    wl = _returns(migrators, wallet_set, watchlist_only=True)
+    base = _returns(migrators, wallet_set, watchlist_only=False)
 
     def summary(vals):
         if not vals:
@@ -146,6 +158,7 @@ def evaluate(days=7):
         "window_days": days,
         "migrators_seen": len(migrators),
         "migrators_with_return_data": total_with_return,
+        "live_watchlist_wallets": len(wallet_set),
         "min_samples_required": MIN_SAMPLES,
         "watchlist": wl_s,
         "baseline": base_s,
