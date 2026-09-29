@@ -19,3 +19,5 @@ analysis/dev-ledger.corrupt-*
 # self-improve loop: regenerated artifacts (read from disk, not git)
 analysis/weekly-scorecard.json
 analysis/weekly-report.md
+
+scripts/__pycache__/
