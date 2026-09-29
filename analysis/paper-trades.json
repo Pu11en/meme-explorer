@@ -31316,9 +31316,10 @@
     "batch-2384",
     "batch-2385",
     "batch-2386",
-    "batch-2387"
+    "batch-2387",
+    "batch-2389"
   ],
-  "generated_at": "2026-09-28T20:04:21.463544+00:00",
+  "generated_at": "2026-09-29T14:05:04.904978+00:00",
   "total_trades": 1954,
   "total_pnl_sol": 390.8591,
   "win_rate_pct": 42.8
