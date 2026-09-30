@@ -1,0 +1,8 @@
+{
+  "schema": "pump.collection-batch/1",
+  "batch_id": "batch-2405",
+  "label": "Collection batch-2405 \u2014 pipeline \u2014 2026-09-30 14:30 UTC",
+  "run_ids": [
+    "run-0001-20260930T143040.997Z"
+  ]
+}
