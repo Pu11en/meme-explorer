@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-01T17:16:53.695888+00:00",
+  "generated_at": "2026-10-01T18:46:11.994608+00:00",
   "source": "local-pipeline-ledger",
-  "total_devs_tracked": 13681,
-  "batches_processed": 13,
+  "total_devs_tracked": 14721,
+  "batches_processed": 14,
   "watchlist_count": 1,
   "tier_a": 0,
   "tier_b": 1,
@@ -10,20 +10,20 @@
     {
       "wallet": "bwamJzztZsepfkteWRChggmXuiiCQvpLqPietdNfSXa",
       "tier": "B",
-      "launches": 50,
+      "launches": 63,
       "migrations": 7,
       "organic_migrations": 4,
-      "organic_rate_pct": 8.0,
-      "migration_rate_pct": 14.0,
-      "wilson_organic": 0.032,
-      "realistic_avg_gain_pct": 10.3,
-      "realistic_win_rate_pct": 32.4,
-      "best_case_avg_gain_pct": 55.7,
-      "best_case_profit_rate_pct": 29.4,
-      "gain_samples": 34,
+      "organic_rate_pct": 6.3,
+      "migration_rate_pct": 11.1,
+      "wilson_organic": 0.025,
+      "realistic_avg_gain_pct": 7.3,
+      "realistic_win_rate_pct": 34.8,
+      "best_case_avg_gain_pct": 48.7,
+      "best_case_profit_rate_pct": 26.1,
+      "gain_samples": 46,
       "days_inactive": 0.0,
-      "score": 5.078,
-      "last_seen": "2026-10-01T17:16:51.938549+00:00"
+      "score": 4.018,
+      "last_seen": "2026-10-01T18:46:10.023407+00:00"
     }
   ]
 }
