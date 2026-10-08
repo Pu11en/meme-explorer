@@ -1,29 +1,10 @@
 {
-  "generated_at": "2026-10-01T20:03:35.734322+00:00",
+  "generated_at": "2026-10-08T14:01:47.665384+00:00",
   "source": "local-pipeline-ledger",
-  "total_devs_tracked": 15520,
-  "batches_processed": 15,
-  "watchlist_count": 1,
+  "total_devs_tracked": 16484,
+  "batches_processed": 16,
+  "watchlist_count": 0,
   "tier_a": 0,
-  "tier_b": 1,
-  "wallets": [
-    {
-      "wallet": "bwamJzztZsepfkteWRChggmXuiiCQvpLqPietdNfSXa",
-      "tier": "B",
-      "launches": 65,
-      "migrations": 7,
-      "organic_migrations": 4,
-      "organic_rate_pct": 6.2,
-      "migration_rate_pct": 10.8,
-      "wilson_organic": 0.024,
-      "realistic_avg_gain_pct": 7.3,
-      "realistic_win_rate_pct": 34.8,
-      "best_case_avg_gain_pct": 48.7,
-      "best_case_profit_rate_pct": 26.1,
-      "gain_samples": 46,
-      "days_inactive": 0.0,
-      "score": 3.893,
-      "last_seen": "2026-10-01T20:03:33.231720+00:00"
-    }
-  ]
+  "tier_b": 0,
+  "wallets": []
 }
