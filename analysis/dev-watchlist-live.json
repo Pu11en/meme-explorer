@@ -1,29 +1,47 @@
 {
-  "generated_at": "2026-10-08T19:02:14.329441+00:00",
+  "generated_at": "2026-10-08T20:17:32.106474+00:00",
   "source": "local-pipeline-ledger",
-  "total_devs_tracked": 23380,
-  "batches_processed": 21,
-  "watchlist_count": 1,
-  "tier_a": 0,
+  "total_devs_tracked": 25305,
+  "batches_processed": 22,
+  "watchlist_count": 2,
+  "tier_a": 1,
   "tier_b": 1,
   "wallets": [
     {
+      "wallet": "CzwWvTVn39dSd4LiVc6W9gZxgu36737M2fcX4EWhquh4",
+      "tier": "A",
+      "launches": 2,
+      "migrations": 2,
+      "organic_migrations": 2,
+      "organic_rate_pct": 100.0,
+      "migration_rate_pct": 100.0,
+      "wilson_organic": 0.342,
+      "realistic_avg_gain_pct": 59.0,
+      "realistic_win_rate_pct": 100.0,
+      "best_case_avg_gain_pct": 85.0,
+      "best_case_profit_rate_pct": 50.0,
+      "gain_samples": 2,
+      "days_inactive": 0.0,
+      "score": 37.613,
+      "last_seen": "2026-10-08T20:17:30.148369+00:00"
+    },
+    {
       "wallet": "HTM87R4mgjDdiF6Yfn8duK9vbDmZxiPCTRbGvm7eCAJY",
       "tier": "B",
-      "launches": 19,
+      "launches": 20,
       "migrations": 3,
       "organic_migrations": 1,
-      "organic_rate_pct": 5.3,
-      "migration_rate_pct": 15.8,
+      "organic_rate_pct": 5.0,
+      "migration_rate_pct": 15.0,
       "wilson_organic": 0.009,
       "realistic_avg_gain_pct": 28.7,
       "realistic_win_rate_pct": 54.5,
       "best_case_avg_gain_pct": 90.1,
       "best_case_profit_rate_pct": 45.5,
       "gain_samples": 11,
-      "days_inactive": 0.1,
-      "score": 0.644,
-      "last_seen": "2026-10-08T17:01:48.571563+00:00"
+      "days_inactive": 0.0,
+      "score": 0.616,
+      "last_seen": "2026-10-08T20:17:30.148369+00:00"
     }
   ]
 }
