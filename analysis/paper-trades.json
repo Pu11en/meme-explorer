@@ -31330,9 +31330,10 @@
     "batch-2459",
     "batch-4609",
     "batch-4610",
-    "batch-4611"
+    "batch-4611",
+    "batch-4612"
   ],
-  "generated_at": "2026-10-08T16:03:01.904746+00:00",
+  "generated_at": "2026-10-08T17:03:43.291031+00:00",
   "total_trades": 1954,
   "total_pnl_sol": 390.8591,
   "win_rate_pct": 42.8
