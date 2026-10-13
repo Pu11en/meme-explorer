@@ -31333,9 +31333,10 @@
     "batch-4611",
     "batch-4612",
     "batch-4613",
-    "batch-4614"
+    "batch-4614",
+    "batch-4619"
   ],
-  "generated_at": "2026-10-08T19:05:08.043151+00:00",
+  "generated_at": "2026-10-13T14:06:13.424296+00:00",
   "total_trades": 1954,
   "total_pnl_sol": 390.8591,
   "win_rate_pct": 42.8
