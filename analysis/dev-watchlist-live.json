@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-14T14:06:29.022354+00:00",
+  "generated_at": "2026-10-14T15:06:40.358849+00:00",
   "source": "local-pipeline-ledger",
-  "total_devs_tracked": 32324,
-  "batches_processed": 30,
+  "total_devs_tracked": 33097,
+  "batches_processed": 31,
   "watchlist_count": 2,
   "tier_a": 1,
   "tier_b": 1,
@@ -21,8 +21,8 @@
       "best_case_avg_gain_pct": 85.0,
       "best_case_profit_rate_pct": 50.0,
       "gain_samples": 2,
-      "days_inactive": 5.7,
-      "score": 25.263,
+      "days_inactive": 5.8,
+      "score": 25.19,
       "last_seen": "2026-10-08T20:17:30.148369+00:00"
     },
     {
@@ -40,7 +40,7 @@
       "best_case_profit_rate_pct": 15.4,
       "gain_samples": 13,
       "days_inactive": 0.8,
-      "score": 0.902,
+      "score": 0.899,
       "last_seen": "2026-10-13T20:04:50.273061+00:00"
     }
   ]
